@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+ <meta charset="utf-8" />
+ <!-- ========== META TAGS SECTION (SEO) ========== -->
+<title>GearNox — Design. Automate. Connect.</title>
+<meta name="title" content="GearNox — Design. Automate. Connect.">
+<meta name="description" content="Η GearNox σχεδιάζει καθαρά, αξιόπιστα εργαλεία λογισμικού και υλικού για δημιουργούς και ομάδες. Web συστήματα, αυτοματισμοί και design tools που απλώς δουλεύουν.">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gearnox.net/">
+<meta property="og:title" content="GearNox — Design. Automate. Connect.">
+<meta property="og:description" content="Καθαρό design & υψηλή απόδοση σε κάθε project.">
+<meta property="og:image" content="https://gearnox.net/GearNox_black_transparent.png">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://gearnox.net/">
+<meta property="twitter:title" content="GearNox — Design. Automate. Connect.">
+<meta property="twitter:description" content="Η GearNox δημιουργεί έξυπνα εργαλεία για ομάδες και δημιουργούς.">
+<meta property="twitter:image" content="https://gearnox.net/GearNox_black_transparent.png">
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+  <link rel="icon" type="image/png" href="gearnox_icon.png">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "GearNox",
+  "url": "https://gearnox.net/",
+  "logo": "https://gearnox.net/GearNox_black_transparent.png",
+  "description": "Η GearNox σχεδιάζει μινιμαλιστικά, αξιόπιστα εργαλεία λογισμικού/υλικού για δημιουργούς και ομάδες.",
+  "sameAs": [
+    "https://gearnox.net/"
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "GearNox",
+  "url": "https://gearnox.net/"
+}
+</script>
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="GearNox_black_transparent.png">
+<!-- ========== END META TAGS SECTION ========== -->
+  <title>GearNox</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --header-pad: 14px 24px;
+      --line: #000;
+      --panel-w: 260px;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: white;
+      color: black;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--header-pad);
+      border-bottom: 3px solid var(--line);
+      position: relative;
+      z-index: 3;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .burger {
+      font-size: 34px;
+      line-height: 1;
+      cursor: pointer;
+      user-select: none;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: 0.2s transform, 0.2s background;
+    }
+
+    .burger:hover {
+      transform: scale(1.06);
+      background: #f2f2f2;
+    }
+
+    .login-btn {
+      font-size: 16px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 4px;
+      border: 2px solid black;
+      background: black;
+      color: white;
+      transition: 0.3s background, 0.3s color, 0.3s border;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 34px;
+      font-family: "Times New Roman", Georgia, "Times", serif;
+      letter-spacing: 0.3px;
+    }
+
+    .brand img {
+      width: 48px;
+      height: auto;
+      margin-top: -6px;
+    }
+
+    .backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.22);
+      backdrop-filter: blur(1px);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.25s opacity;
+      z-index: 2;
+    }
+
+    .backdrop.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .panel {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      width: var(--panel-w);
+      height: calc(100vh - 20px);
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+      padding: 14px;
+      transform: translateX(calc(-1 * (var(--panel-w) + 40px)));
+      transition: 0.28s transform cubic-bezier(0.2, 0.7, 0.2, 1);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .panel.open {
+      transform: translateX(0);
+    }
+
+    .panel .close {
+      align-self: flex-end;
+      font-size: 22px;
+      line-height: 1;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 8px;
+    }
+
+    .panel .close:hover {
+      background: #f2f2f2;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .menu a,
+    .menu button {
+      padding: 10px 12px;
+      text-decoration: none;
+      color: #111;
+      border-radius: 8px;
+      font-weight: 600;
+      border: 2px solid black;
+      text-align: center;
+      background: white;
+      cursor: pointer;
+      transition: 0.15s background, 0.15s color, 0.15s transform;
+    }
+
+    .menu a:hover,
+    .menu button:hover {
+      background: black;
+      color: white;
+      transform: translateX(2px);
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ccc;
+    }
+
+    /* Header μέσα στο panel */
+.panel-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:6px 8px 0 10px;
+}
+
+.panel-title{
+  font-weight:700;
+  letter-spacing:.3px;
+  font-size:16px;
+}
+
+.panel-divider{
+  height:1px;
+  background:#ddd;
+  margin:8px 8px 10px;
+}
+
+/* Dark mode αλλαγές στο burger menu */
+body.dark .panel {
+  background: #3a3a3a; /* σκούρο γκρι φόντο */
+  border-color: #555;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+/* τα κουμπιά μέσα στο μενού να είναι λευκά */
+body.dark .menu a,
+body.dark .menu button {
+  background: white;
+  color: black;
+  border: 2px solid white;
+}
+
+body.dark .menu a:hover,
+body.dark .menu button:hover {
+  background: black;
+  color: white;
+}
+
+/* η επικεφαλίδα "Menu" να γίνεται άσπρη */
+body.dark .panel-title {
+  color: white;
+}
+
+/* ===== Login Modal ===== */
+.modal-backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,.35);
+  opacity:0; pointer-events:none; transition:.25s; z-index:50;
+}
+.modal-backdrop.show{ opacity:1; pointer-events:auto; }
+
+.modal{
+  position:fixed; left:50%; top:50%; transform:translate(-50%,-46%) scale(.98);
+  width:min(92vw, 420px); background:#fff; color:#000; border-radius:14px;
+  box-shadow:0 20px 50px rgba(0,0,0,.25);
+  padding:18px; z-index:51; opacity:0; pointer-events:none; transition:.25s transform,.25s opacity;
+}
+.modal.open{ opacity:1; pointer-events:auto; transform:translate(-50%,-50%) scale(1); }
+
+.modal-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.modal-title{ font-size:18px; font-weight:800; }
+.modal-close{ border:none; background:transparent; font-size:20px; cursor:pointer; padding:6px 8px; border-radius:8px; }
+.modal-close:hover{ background:#f2f2f2; }
+
+.form{ display:grid; gap:12px; margin-top:6px; }
+.field{ display:grid; gap:6px; }
+.field label{ font-size:14px; font-weight:600; }
+.input{ width:100%; padding:10px 12px; border:2px solid #111; border-radius:10px; font-size:15px; }
+.input:focus{ outline:3px solid #0ea5e9; outline-offset:2px; }
+
+.password-wrap{ position:relative; }
+.toggle-pass{
+  position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  border:1px solid #111; background:#fff; font-size:12px; padding:4px 8px; border-radius:8px; cursor:pointer;
+}
+
+.actions{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:6px; }
+.btn-primary{
+  padding:10px 14px; border-radius:10px; font-weight:800; cursor:pointer;
+  border:2px solid #000; background:#000; color:#fff; transition:.2s;
+}
+.btn-primary:hover{ background:#fff; color:#000; }
+
+/* Dark mode συμβατότητα */
+body.dark .modal{ background:#3a3a3a; color:#fff; }
+body.dark .input{ background:#2b2b2b; color:#fff; border-color:#fff; }
+body.dark .toggle-pass{ background:#fff; border-color:#fff; color:#000; }
+body.dark .btn-primary{ background:#fff; color:#000; border-color:#fff; }
+body.dark .btn-primary:hover{ background:#000; color:#fff; }
+
+.section{ padding:64px 18px; }
+.section-inner{ max-width:980px; margin:0 auto; }
+.section h2{ text-align:center; margin:0 0 14px; font-size:28px; }
+.lead{ text-align:center; opacity:.85; margin:0 auto 28px; max-width:720px; }
+
+.about-grid{
+  display:grid; gap:14px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 720px){
+  .about-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+.card{
+  border:2px solid #000; border-radius:12px; padding:16px; background:#fff;
+}
+.card h3{ margin:0 0 8px; }
+.card ul{ margin:0; padding-left:18px; }
+
+body.dark .card{ background:#3a3a3a; color:#fff; border-color:#fff; }
+
+.section{ padding:64px 18px; }
+.section-inner{ max-width:1100px; margin:0 auto; }
+.section h2{ text-align:center; margin:0 0 14px; font-size:28px; }
+.lead{ text-align:center; opacity:.85; margin:0 auto 28px; max-width:760px; }
+
+.projects-grid{
+  display:grid; gap:16px;
+  grid-template-columns: 1fr;
+}
+@media (min-width:720px){
+  .projects-grid{ grid-template-columns: repeat(3, 1fr); }
+}
+
+.project-card{
+  display:flex; flex-direction:column; border:2px solid #000; border-radius:14px; overflow:hidden;
+  background:#fff; transition: transform .15s ease, box-shadow .15s ease;
+}
+.project-card:hover{ transform: translateY(-3px); box-shadow:0 12px 24px rgba(0,0,0,.12); }
+
+.project-thumb{ width:100%; height:140px; object-fit:contain; background:#f6f6f6; padding:18px; }
+.project-body{ padding:14px; display:grid; gap:10px; }
+.project-body h3{ margin:0; }
+
+.tags{ display:flex; flex-wrap:wrap; gap:8px; }
+.tags span{
+  border:2px solid #000; border-radius:999px; padding:4px 10px; font-size:13px; background:#fff;
+}
+
+.actions{ display:flex; gap:10px; }
+.btn{ padding:8px 12px; border-radius:10px; border:2px solid #000; background:#000; color:#fff; font-weight:700; cursor:pointer; }
+.btn:hover{ background:#fff; color:#000; }
+.btn.ghost{ background:#fff; color:#000; }
+.btn.ghost:hover{ background:#000; color:#fff; }
+
+/* Dark mode */
+body.dark .project-card{ background:#3a3a3a; border-color:#fff; }
+body.dark .project-thumb{ background:#2f2f2f; filter: invert(1); }      /* το ίδιο PNG γίνεται άσπρο */
+body.dark .tags span{ border-color:#fff; background:#3a3a3a; color:#fff; }
+body.dark .btn{ border-color:#fff; background:#fff; color:#000; }
+body.dark .btn:hover{ background:#000; color:#fff; }
+body.dark .btn.ghost{ background:#3a3a3a; color:#fff; border-color:#fff; }
+body.dark .btn.ghost:hover{ background:#000; color:#fff; }
+
+/* Header πάντα ορατό στην κορυφή */
+.header{
+  position: sticky;   /* κρατάει το header κολλημένο */
+  top: 0;
+  z-index: 1000;      /* πάνω από το περιεχόμενο/backdrop */
+  background: rgba(255,255,255,.92); /* ελαφρώς «γυάλινο» στο light */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px); /* για Safari */
+  box-shadow: 0 2px 10px rgba(0,0,0,.06); /* απαλή σκιά όταν κολλάει */
+}
+
+/* Σκούρο φόντο στο dark mode */
+body.dark .header{
+  background: rgba(30,30,30,.88);
+  border-bottom-color: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,.35);
+}
+
+/* Βάλε το burger panel και το backdrop ΠΑΝΩ από το sticky header */
+.backdrop { z-index: 2000; }
+.panel    { z-index: 2001; }
+
+
+/* --- Navbar logo animation --- */
+.header{ position: sticky; } /* το έχεις ήδη, το αφήνω εδώ για σιγουριά */
+
+.brand-target{
+  margin-left: auto;              /* να “κάτσει” δεξιά */
+  visibility: hidden;             /* υπάρχει για να μετράμε θέση, αλλά δεν φαίνεται */
+  pointer-events: none;
+}
+
+.brand-float{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+  pointer-events: none;           /* να μην εμποδίζει clicks */
+  z-index: 5;
+}
+
+.brand-float .brand-text{
+  opacity: 0;                     /* ξεκινάει χωρίς γράμματα */
+  transform: translateX(-6px);
+  transition: none;
+}
+
+
+
+
+
+
+.brand-float{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  pointer-events: none;
+
+  display: flex;
+  align-items: center;
+}
+
+/* Το κείμενο ΔΕΝ πιάνει χώρο — εμφανίζεται δίπλα στο logo */
+.brand-float .brand-text{
+  position: absolute;
+  right: 100%;
+  margin-right: 10px;
+
+  opacity: 0;
+  transform: translateX(6px);
+  white-space: nowrap;
+}
+
+
+/* ===== Fullscreen Video Hero ===== */
+.video-hero{
+  position: relative;
+  width: 100%;
+  height: 100vh;              /* πιάνει όλο το παράθυρο */
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-video{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* γεμίζει χωρίς παραμόρφωση */
+  object-position: center;
+  z-index: 0;
+  transform: scale(1.02);
+}
+
+.hero-overlay{
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(900px 520px at 20% 25%, rgba(90,140,255,.18), transparent 60%),
+    radial-gradient(700px 520px at 80% 30%, rgba(255,200,120,.10), transparent 62%),
+    linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.55));
+}
+
+.hero-copy{
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: grid;
+  align-content: center;
+  padding: clamp(18px, 5vw, 64px);
+  max-width: 900px;
+}
+
+.hero-kicker{
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  letter-spacing: .18em;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.92);
+}
+
+.hero-title{
+  margin: 0 0 10px;
+  font-size: clamp(34px, 5vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: rgba(255,255,255,.96);
+  text-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+.hero-sub{
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255,255,255,.82);
+  max-width: 62ch;
+}
+
+.hero-scrollhint{
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.72);
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* HERO: load-in + scroll-out/in */
+.video-hero .hero-copy{
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .28s ease, transform .28s ease;
+  will-change: opacity, transform;
+}
+
+/* στο load θα του βάλουμε class με JS */
+.video-hero .hero-copy.is-in{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* αν κάποιος έχει reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .video-hero .hero-copy{ transition: none !important; }
+}
+
+/* Floating center buttons (μετά το navbar animation) */
+.center-actions{
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translateY(14px);
+  display: flex;
+  gap: 12px;
+  z-index: 1200;
+
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(6px);
+  transition: opacity .25s ease, transform .25s ease, filter .25s ease;
+}
+
+.center-actions.is-on{
+  opacity: 1;
+  pointer-events: auto;
+  filter: blur(0px);
+  transform: translate(-50%, -50%) translateY(0);
+}
+
+.action-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: .02em;
+
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.20);
+  color: rgba(255,255,255,.92);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 26px rgba(0,0,0,.28);
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+
+.action-btn:hover{
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.14);
+  border-color: rgba(255,255,255,.28);
+}
+
+
+
+
+
+
+
+/* Header πρέπει να είναι relative για positioning */
+.header{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  position: relative;
+}
+
+/* Το group των links στη σωστή θέση (εκεί που δείχνεις με κόκκινο) */
+.header-links{
+  position: absolute;
+  left: 50%;
+  top: 62%;                 /* ΡΥΘΜΙΣΕ αυτό για να κάτσει ακριβώς στη γραμμή */
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+
+  /* αρχικά κρυφό για animation */
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* όταν ανοίξουν */
+.header-links.is-on{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* καθένα link - αρχική θέση για stagger animation */
+.hlink{
+  font: 600 13px/1 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  letter-spacing: .02em;
+  text-decoration: none;
+
+  color: rgba(35,35,35,0.65);
+  padding: 6px 2px;
+
+  transform: translateY(10px);
+  opacity: 0;
+  transition: color .18s ease;
+}
+
+
+.header-line-fill{
+  position:absolute;
+  height:3px;                 /* ίδιο πάχος με border-bottom */
+  bottom:-3px;                /* κάθεται ακριβώς πάνω στη μαύρη γραμμή */
+  left:0;
+  width:0;
+  background: rgba(35,35,35,0.75);
+  transition: width .18s ease, left .18s ease;
+  pointer-events:none;
+}
+body.dark .header-line-fill{
+  background: rgba(255,255,255,0.75);
+}
+
+
+.header{ position: sticky; top:0; z-index:1000; position:relative; }
+
+.center-actions{
+  position:absolute;
+  left:50%;
+  top:62%;                 /* ΡΥΘΜΙΣΕ: 58%-66% μέχρι να κάτσει τέλεια */
+  transform: translate(-50%, -50%);
+  display:flex;
+  gap:22px;
+  align-items:center;
+
+  /* αρχικά κρυφά για animation */
+  opacity:0;
+  pointer-events:none;
+}
+
+.action-btn{
+  text-decoration:none;
+  font: 600 13px/1 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color: rgba(35,35,35,0.65);
+  letter-spacing:.02em;
+
+  /* αρχική θέση για stagger */
+  opacity:0;
+  transform: translateY(10px);
+}
+
+.center-actions.is-on{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.center-actions.is-on .action-btn{
+  opacity:1;
+  transform: translateY(0);
+  transition: opacity .25s ease, transform .25s ease, color .18s ease;
+}
+
+.action-btn:hover{ color: rgba(35,35,35,0.92); }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 1) Το κουμπί σε normal κατάσταση */
+.hbtn{
+  position: relative;
+  border: 1px solid rgba(0,0,0,.14);
+  border-radius: 999px;
+  background: rgba(255,255,255,.55);
+}
+
+/* 2) Όταν είναι OPEN: κόβουμε το κάτω border του κουμπιού */
+.hdrop.open .hbtn{
+  border-bottom-color: transparent;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  background: rgba(255,255,255,.92);
+  z-index: 7000;
+}
+
+
+.panel-inner{ padding: 16px; }
+.panel-inner h4{ margin:0 0 6px; font-size:14px; }
+.panel-inner p{ margin:0 0 12px; font-size:13px; color: rgba(20,20,20,0.62); }
+
+
+.panel-links{ display:flex; gap:10px; flex-wrap:wrap; }
+.panel-links a{
+  text-decoration:none;
+  color: rgba(20,20,20,0.78);
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.60);
+  padding: 10px 12px;
+  border-radius: 14px;
+  transition: .18s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===============================
+   DROPDOWN SYSTEM (ALL 3 BUTTONS)
+   - neck moves/resizes per button
+   - restores top black line with a gap under the neck
+   - open button shows ONLY text
+================================ */
+
+/* --- Header line: draw it ourselves --- */
+.header{
+  position: sticky;
+  top: 0;
+  z-index: 4000;
+  border-bottom: 0 !important;      /* μην βασίζεσαι στο border-bottom */
+  background: #fff;                /* ίδιο bg με το header σου */
+}
+
+/* full black line */
+.header::after{
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  bottom:0;
+  height:3px;
+  background:#000;
+  z-index: 1;
+}
+
+/* the "gap" that follows the neck (we'll set --cut-left/--cut-w from JS) */
+.header .line-cut{
+  position:absolute;
+  bottom:0;
+  height:3px;
+  left: var(--cut-left, 0px);
+  width: var(--cut-w, 0px);
+  background: #fff; /* ίδιο με header bg */
+  z-index: 2;
+  pointer-events:none;
+}
+
+
+/* --- Buttons base --- */
+#centerActions .hbtn{
+  position: relative;
+  z-index: 4010;
+  border-radius: 999px;
+}
+
+/* όταν είναι open: ΘΕΛΟΥΜΕ ΜΟΝΟ ΤΟ ΚΕΙΜΕΝΟ */
+#centerActions .hdrop.open > .hbtn{
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* κράτα το κείμενο ίδιο */
+#centerActions .hdrop.open > .hbtn{
+  color: rgba(35,35,35,0.92) !important;
+}
+
+/* open panel */
+#centerActions .hdrop.open .drop-panel{
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+
+
+/* --- Panel (solid) --- */
+#centerActions .drop-panel{
+  position: fixed !important;
+  left: 50% !important;
+  top: calc(var(--header-h, 64px) - 27px) !important;
+  transform: translateX(-50%) !important;
+
+  width: min(1400px, calc(100vw - 0px)) !important;
+  height: 230px !important;
+
+  background: #fff !important;                 /* ✅ όχι διάφανο */
+  border: 1px solid rgba(0,0,0,0.14) !important;
+  border-radius: 0 0 26px 26px !important;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.20) !important;
+
+  overflow: visible !important;                /* για να φαίνεται ο λαιμός */
+  clip-path: none !important;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease !important;
+
+  z-index: 3990 !important;
+}
+
+
+
+/* --- Fade down (clip) μόνο στο drop-clip --- */
+#centerActions .drop-panel > .drop-clip{
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+
+  clip-path: inset(0 0 100% 0 round 26px);
+  transition: clip-path .28s ease;
+}
+#centerActions .hdrop.open .drop-panel > .drop-clip{
+  clip-path: inset(0 0 0 0 round 26px);
+}
+
+
+
+
+/* --- THE NECK (moves by --neck-x and --neck-w) --- */
+#centerActions .hdrop.open .drop-panel::before{
+  content:"";
+  position:absolute;
+
+  left: var(--neck-x, 50%);
+  transform: translateX(-50%);
+
+  top: calc(-1 * var(--neck-h, 20px));
+  height: var(--neck-h, 42px);
+  width: var(--neck-w, 70px);
+
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-bottom: 0;
+
+   border-top-left-radius: 999px;
+  border-top-right-radius: 999px;
+  border-bottom-left-radius: 90px;
+  border-bottom-right-radius: 90px;
+  z-index: 4005;
+  pointer-events:none;
+}
+
+
+
+
+
+
+
+
+
+
+/* Μικρό “premium” entrance (χωρίς GSAP) */
+.video-hero .hero-copy{
+  opacity: 0;
+  transform: translateY(10px);
+  animation: heroIn 900ms ease forwards;
+  animation-delay: 120ms;
+}
+@keyframes heroIn{
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* scroll layer: ΔΕΝ πειράζουμε το transform του animation, μόνο με CSS var */
+.video-hero .hero-copy{
+  transform: translateY(calc(var(--scrollY, 0px) + 15px));
+}
+
+@keyframes heroIn{
+  to{ opacity: 1; transform: translateY(var(--scrollY, 0px)); }
+}
+
+
+
+
+
+/* ===== Login: drawer down + text slides in ===== */
+#loginBtn{
+  position: relative;
+  overflow: hidden;
+
+  /* ξεκινάει “μικρό/κρυφό” */
+  max-height: 10px;
+  padding: 0 14px;
+  opacity: .0;
+
+  transform: translateY(-10px);
+  border-radius: 10px;
+
+  transition:
+    max-height .34s cubic-bezier(.22,.61,.36,1) .10s,
+    opacity    .20s ease .10s,
+    transform  .34s cubic-bezier(.22,.61,.36,1) .10s,
+    padding    .34s cubic-bezier(.22,.61,.36,1) .10s;
+}
+
+/* το κείμενο μέσα */
+#loginBtn .login-text{
+  display: inline-block;
+
+  opacity: 0;
+  transform: translateX(12px);
+
+  transition:
+    transform .32s cubic-bezier(.22,.61,.36,1) .32s, /* έρχεται ΜΕΤΑ το “drawer” */
+    opacity   .22s ease .32s;
+}
+
+/* όταν κάνεις scroll -> “ανοίγει” το κουμπί σαν συρτάρι */
+.header.is-scrolled #loginBtn{
+  max-height: 42px;
+  padding: 6px 14px;
+
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* και μετά μπαίνει το κείμενο από δεξιά */
+.header.is-scrolled #loginBtn .login-text{
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+
+
+
+/* ===== Burger: ultra smooth ===== */
+.burger{
+  position: relative;
+  width: 28px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.burger .b-line{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #000;
+  border-radius: 999px;
+
+  /* πιο smooth */
+  will-change: transform, opacity;
+  transition-property: transform, opacity;
+  transition-duration: 520ms, 320ms;
+  transition-timing-function: cubic-bezier(.16, 1, .3, 1), ease;
+}
+
+/* αρχικά: μία γραμμή (μόνο η μεσαία) */
+.burger .b-line:nth-child(1),
+.burger .b-line:nth-child(3){
+  opacity: 0;
+  transform: translateY(0);
+}
+
+.burger .b-line:nth-child(2){
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* όταν γίνει scrolldown: εμφανίζεται το burger “συρταρωτά” */
+.header.is-scrolldown .burger .b-line:nth-child(1){
+  top: 0;
+  opacity: 1;
+  transition-delay: 0ms, 0ms;          /* transform, opacity */
+}
+
+.header.is-scrolldown .burger .b-line:nth-child(2){
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1;
+  transition-delay: 40ms, 0ms;
+}
+
+.header.is-scrolldown .burger .b-line:nth-child(3){
+  bottom: 0;
+  opacity: 1;
+  transition-delay: 80ms, 0ms;
+}
+
+/* όταν κάνεις scroll up: ξαναγίνεται μία γραμμή */
+.header.is-scrollup .burger .b-line:nth-child(1),
+.header.is-scrollup .burger .b-line:nth-child(3){
+  opacity: 0;
+  transition-delay: 0ms, 0ms;
+}
+
+.header.is-scrollup .burger .b-line:nth-child(2){
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1;
+  transition-delay: 0ms, 0ms;
+}
+
+
+/* ===== Rolex-style stacked sticky panels ===== */
+.stack{
+  position: relative;
+}
+
+.slide{
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+  z-index: 1;
+}
+
+/* ώστε το 2ο/3ο να "καλύπτουν" το προηγούμενο */
+.slide:nth-child(2){ z-index: 2; }
+.slide:nth-child(3){ z-index: 3; }
+
+.slide .bg{
+  position:absolute;
+  inset:0;
+  background-image: var(--bg);
+  background-size: cover;
+  background-position: center;
+  transform: translateY(var(--bg-shift, 0px)) scale(1.06);
+  will-change: transform;
+}
+
+.slide .overlay{
+  position:absolute; inset:0;
+  background:
+    radial-gradient(900px 520px at 20% 25%, rgba(90,140,255,.18), transparent 60%),
+    radial-gradient(700px 520px at 80% 30%, rgba(255,200,120,.10), transparent 62%),
+    linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.60));
+}
+
+/* content */
+.slide .content{
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: grid;
+  align-content: center;
+  padding: clamp(18px, 5vw, 64px);
+  max-width: 900px;
+
+  /* ίδιο feel με το hero σου, αλλά triggered on scroll */
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity .55s cubic-bezier(.22,.61,.36,1),
+    transform .55s cubic-bezier(.22,.61,.36,1);
+}
+
+.slide.is-in .content{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide .kicker{
+  display:inline-flex;
+  width: fit-content;
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  letter-spacing: .18em;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.92);
+}
+
+.slide h2{
+  margin: 0 0 10px;
+  font-size: clamp(34px, 5vw, 64px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: rgba(255,255,255,.96);
+  text-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+.slide p{
+  margin: 0 0 18px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255,255,255,.82);
+  max-width: 62ch;
+}
+
+.slide .cta{
+  display:inline-flex;
+  width: fit-content;
+  padding: 12px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: .02em;
+
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.22);
+  color: rgba(255,255,255,.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 26px rgba(0,0,0,.28);
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+.slide .cta:hover{
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.18);
+  border-color: rgba(255,255,255,.30);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.login-drawer{
+  position: fixed;
+  top: var(--header-h, 70px);
+  left: 0;                     /* ✅ από αριστερά */
+  right: auto;
+
+  width: 420px;
+  height: calc(100vh - var(--header-h, 70px));
+
+  background: #fff;
+  border-right: 1px solid rgba(0,0,0,.14);  /* ✅ border δεξιά τώρα */
+  border-left: none;
+
+  box-shadow: 20px 0 60px rgba(0,0,0,.18);  /* ✅ σκιά προς μέσα */
+
+  transform: translateX(-100%);  /* ✅ κρυφό αριστερά */
+  opacity: 0;
+
+  transition:
+    transform .45s cubic-bezier(.22,.61,.36,1),
+    opacity .25s ease;
+
+  z-index: 6000;
+}
+
+.login-drawer.open{
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.login-drawer-inner{
+  height:100%;
+  padding:32px;
+  overflow:auto;
+}
+
+
+
+
+
+
+
+/* --- Login panel internal layout --- */
+
+
+
+
+
+.login-wrap{ padding: 16px; }
+.login-head h4{ margin:0 0 4px; font-size:14px; }
+.login-head p{ margin:0 0 12px; font-size:13px; opacity:.7; }
+
+
+.login-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom: 12px;
+}
+
+.subbtn{
+  border:1px solid rgba(0,0,0,.14);
+  background: rgba(255,255,255,.65);
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-weight: 650;
+  cursor:pointer;
+  transition: .18s ease;
+}
+
+.subbtn:hover{ transform: translateY(-1px); }
+.subbtn.is-active{
+  background:#000;
+  color:#fff;
+  border-color:#000;
+}
+
+/* --- THE BIG WHITE AREA (substage) --- */
+.substage{
+  position: relative;
+  height: 360px;              /* κάν’ το πιο μακρόστενο εδώ */
+  border: 2px solid #000;     /* η μαύρη γραμμή που ζωγράφισες */
+  border-radius: 18px;
+  background: #fff;
+  overflow: hidden;           /* κρίσιμο για “συρτάρι” */
+}
+
+
+/* --- each subpanel occupies whole stage --- */
+.subpanel{
+  position:absolute;
+  inset:0;
+  padding: 18px;
+  opacity:0;
+  transform: translateY(10px);
+  pointer-events:none;
+
+  transition:
+    transform .35s cubic-bezier(.22,.61,.36,1),
+    opacity   .22s ease;
+}
+
+/* active panel */
+.subpanel.is-active{
+  opacity:1;
+  transform: translateY(0);
+  pointer-events:auto;
+}
+
+/* form styling */
+.subform{
+  display:grid;
+  gap:10px;
+}
+
+.subform label{ font-size:13px; font-weight:650; }
+.subform input{
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.16);
+  font-size: 14px;
+}
+
+.submain{
+  margin-top: 6px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 2px solid #000;
+  background:#000;
+  color:#fff;
+  font-weight: 800;
+  cursor:pointer;
+}
+.submain:hover{ background:#fff; color:#000; }
+  </style>
+</head>
+<body>
+
+  <section id="home" class="video-hero">
+  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="./poster.jpg">
+    <source src="./hero.mp4" type="video/mp4" />
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-copy">
+    <div class="hero-kicker">GEARNOX</div>
+    <h1 class="hero-title">Design that feels engineered.</h1>
+    <p class="hero-sub">
+      Μινιμαλισμός, ακρίβεια και premium λεπτομέρεια — σε κάθε project.
+    </p>
+  </div>
+
+  <div class="hero-scrollhint">Scroll</div>
+</section>
+
+
+
+<header class="header" id="topHeader">
+ <div class="left-section">
+
+ <div class="burger" id="burger" aria-label="Menu" role="button">
+  <span class="b-line"></span>
+  <span class="b-line"></span>
+  <span class="b-line"></span>
+</div>
+
+  <!-- LOGIN: drawer + slide text -->
+ <button class="login-btn" id="loginBtn" type="button">
+  <span class="login-text">Login</span>
+</button>
+  
+</div>
+
+
+  <div class="login-drawer" id="loginDrawer" aria-hidden="true">
+
+  <div class="login-drawer-inner">
+
+    <div class="login-wrap">
+
+      <div class="login-head">
+        <h4>Login</h4>
+        <p>Sign in to access your projects and settings.</p>
+
+        <div class="login-actions">
+          <button class="subbtn is-active" data-sub="login">Open Login</button>
+          <button class="subbtn" data-sub="create">Create account</button>
+        </div>
+      </div>
+
+      <div class="substage">
+
+        <div class="subpanel is-active" data-panel="login">
+          <form class="subform">
+            <label>Email</label>
+            <input type="email">
+
+            <label>Password</label>
+            <input type="password">
+
+            <button class="submain">Sign in</button>
+          </form>
+        </div>
+
+        <div class="subpanel" data-panel="create">
+          <form class="subform">
+            <label>Name</label>
+            <input type="text">
+
+            <label>Email</label>
+            <input type="email">
+
+            <label>Password</label>
+            <input type="password">
+
+            <button class="submain">Create account</button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+  <nav class="center-actions" id="centerActions" aria-label="Header links">
+
+    <!-- WATCH -->
+    <div class="hdrop" id="dropWatch">
+      <button
+        class="action-btn hbtn"
+        type="button"
+        aria-expanded="false"
+        aria-haspopup="dialog"
+        aria-controls="panelWatch">
+        Watch
+      </button>
+
+      <div class="drop-panel" id="panelWatch" role="dialog" aria-label="Watch menu">
+        <div class="panel-inner">
+          <h4>GearNox Watch</h4>
+          <p>Materials, movement, finishing — engineered minimalism.</p>
+          <div class="panel-links">
+            <a href="#watch">Open Watch</a>
+            <a href="#specs">Specs</a>
+            <a href="#story">Story</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCESSORIES -->
+    <div class="hdrop" id="dropAcc">
+      <button
+        class="action-btn hbtn"
+        type="button"
+        aria-expanded="false"
+        aria-haspopup="dialog"
+        aria-controls="panelAcc">
+        Accessories
+      </button>
+
+      <div class="drop-panel" id="panelAcc" role="dialog" aria-label="Accessories menu">
+        <div class="panel-inner">
+          <h4>Accessories</h4>
+          <p>Straps, tools and premium add-ons.</p>
+          <div class="panel-links">
+            <a href="#accessories">Browse</a>
+            <a href="#straps">Straps</a>
+            <a href="#kits">Kits</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="hdrop" id="dropContact">
+      <button
+        class="action-btn hbtn"
+        type="button"
+        aria-expanded="false"
+        aria-haspopup="dialog"
+        aria-controls="panelContact">
+        Contact
+      </button>
+
+      <div class="drop-panel" id="panelContact" role="dialog" aria-label="Contact menu">
+        <div class="panel-inner">
+          <h4>Contact</h4>
+          <p>Send a message — we’ll reply soon.</p>
+          <div class="panel-links">
+            <a href="mailto:hello@gearnox.com">hello@gearnox.com</a>
+            <a href="#" id="openContactModal">Open form</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- Τελική θέση (δεξιά) — κρατάει το “στόχο” -->
+  <div class="brand brand-target" id="brandTarget" aria-hidden="true">
+    <h1>GearNox</h1>
+    <img src="GearNox_black_transparent.png" alt="" />
+  </div>
+
+  <!-- Floating (ξεκινάει κέντρο και κινείται δεξιά) -->
+  <div class="brand brand-float" id="brandFloat">
+    <h1 class="brand-text" id="brandText">GearNox</h1>
+    <img id="brandLogo" src="GearNox_black_transparent.png" alt="GearNox logo" />
+  </div>
+</header>
+
+
+<section class="stack">
+  <section class="slide is-hero" style="--bg:url('./IMG.png')">
+    <div class="bg"></div>
+    <div class="overlay"></div>
+    <div class="content">
+      <div class="kicker">GEARNOX WATCHES</div>
+      <h2>Time, engineered.</h2>
+      <p>Καθαρές γραμμές, μηδενικός θόρυβος, απόλυτη ισορροπία.</p>
+      <a class="cta" href="#watch">Discover the Watch</a>
+    </div>
+  </section>
+
+  <section class="slide" style="--bg:url('./IMG1.png')">
+    <div class="bg"></div>
+    <div class="overlay"></div>
+    <div class="content">
+      <div class="kicker">MATERIALS</div>
+      <h2>Premium, but quiet.</h2>
+      <p>Υλικά που φαίνονται “high-end” χωρίς να φωνάζουν.</p>
+      <a class="cta" href="#specs">View Specs</a>
+    </div>
+  </section>
+
+  <section class="slide" style="--bg:url('./IMG2.png')">
+    <div class="bg"></div>
+    <div class="overlay"></div>
+    <div class="content">
+      <div class="kicker">DETAILS</div>
+      <h2>Every edge matters.</h2>
+      <p>Μικρές λεπτομέρειες που κάνουν το design να μοιάζει engineered.</p>
+      <a class="cta" href="#story">Read the Story</a>
+    </div>
+  </section>
+</section>
+
+
+
+<script>
+(function(){
+  const header = document.getElementById("topHeader");
+  const brandFloat  = document.getElementById("brandFloat");
+  const brandTarget = document.getElementById("brandTarget");
+  const brandText   = document.getElementById("brandText");
+  const brandLogo   = document.getElementById("brandLogo");
+
+  const centerActions = document.getElementById("centerActions"); // ✅ έξω από update
+
+  if(!header || !brandFloat || !brandTarget) return;
+
+  function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+
+  function showActions(on){
+    if(!centerActions) return;
+    if(on){
+      centerActions.classList.add("is-on");
+      centerActions.setAttribute("aria-hidden","false");
+    }else{
+      centerActions.classList.remove("is-on");
+      centerActions.setAttribute("aria-hidden","true");
+    }
+  }
+
+  let deltaX = 0, deltaY = 0;
+
+  function measure(){
+    brandFloat.style.transform = "translate(-50%, -50%) translate3d(0,0,0)";
+    brandFloat.style.opacity = "1";
+
+    const h = header.getBoundingClientRect();
+    const t = brandTarget.getBoundingClientRect();
+
+    const startCX = h.left + h.width/2;
+    const startCY = h.top  + h.height/2;
+
+    const targetCX = t.left + t.width/2;
+    const targetCY = t.top  + t.height/2;
+
+    deltaX = targetCX - startCX;
+    deltaY = targetCY - startCY;
+  }
+
+  function update(){
+    // ολοκλήρωση σε ~200px scroll
+    const progress = clamp01(window.scrollY / 200);
+
+    // move logo
+    brandFloat.style.transform =
+      `translate(-50%, -50%) translate3d(${deltaX*progress}px, ${deltaY*progress}px, 0)`;
+
+    // text reveal
+    if(brandText){
+      brandText.style.opacity = String(progress);
+      brandText.style.transform = `translateX(${(-6 + 6*progress)}px)`;
+    }
+
+    // micro scale
+    if(brandLogo){
+      const s = 1 + 0.02*progress;
+      brandLogo.style.transform = `scale(${s})`;
+    }
+
+    // swap float/target
+    if(progress >= 0.999){
+      brandTarget.style.visibility = "visible";
+      brandFloat.style.opacity = "0";
+    } else {
+      brandTarget.style.visibility = "hidden";
+      brandFloat.style.opacity = "1";
+    }
+
+    // ✅ Center buttons logic ΠΡΕΠΕΙ να είναι ΕΔΩ, γιατί θέλει progress + scroll
+    const after = window.scrollY - 200;   // ίδιο με το /200
+    const showP = clamp01(after / 140);   // πόσο γρήγορα εμφανίζεται
+
+    const shouldShow = (progress >= 0.999) && (showP > 0.05);
+      showActions(shouldShow);
+  }
+
+  measure();
+  update();
+
+  window.addEventListener("resize", ()=>{ measure(); update(); }, { passive:true });
+  window.addEventListener("scroll", update, { passive:true });
+
+
+
+
+
+  (() => {
+  const header = document.getElementById("topHeader") || document.querySelector(".header");
+  if (!header) return;
+
+  const TH = 12; // πόσο scroll χρειάζεται για να “ενεργοποιηθεί”
+  let lastY = window.scrollY;
+
+  function onScroll(){
+    const y = window.scrollY;
+
+    // μόνο ένα state για τα animations που θες
+    if (y > TH) header.classList.add("is-scrolled");
+    else header.classList.remove("is-scrolled");
+
+    lastY = y;
+  }
+
+  window.addEventListener("scroll", onScroll, { passive:true });
+  onScroll();
+})();
+})();
+</script>
+
+
+<script src="./main.js"> </script>
+
+
+<script>
+(() => {
+  const header = document.getElementById("topHeader") || document.querySelector(".header");
+  const nav = document.getElementById("centerActions");
+  if (!nav) return;
+
+  const drops = Array.from(nav.querySelectorAll(".hdrop"));
+
+  function setHeaderH(){
+    if(!header) return;
+    document.documentElement.style.setProperty("--header-h", header.getBoundingClientRect().height + "px");
+  }
+  setHeaderH();
+  window.addEventListener("resize", setHeaderH, { passive:true });
+
+  function closeAll(except=null){
+    drops.forEach(d=>{
+      if(d !== except){
+        d.classList.remove("open");
+        const b = d.querySelector(".hbtn");
+        if(b) b.setAttribute("aria-expanded","false");
+      }
+    });
+  }
+
+  function ensureClip(panel){
+    const first = panel.firstElementChild;
+    if(first && first.classList.contains("drop-clip")) return first;
+
+    const clip = document.createElement("div");
+    clip.className = "drop-clip";
+    while(panel.firstChild) clip.appendChild(panel.firstChild);
+    panel.appendChild(clip);
+    return clip;
+  }
+
+  function openDrop(d){
+    const btn = d.querySelector(".hbtn");
+    const panel = d.querySelector(".drop-panel");
+    if(!btn || !panel) return;
+
+    ensureClip(panel);
+
+    d.classList.add("open");
+    btn.setAttribute("aria-expanded","true");
+
+    // ✅ μέτρα ΑΦΟΥ το panel είναι open (για σωστά sizes)
+    requestAnimationFrame(() => {
+      // το panel είναι fixed + centered -> βρίσκουμε το "0" του panel
+      const pr = panel.getBoundingClientRect();
+      const br = btn.getBoundingClientRect();
+
+      // ✅ neckX: κέντρο κουμπιού μέσα στο panel (viewport math σωστό εδώ)
+      const neckX = (br.left + br.width / 2) - pr.left;
+
+      // ✅ neckW: πλάτος λαιμού από οπτικό πλάτος κουμπιού
+      const neckW = Math.max(90, Math.round(br.width + 1));
+
+      panel.style.setProperty("--neck-x", neckX + "px");
+      panel.style.setProperty("--neck-w", neckW + "px");
+      panel.style.setProperty("--neck-h", "47px");
+    });
+  }
+
+  drops.forEach(d=>{
+    const btn = d.querySelector(".hbtn");
+    const panel = d.querySelector(".drop-panel");
+    if(!btn || !panel) return;
+
+    btn.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      const willOpen = !d.classList.contains("open");
+      closeAll();
+      if(willOpen) openDrop(d);
+    });
+
+    panel.addEventListener("click", (e)=> e.stopPropagation());
+  });
+
+  document.addEventListener("click", ()=> closeAll());
+  document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeAll(); });
+
+  window.addEventListener("resize", ()=>{
+    setHeaderH();
+    const openOne = drops.find(d=> d.classList.contains("open"));
+    if(openOne) openDrop(openOne);
+  }, { passive:true });
+})();
+</script>
+
+
+
+<script>
+(() => {
+  const el = document.querySelector(".video-hero .hero-copy");
+  if(!el) return;
+
+  const clamp01 = (x) => Math.max(0, Math.min(1, x));
+
+  const RANGE = 420;  // πόσο scroll θέλεις για να εξαφανιστεί τελείως
+  const MOVE  = 80;   // πόσα px να “πέφτει” όταν εξαφανίζεται
+
+  let ticking = false;
+
+  function apply(){
+    ticking = false;
+
+    const y = window.scrollY || 0;
+    const t = clamp01(y / RANGE);     // 0->1
+
+    // Scroll down: fade out + go down
+    el.style.opacity = String(1 - t);
+    el.style.setProperty("--scrollY", (t * MOVE) + "px");
+  }
+
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(apply);
+  }
+
+  apply();
+  window.addEventListener("scroll", onScroll, { passive:true });
+  window.addEventListener("resize", onScroll, { passive:true });
+})();
+</script>
+
+
+<script>
+(() => {
+  const loginBtn = document.getElementById("loginBtn");
+  const loginDrawer = document.getElementById("loginDrawer");
+  if(!loginBtn || !loginDrawer) return;
+
+  loginBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    loginDrawer.classList.toggle("open");
+    loginDrawer.setAttribute("aria-hidden", loginDrawer.classList.contains("open") ? "false" : "true");
+  });
+
+  // click έξω -> κλείσιμο
+  document.addEventListener("click", () => {
+    loginDrawer.classList.remove("open");
+    loginDrawer.setAttribute("aria-hidden","true");
+  });
+
+  // click μέσα -> να μη κλείνει
+  loginDrawer.addEventListener("click", (e)=> e.stopPropagation());
+
+  // Esc -> κλείσιμο
+  window.addEventListener("keydown", (e)=> {
+    if(e.key === "Escape"){
+      loginDrawer.classList.remove("open");
+      loginDrawer.setAttribute("aria-hidden","true");
+    }
+  });
+})();
+</script>
+
+
+
+
+
+</body>
+
+</html>

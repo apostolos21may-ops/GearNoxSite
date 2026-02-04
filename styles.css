@@ -1,0 +1,257 @@
+/* =========================
+   CONTACT ONLY — DROPDOWN
+   (based on your snippet)
+   ========================= */
+
+/* Τα μέσα του panel (όπως το έχεις) */
+#dropContact .panel-inner{ padding: 16px; }
+#dropContact .panel-inner h4{ margin:0 0 6px; font-size:14px; }
+#dropContact .panel-inner p{ margin:0 0 12px; font-size:13px; color: rgba(20,20,20,0.62); }
+
+#dropContact .panel-links{ display:flex; gap:10px; flex-wrap:wrap; }
+#dropContact .panel-links a{
+  text-decoration:none;
+  color: rgba(20,20,20,0.78);
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.60);
+  padding: 10px 12px;
+  border-radius: 14px;
+  transition: .18s ease;
+}
+
+/* Contact vars (μόνο εδώ αλλάζεις νούμερα) */
+:root{
+  --c_menuSolid: #f3f3f3;
+  --c_menuBorder: rgba(0,0,0,.16);
+
+  --c_megaW: min(1100px, calc(100vw - 48px));
+  --c_megaH: 230px;
+  --c_megaGap: 10px;
+
+  --c_neckH: 56px;     /* ύψος λαιμού */
+  --c_btnJoinH: 18px;  /* πόσο “κατεβαίνει” το κουμπί */
+}
+
+/* Κουμπί CONTACT (solid, όχι γυαλί) */
+#dropContact > .hbtn{
+  background: var(--c_menuSolid) !important;
+  border: 1px solid var(--c_menuBorder) !important;
+  border-radius: 999px !important;
+
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  position: relative;
+  z-index: 7002; /* πάνω από λαιμό/panel */
+}
+
+/* Όταν ανοίγει: κόβει μόνο το κάτω border */
+#dropContact.open > .hbtn{
+  border-bottom-color: transparent !important;
+  border-bottom-left-radius: 18px !important;
+  border-bottom-right-radius: 18px !important;
+}
+
+/* Panel CONTACT: fixed + ίδιο μέγεθος + solid */
+#dropContact .drop-panel{
+  position: fixed !important;
+  left: 50% !important;
+  top: calc(var(--header-h, 41px) + var(--c_megaGap)) !important;
+  transform: translateX(-50%) !important;
+
+  width: var(--c_megaW) !important;
+  height: var(--c_megaH) !important;
+
+  background: var(--c_menuSolid) !important;
+  border: 1px solid var(--c_menuBorder) !important;
+  border-radius: 26px !important;
+  box-shadow: 0 30px 80px rgba(0,0,0,.20) !important;
+
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  opacity: 0;
+  pointer-events: none;
+  z-index: 6000 !important;
+
+  overflow: visible !important; /* για να ΜΗΝ κόβεται ο λαιμός */
+
+  clip-path: inset(0 0 100% 0 round 26px);
+  transition: clip-path .28s ease, opacity .18s ease;
+}
+
+#dropContact.open .drop-panel{
+  opacity: 1;
+  pointer-events: auto;
+  clip-path: inset(0 0 0 0 round 26px);
+
+  /* ✅ κράτα την πάνω γραμμή */
+  border-top: 1px solid var(--c_menuBorder) !important;
+}
+
+/* ✅ ΛΑΙΜΟΣ (μόνο Contact) */
+#dropContact.open .drop-panel::before{
+  content:"";
+  position:absolute;
+
+  /* ⚠️ Το JS πρέπει να γράφει --neck-x και --neck-w (όχι --neckX) */
+  left: var(--neck-x, 50%);
+  transform: translateX(-50%);
+
+  top: calc(-1 * (var(--c_neckH) + var(--c_btnJoinH)) + 2px);
+  height: calc(var(--c_neckH) + var(--c_btnJoinH));
+  width: var(--neck-w, 140px);
+
+  background: var(--c_menuSolid);
+  border: 1px solid var(--c_menuBorder);
+  border-bottom: 0;
+
+  /* καμπύλες προς τα έξω */
+  border-top-left-radius: 999px;
+  border-top-right-radius: 999px;
+  border-bottom-left-radius: 90px;
+  border-bottom-right-radius: 90px;
+
+  z-index: 6001;
+  pointer-events:none;
+}
+
+#dropContact.open .drop-panel::after{
+  content:"";
+  position:absolute;
+
+  /* ✅ σβήνει *πάνω* από το border */
+  top: 0px;
+
+  left: calc(var(--neck-x, 50%) - (var(--neck-w, 140px) / 2) - 16px);
+  width: calc(var(--neck-w, 140px) + 32px);
+  height: 2px; /* ✅ μόνο όσο χρειάζεται για να καλύψει τη γραμμή */
+
+  background: var(--c_menuSolid);
+
+  z-index: 6002;
+  pointer-events:none;
+}
+
+
+
+
+
+
+
+
+
+/* =========================
+   CONTACT — MORPH MENU ONLY
+   ========================= */
+
+:root{
+  --menuSolid: #f3f3f3;
+  --menuBorder: rgba(0,0,0,.16);
+  --menuShadow: 0 30px 80px rgba(0,0,0,.20);
+
+  --morphW: min(1100px, calc(100vw - 48px));
+  --morphH: 230px;
+
+  --btnPadY: 10px;
+  --btnPadX: 18px;
+
+  --btnRadius: 999px;
+  --panelRadius: 26px;
+
+  --joinH: 18px;     /* πόσο “μπαίνει” το panel μέσα στο κουμπί */
+  --outCurve: 90px;  /* πόσο “προς τα έξω” οι κάτω γωνίες */
+}
+
+/* wrapper */
+#dropContact.hdrop.morph{
+  position: relative;
+  display: inline-flex;
+  overflow: visible;
+}
+
+/* BUTTON */
+#dropContact .hbtn{
+  appearance:none;
+  border: 1px solid var(--menuBorder);
+  background: var(--menuSolid);
+  color: rgba(20,20,20,.82);
+  font-weight: 700;
+  cursor: pointer;
+
+  padding: var(--btnPadY) var(--btnPadX);
+  border-radius: var(--btnRadius);
+
+  position: relative;
+  z-index: 7000;
+
+  box-shadow: 0 10px 26px rgba(0,0,0,.10);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: width .24s ease, border-radius .24s ease, box-shadow .24s ease;
+}
+
+#dropContact .label{ position: relative; z-index: 2; }
+
+/* PANEL (sibling του button) */
+#dropContact .morph-panel{
+  position: absolute;
+  left: 50%;
+  top: calc(100% - var(--joinH));   /* ✅ ένωση */
+  transform: translateX(-50%);
+
+  width: var(--morphW);
+  height: var(--morphH);
+
+  background: var(--menuSolid);
+  border: 1px solid var(--menuBorder);
+  border-top: 0;                   /* ✅ να μη διπλοφαίνεται η γραμμή */
+  box-shadow: var(--menuShadow);
+
+  border-bottom-left-radius: var(--outCurve);
+  border-bottom-right-radius: var(--outCurve);
+
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+
+  clip-path: inset(0 0 100% 0 round var(--panelRadius));
+  transition: clip-path .28s ease, opacity .18s ease;
+  z-index: 6500;
+}
+
+/* OPEN: το κουμπί “γίνεται” menu */
+#dropContact.open .hbtn{
+  width: var(--morphW);
+  justify-content: flex-start;
+  padding-left: calc(var(--btnPadX) + 2px);
+
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+
+  box-shadow: var(--menuShadow);
+}
+
+/* OPEN: δείξε panel */
+#dropContact.open .morph-panel{
+  opacity: 1;
+  pointer-events: auto;
+  clip-path: inset(0 0 0 0 round var(--panelRadius));
+}
+
+/* μέσα στο panel */
+#dropContact .panel-inner{ padding: 22px 24px; }
+#dropContact .panel-inner h4{ margin:0 0 6px; font-size:14px; }
+#dropContact .panel-inner p{ margin:0 0 12px; font-size:13px; color: rgba(20,20,20,.62); }
+
+#dropContact .panel-links{ display:flex; gap:10px; flex-wrap:wrap; }
+#dropContact .panel-links a{
+  text-decoration:none;
+  color: rgba(20,20,20,.82);
+  border: 1px solid rgba(0,0,0,.14);
+  background: #fff;
+  padding: 10px 12px;
+  border-radius: 14px;
+}

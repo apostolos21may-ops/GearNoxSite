@@ -71,18 +71,10 @@
       align-items: center;
       justify-content: space-between;
       padding: var(--header-pad);
+      border-bottom: 3px solid var(--line);
       position: relative;
       z-index: 3;
     }
-
-
-
-
-
-
-
-
-
 
     .left-section {
       display: flex;
@@ -748,249 +740,165 @@ body.dark .header-line-fill{
 
 
 
-/* =========================================================
-   FINAL OVERRIDE: Connected dropdown (button + neck + panel)
-   Fixes: (1) clip-path was clipping the neck
-          (2) header was losing sticky because of later overrides
-   Paste-safe: this block wins via !important
-========================================================= */
+/* ===============================
+   CONNECTED DROPDOWN (FIXED)
+   κουμπί + λαιμός + panel (ενιαίο)
+================================ */
 
-/* header must stay sticky */
-#topHeader.header{
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 4000 !important;
+/* theme vars (για να μην είναι διαφανές) */
+:root{
+  /* ✅ Solid (όχι blur/διαφάνεια) */
+  --header-bg: #f3f3f3;
+  --pill-bg: #f3f3f3;
+  --pill-open-bg: #f3f3f3;
+  --pill-border: rgba(0,0,0,0.16);
+
+  /* sizing */
+  --pill-h: 40px;
+  --neck-h: 54px;   /* λίγο πιο μακρύς “λαιμός” */
+  --neck-w: 112px;
 }
 
-/* keep center buttons inside header line (adjust if you want) */
-#centerActions.center-actions{
-  position: absolute !important;
-  left: 50% !important;
-  top: 62% !important;
-  transform: translate(-50%, -50%) !important;
-  z-index: 4010 !important;
-}
-
-/* pill buttons */
-#centerActions .action-btn.hbtn{
-  position: relative;
-  z-index: 4020;
-}
-
-#centerActions .hdrop.open .hbtn{
-  border-bottom-color: transparent !important;
-  background: #fff !important;
-}
-
-/* PANEL: fixed under header (your requested top) */
-#centerActions .drop-panel{
-  position: fixed !important;
-  left: 50% !important;
-  top: calc(var(--header-h, 64px) - 28.5px) !important;
-  transform: translateX(-50%) !important;
-
-  width: min(1100px, calc(100vw - 48px)) !important;
-  height: 230px !important;
-  border-radius: 26px !important;
-
-  background: #fff !important;
-backdrop-filter: none !important;
--webkit-backdrop-filter: none !important;
-  border: 1px solid rgba(0,0,0,0.14) !important;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.20) !important;
-  
-
-  /* IMPORTANT: the neck lives OUTSIDE -> must NOT be clipped */
-  overflow: visible !important;
-  clip-path: none !important;
-
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .18s ease !important;
-
-  z-index: 3990 !important;
-}
-
-/* open panel */
-#centerActions .hdrop.open .drop-panel{
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  border-top-color: transparent !important;
-}
-
-/* the clipping animation goes on the INNER wrapper, not the panel */
-#centerActions .drop-panel > .drop-clip{
-  width: 100%;
-  height: 100%;
-  border-radius: 26px;
-  overflow: hidden;
-
-  clip-path: inset(0 0 100% 0 round 26px);
-  transition: clip-path .28s ease;
-}
-
-#centerActions .hdrop.open .drop-panel > .drop-clip{
-  clip-path: inset(0 0 0 0 round 26px);
-}
-
-/* THE NECK (connect button -> panel) */
-#centerActions .hdrop.open .drop-panel::before{
-  content:"";
-  position:absolute;
-  left: var(--neck-x, 50%);
-  transform: translateX(-50%);
-  top: calc(-1 * var(--neck-h, 28px));
-  height: var(--neck-h, 28px);
-  width: var(--neck-w, 92px);
-
-  background: #fff !important;
-  border: 1px solid rgba(0,0,0,0.14);
-  border-bottom: 0;
-  border-radius: 18px 18px 0 0;
-
-  pointer-events:none;
-  z-index: 4005;
-}
-
-/* inner padding (your markup uses .panel-inner) */
-#centerActions .drop-panel .panel-inner{
-  padding: 22px 24px;
-}
-
-
-body.dark #centerActions .drop-panel{
-  background: #2b2b2b !important;
-}
-body.dark #centerActions .hdrop.open .drop-panel::before{
-  background: #2b2b2b !important;
-}
-body.dark #centerActions .hdrop.open .hbtn{
-  background: #2b2b2b !important;
-}
-
-
-
-body.dark #centerActions .drop-panel,
-body.dark #centerActions .action-btn.hbtn{
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-
-
-
-
+/* ✅ Το header να μην είναι “γυάλινο” (ίδιο χρώμα με τα pills) */
 .header{
-  border-bottom: 0 !important;   /* αντί για border-bottom: 3px solid ... */
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: #fff;
-}
-
-.header::after{
-  content:"";
-  position:absolute;
-  left:0; right:0;
-  bottom:0;
-  height:3px;
-  background:#000;               /* η γραμμή του menu */
-  z-index: 1;
-}
-
-
-/* Σβήνει ΜΟΝΟ το κομματάκι της γραμμής κάτω από το κουμπί */
-.hdrop.open .hbtn::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  bottom:-3px;                   /* πάνω στη γραμμή */
-  height:3px;
-  width: calc(var(--neck-w, 96px) + 40px); /* πόσο θα κοπεί (λίγο πιο πλατύ από λαιμό) */
-  background:#fff;               /* ίδιο χρώμα με header/panel */
-  z-index: 7001;
-}
-
-.action-btn.hbtn{ background:#fff !important; }
-.hdrop.open .hbtn{ background:#fff !important; }
-
-.drop-panel{ background:#fff !important; }
-.hdrop.open .drop-panel{ background:#fff !important; }
-
-.hdrop.open .drop-panel::before{ background:#fff !important; }
-
-
-.drop-panel,
-.action-btn.hbtn{
+  background: var(--header-bg) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
-
-
-.hdrop.open .drop-panel{
-  border-top-color: transparent;   /* να μη διπλοφαίνεται border στην ένωση */
-  overflow: visible;               /* να μη κόβεται ο λαιμός */
+body.dark .header{
+  background: #2b2b2b !important;
 }
 
-/* ΛΑΙΜΟΣ */
+body.dark{
+  --header-bg: #2b2b2b;
+  --pill-bg: #3a3a3a;
+  --pill-open-bg: #3a3a3a;
+  --pill-border: rgba(255,255,255,0.22);
+}
+
+/* κάνει το header διαθέσιμο για var (το JS το ενημερώνει) */
+#topHeader{ --header-h: 64px; }
+
+/* κουμπιά “pill” */
+.action-btn.hbtn{
+  position: relative;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--pill-border);
+  background: var(--pill-bg);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 10px 26px rgba(0,0,0,.12);
+  color: rgba(10,10,10,.78);
+  font-weight: 600;
+  z-index: 7002;
+}
+
+/* όταν είναι OPEN: ίδιο (solid) χρώμα με τον “λαιμό” */
+.hdrop.open .hbtn{
+  border-bottom-color: transparent; /* να “κολλάει” */
+  background: var(--pill-open-bg);
+}
+
+/* ====== PANEL (FIXED, κάτω από header) ====== */
+.drop-panel{
+  position: fixed;
+  left: 50%;
+  top: calc(var(--header-h, 72px) + 10px); /* ακριβώς κάτω από το header */
+  transform: translateX(-50%);
+
+  width: min(1200px, calc(100vw - 48px));  /* ✅ ίδιο “μέγεθος” πάντα (σαν mega menu) */
+  max-width: 1200px;
+
+  background: #f3f3f3;                    /* ✅ ΟΧΙ διαφανές */
+  border: 1px solid rgba(0,0,0,.16);
+  border-radius: 22px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.18);
+
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  opacity: 1;
+  pointer-events: none;
+  filter: blur(8px);
+  clip-path: inset(0 0 100% 0 round 22px);
+  transition: clip-path .26s ease, filter .22s ease;
+
+  z-index: 5000;
+  overflow: visible; /* να φαίνεται ο “λαιμός” */
+}
+
+/* ✅ Mega dropdown να μην είναι διαφανές (dark mode) */
+body.dark .drop-panel{
+  background: #2b2b2b;
+  border-color: rgba(255,255,255,.22);
+}
+
+
+/* OPEN */
+.hdrop.open .drop-panel{
+  opacity: 1;
+  pointer-events: auto;
+  clip-path: inset(0 0 0 0 round 26px);
+  border-top-color: transparent; /* να γίνει ένα με τον λαιμό */
+}
+
+/* ====== Ο ΛΑΙΜΟΣ (ενώνει κουμπί+panel) ====== */
 .hdrop.open .drop-panel::before{
   content:"";
   position:absolute;
   left: var(--neck-x, 50%);
   transform: translateX(-50%);
 
-  /* ΜΑΚΡΑΙΝΕΙ */
-  top: calc(-1 * var(--neck-h, 40px));
-  height: var(--neck-h, 40px);
+  /* ✅ overlap προς τα ΠΑΝΩ για να ακουμπήσει στο κουμπί */
+  top: -44px;
+  height: 46px;
 
-  width: var(--neck-w, 96px);
+  /* ✅ λίγο πιο φαρδύ από το κουμπί για “ένωση” */
+  width: calc(var(--btn-w, 110px) + 34px);
 
-  background:#fff;
-  border:1px solid rgba(0,0,0,0.14);
-  border-bottom:0;
+  background: inherit;                 /* ✅ ίδιο solid με panel */
+  border: 1px solid rgba(0,0,0,.16);
+  border-bottom: 0;
 
-  /* ΠΙΟ ΚΑΜΠΥΛΕΣ ΚΑΤΩ ΓΩΝΙΕΣ */
-  border-radius: 18px 18px 30px 30px;
+  /* ✅ πιο καμπύλες στο ΚΑΤΩ μέρος του λαιμού */
+  border-radius: 22px 22px 38px 38px;
 
   z-index: 6001;
+  pointer-events:none;
 }
 
-
-.navbar {
-  position: relative;
-  background: #fff; /* ή το bg του site σου */
-}
-
-.navbar::after{
+/* ====== ΚΟΒΟΥΜΕ ΜΟΝΟ ΤΟ ΚΟΜΜΑΤΙ ΤΗΣ ΜΑΥΡΗΣ ΓΡΑΜΜΗΣ ΚΑΤΩ ΑΠΟ ΤΟΝ ΛΑΙΜΟ ======
+   Το header έχει border-bottom. Αυτό εδώ “σβήνει” μόνο στο σημείο ένωσης. */
+.hdrop.open .drop-panel::after{
   content:"";
   position:absolute;
-  left:0;
-  right:0;
-  top:100%;          /* κάτω από το navbar */
-  height:4px;        /* πάχος γραμμής */
-  background:#000;
-}
 
-.nav-link{
-  position: relative;
-  z-index: 2;        /* πάνω από τη γραμμή */
-  background: #fff;  /* ίδιο bg για να “κόβει” τη γραμμή */
+  /* τα edges τα δίνει JS */
+  left: calc(var(--neck-l, 0px) - 24px);
+  width: calc((var(--neck-r, 0px) - var(--neck-l, 0px)) + 48px);
+
+  /* το border-bottom του header βρίσκεται ~28.5px κάτω από την κορυφή του panel */
+  top: calc(28.5px - 5px);
+  height: 10px;
+
+  background: var(--header-bg);
   border-radius: 999px;
-  padding: 10px 18px;
+  z-index: 6000;
+  pointer-events:none;
 }
 
+/* μέσα στο panel */
+.drop-panel .panel-inner{ padding: 22px 24px; }
 
-:root{ --panelSolid:#fff; }
-body.dark{ --panelSolid:#2b2b2b; }
-
-#centerActions .action-btn.hbtn,
-#centerActions .drop-panel,
-#centerActions .hdrop.open .drop-panel::before{
-  background: var(--panelSolid) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+/* ===== Dark mode ===== */
+body.dark{
+  --header-bg: #1e1e1e;
+  --pill-bg: rgba(30,30,30,0.45);
+  --pill-open-bg: #2f2f2f;
+  --pill-border: rgba(255,255,255,0.16);
 }
+body.dark .action-btn.hbtn{ color: rgba(255,255,255,0.86); }
 
 </style>
 </meta></head>
@@ -1522,11 +1430,17 @@ function openDrop(d){
   const br = btn.getBoundingClientRect();
 
   const neckX = (br.left + br.width/2) - pr.left;
-  const neckW = Math.max(70, br.width - 14);
+  const neckW = Math.max(80, br.width + 14); // λίγο πιο φαρδύ από το pill
+
+  // για να «σβήσουμε» ΜΟΝΟ το κομμάτι της μαύρης γραμμής κάτω από το pill
+  const neckL = (br.left  - pr.left);
+  const neckR = (br.right - pr.left);
 
   panel.style.setProperty("--neck-x", neckX + "px");
   panel.style.setProperty("--neck-w", neckW + "px");
- panel.style.setProperty("--neck-h", "36px");
+  panel.style.setProperty("--neck-h", "54px");
+  panel.style.setProperty("--neck-l", neckL + "px");
+  panel.style.setProperty("--neck-r", neckR + "px");
 }
 
   drops.forEach(d => {

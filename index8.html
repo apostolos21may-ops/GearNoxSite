@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
 <html lang="el">
 <head>
-<meta charset="utf-8"/>
-<!-- ========== META TAGS SECTION (SEO) ========== -->
+ <meta charset="utf-8" />
+ <!-- ========== META TAGS SECTION (SEO) ========== -->
 <title>GearNox — Design. Automate. Connect.</title>
-<meta content="GearNox — Design. Automate. Connect." name="title"/>
-<meta content="Η GearNox σχεδιάζει καθαρά, αξιόπιστα εργαλεία λογισμικού και υλικού για δημιουργούς και ομάδες. Web συστήματα, αυτοματισμοί και design tools που απλώς δουλεύουν." name="description"/>
+<meta name="title" content="GearNox — Design. Automate. Connect.">
+<meta name="description" content="Η GearNox σχεδιάζει καθαρά, αξιόπιστα εργαλεία λογισμικού και υλικού για δημιουργούς και ομάδες. Web συστήματα, αυτοματισμοί και design tools που απλώς δουλεύουν.">
+
 <!-- Open Graph / Facebook -->
-<meta content="website" property="og:type"/>
-<meta content="https://gearnox.net/" property="og:url"/>
-<meta content="GearNox — Design. Automate. Connect." property="og:title"/>
-<meta content="Καθαρό design &amp; υψηλή απόδοση σε κάθε project." property="og:description"/>
-<meta content="https://gearnox.net/GearNox_black_transparent.png" property="og:image"/>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gearnox.net/">
+<meta property="og:title" content="GearNox — Design. Automate. Connect.">
+<meta property="og:description" content="Καθαρό design & υψηλή απόδοση σε κάθε project.">
+<meta property="og:image" content="https://gearnox.net/GearNox_black_transparent.png">
+
 <!-- Twitter -->
-<meta content="summary_large_image" property="twitter:card"/>
-<meta content="https://gearnox.net/" property="twitter:url"/>
-<meta content="GearNox — Design. Automate. Connect." property="twitter:title"/>
-<meta content="Η GearNox δημιουργεί έξυπνα εργαλεία για ομάδες και δημιουργούς." property="twitter:description"/>
-<meta content="https://gearnox.net/GearNox_black_transparent.png" property="twitter:image"/>
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://gearnox.net/">
+<meta property="twitter:title" content="GearNox — Design. Automate. Connect.">
+<meta property="twitter:description" content="Η GearNox δημιουργεί έξυπνα εργαλεία για ομάδες και δημιουργούς.">
+<meta property="twitter:image" content="https://gearnox.net/GearNox_black_transparent.png">
 <!-- Schema.org Structured Data -->
-<link href="gearnox_icon.png" rel="icon" type="image/png"/>
 <script type="application/ld+json">
+  <link rel="icon" type="image/png" href="gearnox_icon.png">
 {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -34,6 +35,7 @@
   ]
 }
 </script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -43,10 +45,11 @@
 }
 </script>
 <!-- Favicon -->
-<link href="GearNox_black_transparent.png" rel="icon" type="image/png"/>
+<link rel="icon" type="image/png" href="GearNox_black_transparent.png">
 <!-- ========== END META TAGS SECTION ========== -->
-<meta content="width=device-width, initial-scale=1" name="viewport">
-<style>
+  <title>GearNox</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
     :root {
       --header-pad: 14px 24px;
       --line: #000;
@@ -71,18 +74,10 @@
       align-items: center;
       justify-content: space-between;
       padding: var(--header-pad);
+      border-bottom: 3px solid var(--line);
       position: relative;
       z-index: 3;
     }
-
-
-
-
-
-
-
-
-
 
     .left-section {
       display: flex;
@@ -551,22 +546,24 @@ body.dark .header{
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* Μικρό “premium” entrance (χωρίς GSAP) */
+/* HERO: load-in + scroll-out/in */
 .video-hero .hero-copy{
   opacity: 0;
   transform: translateY(10px);
-  animation: heroIn 900ms ease forwards;
-  animation-delay: 120ms;
-}
-@keyframes heroIn{
-  to{ opacity: 1; transform: translateY(0); }
+  transition: opacity .28s ease, transform .28s ease;
+  will-change: opacity, transform;
 }
 
+/* στο load θα του βάλουμε class με JS */
+.video-hero .hero-copy.is-in{
+  opacity: 1;
+  transform: translateY(0);
+}
 
-
-
-
-
+/* αν κάποιος έχει reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .video-hero .hero-copy{ transition: none !important; }
+}
 
 /* Floating center buttons (μετά το navbar animation) */
 .center-actions{
@@ -700,37 +697,16 @@ body.dark .header-line-fill{
   pointer-events:none;
 }
 
-/* Pills όπως στη 2η εικόνα */
 .action-btn{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 10px 18px;
-  border-radius: 999px;
-
+  text-decoration:none;
   font: 600 13px/1 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  letter-spacing: .02em;
-  text-decoration: none;
+  color: rgba(35,35,35,0.65);
+  letter-spacing:.02em;
 
-  background: rgba(255,255,255,0.82);
-  border: 1px solid rgba(0,0,0,0.10);
-  color: rgba(20,20,20,0.72);
-
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 10px 26px rgba(0,0,0,.10);
-
-  transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+  /* αρχική θέση για stagger */
+  opacity:0;
+  transform: translateY(10px);
 }
-
-.action-btn:hover{
-  transform: translateY(-1px);
-  background: rgba(255,255,255,0.92);
-  color: rgba(20,20,20,0.92);
-  border-color: rgba(0,0,0,0.14);
-}
-
 
 .center-actions.is-on{
   opacity:1;
@@ -748,60 +724,162 @@ body.dark .header-line-fill{
 
 
 
-/* =========================================================
-   FINAL OVERRIDE: Connected dropdown (button + neck + panel)
-   Fixes: (1) clip-path was clipping the neck
-          (2) header was losing sticky because of later overrides
-   Paste-safe: this block wins via !important
-========================================================= */
 
-/* header must stay sticky */
-#topHeader.header{
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 4000 !important;
-}
 
-/* keep center buttons inside header line (adjust if you want) */
-#centerActions.center-actions{
-  position: absolute !important;
-  left: 50% !important;
-  top: 62% !important;
-  transform: translate(-50%, -50%) !important;
-  z-index: 4010 !important;
-}
 
-/* pill buttons */
-#centerActions .action-btn.hbtn{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 1) Το κουμπί σε normal κατάσταση */
+.hbtn{
   position: relative;
-  z-index: 4020;
+  border: 1px solid rgba(0,0,0,.14);
+  border-radius: 999px;
+  background: rgba(255,255,255,.55);
 }
 
-#centerActions .hdrop.open .hbtn{
-  border-bottom-color: transparent !important;
-  background: #fff !important;
+/* 2) Όταν είναι OPEN: κόβουμε το κάτω border του κουμπιού */
+.hdrop.open .hbtn{
+  border-bottom-color: transparent;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  background: rgba(255,255,255,.92);
+  z-index: 7000;
 }
 
-/* PANEL: fixed under header (your requested top) */
+
+.panel-inner{ padding: 16px; }
+.panel-inner h4{ margin:0 0 6px; font-size:14px; }
+.panel-inner p{ margin:0 0 12px; font-size:13px; color: rgba(20,20,20,0.62); }
+
+
+.panel-links{ display:flex; gap:10px; flex-wrap:wrap; }
+.panel-links a{
+  text-decoration:none;
+  color: rgba(20,20,20,0.78);
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.60);
+  padding: 10px 12px;
+  border-radius: 14px;
+  transition: .18s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===============================
+   DROPDOWN SYSTEM (ALL 3 BUTTONS)
+   - neck moves/resizes per button
+   - restores top black line with a gap under the neck
+   - open button shows ONLY text
+================================ */
+
+/* --- Header line: draw it ourselves --- */
+.header{
+  position: sticky;
+  top: 0;
+  z-index: 4000;
+  border-bottom: 0 !important;      /* μην βασίζεσαι στο border-bottom */
+  background: #fff;                /* ίδιο bg με το header σου */
+}
+
+/* full black line */
+.header::after{
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  bottom:0;
+  height:3px;
+  background:#000;
+  z-index: 1;
+}
+
+/* the "gap" that follows the neck (we'll set --cut-left/--cut-w from JS) */
+.header .line-cut{
+  position:absolute;
+  bottom:0;
+  height:3px;
+  left: var(--cut-left, 0px);
+  width: var(--cut-w, 0px);
+  background: #fff; /* ίδιο με header bg */
+  z-index: 2;
+  pointer-events:none;
+}
+
+
+/* --- Buttons base --- */
+#centerActions .hbtn{
+  position: relative;
+  z-index: 4010;
+  border-radius: 999px;
+}
+
+/* όταν είναι open: ΘΕΛΟΥΜΕ ΜΟΝΟ ΤΟ ΚΕΙΜΕΝΟ */
+#centerActions .hdrop.open > .hbtn{
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* κράτα το κείμενο ίδιο */
+#centerActions .hdrop.open > .hbtn{
+  color: rgba(35,35,35,0.92) !important;
+}
+
+/* open panel */
+#centerActions .hdrop.open .drop-panel{
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+
+
+/* --- Panel (solid) --- */
 #centerActions .drop-panel{
   position: fixed !important;
   left: 50% !important;
-  top: calc(var(--header-h, 64px) - 28.5px) !important;
+  top: calc(var(--header-h, 64px) - 27px) !important;
   transform: translateX(-50%) !important;
 
-  width: min(1100px, calc(100vw - 48px)) !important;
+  width: min(1400px, calc(100vw - 0px)) !important;
   height: 230px !important;
-  border-radius: 26px !important;
 
-  background: #fff !important;
-backdrop-filter: none !important;
--webkit-backdrop-filter: none !important;
+  background: #fff !important;                 /* ✅ όχι διάφανο */
   border: 1px solid rgba(0,0,0,0.14) !important;
+  border-radius: 0 0 26px 26px !important;
   box-shadow: 0 30px 80px rgba(0,0,0,0.20) !important;
-  
 
-  /* IMPORTANT: the neck lives OUTSIDE -> must NOT be clipped */
-  overflow: visible !important;
+  overflow: visible !important;                /* για να φαίνεται ο λαιμός */
   clip-path: none !important;
 
   opacity: 0;
@@ -811,356 +889,438 @@ backdrop-filter: none !important;
   z-index: 3990 !important;
 }
 
-/* open panel */
-#centerActions .hdrop.open .drop-panel{
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  border-top-color: transparent !important;
-}
 
-/* the clipping animation goes on the INNER wrapper, not the panel */
+
+/* --- Fade down (clip) μόνο στο drop-clip --- */
 #centerActions .drop-panel > .drop-clip{
   width: 100%;
   height: 100%;
-  border-radius: 26px;
+  border-radius: inherit;
   overflow: hidden;
 
   clip-path: inset(0 0 100% 0 round 26px);
   transition: clip-path .28s ease;
 }
-
 #centerActions .hdrop.open .drop-panel > .drop-clip{
   clip-path: inset(0 0 0 0 round 26px);
 }
 
-/* THE NECK (connect button -> panel) */
+
+
+
+/* --- THE NECK (moves by --neck-x and --neck-w) --- */
 #centerActions .hdrop.open .drop-panel::before{
   content:"";
   position:absolute;
+
   left: var(--neck-x, 50%);
   transform: translateX(-50%);
-  top: calc(-1 * var(--neck-h, 28px));
-  height: var(--neck-h, 28px);
-  width: var(--neck-w, 92px);
 
-  background: #fff !important;
+  top: calc(-1 * var(--neck-h, 20px));
+  height: var(--neck-h, 42px);
+  width: var(--neck-w, 70px);
+
+  background: #fff;
   border: 1px solid rgba(0,0,0,0.14);
   border-bottom: 0;
-  border-radius: 18px 18px 0 0;
 
-  pointer-events:none;
+   border-top-left-radius: 999px;
+  border-top-right-radius: 999px;
+  border-bottom-left-radius: 90px;
+  border-bottom-right-radius: 90px;
   z-index: 4005;
-}
-
-/* inner padding (your markup uses .panel-inner) */
-#centerActions .drop-panel .panel-inner{
-  padding: 22px 24px;
-}
-
-
-body.dark #centerActions .drop-panel{
-  background: #2b2b2b !important;
-}
-body.dark #centerActions .hdrop.open .drop-panel::before{
-  background: #2b2b2b !important;
-}
-body.dark #centerActions .hdrop.open .hbtn{
-  background: #2b2b2b !important;
-}
-
-
-
-body.dark #centerActions .drop-panel,
-body.dark #centerActions .action-btn.hbtn{
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  pointer-events:none;
 }
 
 
 
 
 
-.header{
-  border-bottom: 0 !important;   /* αντί για border-bottom: 3px solid ... */
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: #fff;
+
+
+
+
+
+/* Μικρό “premium” entrance (χωρίς GSAP) */
+.video-hero .hero-copy{
+  opacity: 0;
+  transform: translateY(10px);
+  animation: heroIn 900ms ease forwards;
+  animation-delay: 120ms;
 }
-
-.header::after{
-  content:"";
-  position:absolute;
-  left:0; right:0;
-  bottom:0;
-  height:3px;
-  background:#000;               /* η γραμμή του menu */
-  z-index: 1;
-}
-
-
-/* Σβήνει ΜΟΝΟ το κομματάκι της γραμμής κάτω από το κουμπί */
-.hdrop.open .hbtn::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  bottom:-3px;                   /* πάνω στη γραμμή */
-  height:3px;
-  width: calc(var(--neck-w, 96px) + 40px); /* πόσο θα κοπεί (λίγο πιο πλατύ από λαιμό) */
-  background:#fff;               /* ίδιο χρώμα με header/panel */
-  z-index: 7001;
-}
-
-.action-btn.hbtn{ background:#fff !important; }
-.hdrop.open .hbtn{ background:#fff !important; }
-
-.drop-panel{ background:#fff !important; }
-.hdrop.open .drop-panel{ background:#fff !important; }
-
-.hdrop.open .drop-panel::before{ background:#fff !important; }
-
-
-.drop-panel,
-.action-btn.hbtn{
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+@keyframes heroIn{
+  to{ opacity: 1; transform: translateY(0); }
 }
 
 
-.hdrop.open .drop-panel{
-  border-top-color: transparent;   /* να μη διπλοφαίνεται border στην ένωση */
-  overflow: visible;               /* να μη κόβεται ο λαιμός */
+
+/* scroll layer: ΔΕΝ πειράζουμε το transform του animation, μόνο με CSS var */
+.video-hero .hero-copy{
+  transform: translateY(calc(var(--scrollY, 0px) + 15px));
 }
 
-/* ΛΑΙΜΟΣ */
-.hdrop.open .drop-panel::before{
-  content:"";
-  position:absolute;
-  left: var(--neck-x, 50%);
-  transform: translateX(-50%);
-
-  /* ΜΑΚΡΑΙΝΕΙ */
-  top: calc(-1 * var(--neck-h, 40px));
-  height: var(--neck-h, 40px);
-
-  width: var(--neck-w, 96px);
-
-  background:#fff;
-  border:1px solid rgba(0,0,0,0.14);
-  border-bottom:0;
-
-  /* ΠΙΟ ΚΑΜΠΥΛΕΣ ΚΑΤΩ ΓΩΝΙΕΣ */
-  border-radius: 18px 18px 30px 30px;
-
-  z-index: 6001;
+@keyframes heroIn{
+  to{ opacity: 1; transform: translateY(var(--scrollY, 0px)); }
 }
 
 
-.navbar {
+
+
+
+/* ===== Login: drawer down + text slides in ===== */
+#loginBtn{
   position: relative;
-  background: #fff; /* ή το bg του site σου */
+  overflow: hidden;
+
+  /* ξεκινάει “μικρό/κρυφό” */
+  max-height: 10px;
+  padding: 0 14px;
+  opacity: .0;
+
+  transform: translateY(-10px);
+  border-radius: 10px;
+
+  transition:
+    max-height .34s cubic-bezier(.22,.61,.36,1) .10s,
+    opacity    .20s ease .10s,
+    transform  .34s cubic-bezier(.22,.61,.36,1) .10s,
+    padding    .34s cubic-bezier(.22,.61,.36,1) .10s;
 }
 
-.navbar::after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  top:100%;          /* κάτω από το navbar */
-  height:4px;        /* πάχος γραμμής */
-  background:#000;
+/* το κείμενο μέσα */
+#loginBtn .login-text{
+  display: inline-block;
+
+  opacity: 0;
+  transform: translateX(12px);
+
+  transition:
+    transform .32s cubic-bezier(.22,.61,.36,1) .32s, /* έρχεται ΜΕΤΑ το “drawer” */
+    opacity   .22s ease .32s;
 }
 
-.nav-link{
+/* όταν κάνεις scroll -> “ανοίγει” το κουμπί σαν συρτάρι */
+.header.is-scrolled #loginBtn{
+  max-height: 42px;
+  padding: 6px 14px;
+
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* και μετά μπαίνει το κείμενο από δεξιά */
+.header.is-scrolled #loginBtn .login-text{
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+
+
+
+/* ===== Burger: ultra smooth ===== */
+.burger{
   position: relative;
-  z-index: 2;        /* πάνω από τη γραμμή */
-  background: #fff;  /* ίδιο bg για να “κόβει” τη γραμμή */
+  width: 28px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.burger .b-line{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #000;
   border-radius: 999px;
-  padding: 10px 18px;
+
+  /* πιο smooth */
+  will-change: transform, opacity;
+  transition-property: transform, opacity;
+  transition-duration: 520ms, 320ms;
+  transition-timing-function: cubic-bezier(.16, 1, .3, 1), ease;
+}
+
+/* αρχικά: μία γραμμή (μόνο η μεσαία) */
+.burger .b-line:nth-child(1),
+.burger .b-line:nth-child(3){
+  opacity: 0;
+  transform: translateY(0);
+}
+
+.burger .b-line:nth-child(2){
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* όταν γίνει scrolldown: εμφανίζεται το burger “συρταρωτά” */
+.header.is-scrolldown .burger .b-line:nth-child(1){
+  top: 0;
+  opacity: 1;
+  transition-delay: 0ms, 0ms;          /* transform, opacity */
+}
+
+.header.is-scrolldown .burger .b-line:nth-child(2){
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1;
+  transition-delay: 40ms, 0ms;
+}
+
+.header.is-scrolldown .burger .b-line:nth-child(3){
+  bottom: 0;
+  opacity: 1;
+  transition-delay: 80ms, 0ms;
+}
+
+/* όταν κάνεις scroll up: ξαναγίνεται μία γραμμή */
+.header.is-scrollup .burger .b-line:nth-child(1),
+.header.is-scrollup .burger .b-line:nth-child(3){
+  opacity: 0;
+  transition-delay: 0ms, 0ms;
+}
+
+.header.is-scrollup .burger .b-line:nth-child(2){
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1;
+  transition-delay: 0ms, 0ms;
 }
 
 
-:root{ --panelSolid:#fff; }
-body.dark{ --panelSolid:#2b2b2b; }
 
-#centerActions .action-btn.hbtn,
-#centerActions .drop-panel,
-#centerActions .hdrop.open .drop-panel::before{
-  background: var(--panelSolid) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+
+/* ===== IMAGE HERO (PHOTO PANEL) ===== */
+.image-hero{
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
 }
 
-</style>
-</meta></head>
+/* Η φωτογραφία */
+.image-bg{
+  position: absolute;
+  inset: 0;
+
+  background-image: url("./IMG.png"); /* ✅ ΕΔΩ */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  transform: scale(1.03); /* ελαφρύ premium zoom */
+  z-index: 0;
+}
+
+
+
+
+/* ===== Scroll motion vars (θα τα γράφει το JS) ===== */
+.image-hero{
+  --imgY: 0px;
+  --copyY: 0px;
+  --copyO: 1;
+}
+
+/* Φωτο: “κατέβασμα” */
+.image-hero .image-bg{
+  transform: translateY(var(--imgY)) scale(1.06);
+  will-change: transform;
+}
+
+/* Κείμενα: “κατέβασμα” + fade */
+.image-hero .hero-copy{
+  transform: translateY(var(--copyY));
+  opacity: var(--copyO);
+  will-change: transform, opacity;
+}
+
+/* premium entrance για το image hero texts (σαν το video hero) */
+.image-hero .hero-copy{
+  opacity: 0;
+  transform: translateY(10px);
+  animation: heroIn 900ms ease forwards;
+  animation-delay: 120ms;
+}
+
+/* έχεις ήδη αυτό, αλλιώς βάλε το */
+@keyframes heroIn{
+  to{ opacity: 1; transform: translateY(0); }
+}
+
+  </style>
+</head>
 <body>
-<section class="video-hero" id="home">
-<video autoplay="" class="hero-video" loop="" muted="" playsinline="" poster="./poster.jpg" preload="auto">
-<source src="./hero.mp4" type="video/mp4"/>
+
+  <section id="home" class="video-hero">
+  <video
+  class="hero-video"
+  autoplay
+  muted
+  loop
+  playsinline
+  preload="auto"
+  poster="./poster.jpg">
+
+  <source src="./hero.mp4" type="video/mp4">
 </video>
-<div class="hero-overlay"></div>
-<div class="hero-copy">
-<div class="hero-kicker">GEARNOX</div>
-<h1 class="hero-title">Design that feels engineered.</h1>
-<p class="hero-sub">
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-copy">
+    <div class="hero-kicker">GEARNOX</div>
+    <h1 class="hero-title">Design that feels engineered.</h1>
+    <p class="hero-sub">
       Μινιμαλισμός, ακρίβεια και premium λεπτομέρεια — σε κάθε project.
     </p>
-</div>
-<div class="hero-scrollhint">Scroll</div>
+  </div>
+
+  <div class="hero-scrollhint">Scroll</div>
 </section>
+
+
+
 <header class="header" id="topHeader">
-<div class="left-section">
-<div class="burger" id="burger">☰</div>
-<button class="login-btn" id="loginBtn">Login</button>
+ <div class="left-section">
+
+ <div class="burger" id="burger" aria-label="Menu" role="button">
+  <span class="b-line"></span>
+  <span class="b-line"></span>
+  <span class="b-line"></span>
 </div>
-<nav aria-label="Header links" class="center-actions" id="centerActions">
-<!-- WATCH -->
-<div class="hdrop" data-drop="watch">
-<button aria-expanded="false" class="action-btn hbtn" type="button">Watch</button>
-<div aria-label="Watch menu" class="drop-panel" role="dialog">
-<div class="drop-clip">
-<div class="panel-inner">
-<h4>GearNox Watch</h4>
-<p>Materials, movement, finishing — engineered minimalism.</p>
-<div class="panel-actions">
-<a class="panel-link" href="#watch">Open Watch</a>
-<a class="panel-link" href="#specs">Specs</a>
+
+  <!-- LOGIN: drawer + slide text -->
+  <button class="login-btn" id="loginBtn" type="button">
+    <span class="login-text">Login</span>
+  </button>
+
 </div>
-</div>
-</div>
-</div>
-</div>
-<!-- ACCESSORIES -->
-<div class="hdrop" data-drop="accessories">
-<button aria-expanded="false" class="action-btn hbtn" type="button">Accessories</button>
-<div aria-label="Accessories menu" class="drop-panel" role="dialog">
-<div class="drop-clip">
-<div class="panel-inner">
-<h4>Accessories</h4>
-<p>Straps, tools and premium add-ons.</p>
-<div class="panel-actions">
-<a class="panel-link" href="#accessories">Browse</a>
-<a class="panel-link" href="#straps">Straps</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- CONTACT -->
-<div class="hdrop" data-drop="contact">
-<button aria-expanded="false" class="action-btn hbtn" type="button">Contact</button>
-<div aria-label="Contact menu" class="drop-panel" role="dialog">
-<div class="drop-clip">
-<div class="panel-inner">
-<h4>Contact</h4>
-<p>Send a message — we’ll reply soon.</p>
-<div class="panel-actions">
-<a class="panel-link" href="mailto:hello@gearnox.com">hello@gearnox.com</a>
-<a class="panel-link" href="#" id="openContactModal">Open form</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</nav>
-<!-- Τελική θέση (δεξιά) — κρατάει το “στόχο” -->
-<div aria-hidden="true" class="brand brand-target" id="brandTarget">
-<h1>GearNox</h1>
-<img alt="" src="GearNox_black_transparent.png"/>
-</div>
-<!-- Floating (ξεκινάει κέντρο και κινείται δεξιά) -->
-<div class="brand brand-float" id="brandFloat">
-<h1 class="brand-text" id="brandText">GearNox</h1>
-<img alt="GearNox logo" id="brandLogo" src="GearNox_black_transparent.png"/>
-</div>
-</header>
-<h1 class="center">SOON WITH US!!!</h1>
-<div class="center">
-<img alt="gear" src="GearNox_black_transparent.png" width="300"/>
-</div>
-<!-- Contact Modal -->
-<div class="modal-backdrop" hidden="" id="contactBackdrop"></div>
-<div aria-hidden="true" aria-labelledby="contactTitle" aria-modal="true" class="modal" id="contactModal" role="dialog">
-<div class="modal-header">
-<div class="modal-title" id="contactTitle">Contact</div>
-<button aria-label="Close" class="modal-close" id="contactClose">✕</button>
-</div>
-<form class="form" id="contactForm" novalidate="">
-<div class="field">
-<label for="cName">Όνομα</label>
-<input class="input" id="cName" name="name" required="" type="text"/>
-</div>
-<div class="field">
-<label for="cEmail">Email</label>
-<input class="input" id="cEmail" name="email" required="" type="email"/>
-</div>
-<div class="field">
-<label for="cMsg">Μήνυμα</label>
-<textarea class="input" id="cMsg" name="message" required="" rows="4"></textarea>
-</div>
-<div class="error" id="contactError" style="color:#b00020; font-size:13px; display:none;">
-      Συμπλήρωσε σωστά Όνομα, Email και Μήνυμα.
+
+  <nav class="center-actions" id="centerActions" aria-label="Header links">
+
+    <!-- WATCH -->
+    <div class="hdrop" id="dropWatch">
+      <button
+        class="action-btn hbtn"
+        type="button"
+        aria-expanded="false"
+        aria-haspopup="dialog"
+        aria-controls="panelWatch">
+        Watch
+      </button>
+
+      <div class="drop-panel" id="panelWatch" role="dialog" aria-label="Watch menu">
+        <div class="panel-inner">
+          <h4>GearNox Watch</h4>
+          <p>Materials, movement, finishing — engineered minimalism.</p>
+          <div class="panel-links">
+            <a href="#watch">Open Watch</a>
+            <a href="#specs">Specs</a>
+            <a href="#story">Story</a>
+          </div>
+        </div>
+      </div>
     </div>
-<div class="actions">
-<button class="btn-primary" id="contactCancel" type="button">Cancel</button>
-<button class="btn-primary" type="submit">Send</button>
-</div>
-</form>
-</div>
-<section class="section" id="projects">
-<div class="section-inner">
-<h2>Projects</h2>
-<p class="lead">Μερικά demo projects της GearNox — καθαρό UI και γρήγορες επιδόσεις.</p>
-<div class="projects-grid">
-<!-- Card 1 -->
-<article class="project-card">
-<img alt="Project logo" class="project-thumb" src="GearNox_black_transparent.png"/>
-<div class="project-body">
-<h3>GN Dashboard</h3>
-<p>Πίνακας ελέγχου με real-time widgets.</p>
-<div class="tags"><span>Web</span><span>UI</span></div>
-<div class="actions">
-<button class="btn">View</button>
-<button class="btn ghost">Details</button>
-</div>
-</div>
-</article>
-<!-- Card 2 -->
-<article class="project-card">
-<img alt="Project logo" class="project-thumb" src="GearNox_black_transparent.png"/>
-<div class="project-body">
-<h3>GN Automations</h3>
-<p>Αυτοματισμοί ροών εργασίας &amp; integrations.</p>
-<div class="tags"><span>Automation</span><span>API</span></div>
-<div class="actions">
-<button class="btn">View</button>
-<button class="btn ghost">Details</button>
-</div>
-</div>
-</article>
-<!-- Card 3 -->
-<article class="project-card">
-<img alt="Project logo" class="project-thumb" src="GearNox_black_transparent.png"/>
-<div class="project-body">
-<h3>GN Design Kit</h3>
-<p>Σύστημα σχεδίασης για γρήγορα protos.</p>
-<div class="tags"><span>Design</span><span>Components</span></div>
-<div class="actions">
-<button class="btn">View</button>
-<button class="btn ghost">Details</button>
-</div>
-</div>
-</article>
-</div>
-</div>
+
+    <!-- ACCESSORIES -->
+    <div class="hdrop" id="dropAcc">
+      <button
+        class="action-btn hbtn"
+        type="button"
+        aria-expanded="false"
+        aria-haspopup="dialog"
+        aria-controls="panelAcc">
+        Accessories
+      </button>
+
+      <div class="drop-panel" id="panelAcc" role="dialog" aria-label="Accessories menu">
+        <div class="panel-inner">
+          <h4>Accessories</h4>
+          <p>Straps, tools and premium add-ons.</p>
+          <div class="panel-links">
+            <a href="#accessories">Browse</a>
+            <a href="#straps">Straps</a>
+            <a href="#kits">Kits</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="hdrop" id="dropContact">
+      <button
+        class="action-btn hbtn"
+        type="button"
+        aria-expanded="false"
+        aria-haspopup="dialog"
+        aria-controls="panelContact">
+        Contact
+      </button>
+
+      <div class="drop-panel" id="panelContact" role="dialog" aria-label="Contact menu">
+        <div class="panel-inner">
+          <h4>Contact</h4>
+          <p>Send a message — we’ll reply soon.</p>
+          <div class="panel-links">
+            <a href="mailto:hello@gearnox.com">hello@gearnox.com</a>
+            <a href="#" id="openContactModal">Open form</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- Τελική θέση (δεξιά) — κρατάει το “στόχο” -->
+  <div class="brand brand-target" id="brandTarget" aria-hidden="true">
+    <h1>GearNox</h1>
+    <img src="GearNox_black_transparent.png" alt="" />
+  </div>
+
+  <!-- Floating (ξεκινάει κέντρο και κινείται δεξιά) -->
+  <div class="brand brand-float" id="brandFloat">
+    <h1 class="brand-text" id="brandText">GearNox</h1>
+    <img id="brandLogo" src="GearNox_black_transparent.png" alt="GearNox logo" />
+  </div>
+</header>
+
+<section class="image-hero">
+  <div class="image-bg"></div>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-copy">
+    <div class="hero-kicker">GEARNOX WATCHES</div>
+
+    <h1 class="hero-title">
+      Time, engineered.
+    </h1>
+
+    <p class="hero-sub">
+      Τα ρολόγια GearNox σχεδιάζονται με την ίδια φιλοσοφία που
+      σχεδιάζονται μηχανές ακριβείας — καθαρές γραμμές,
+      μηδενικός θόρυβος, απόλυτη ισορροπία.
+    </p>
+
+    <a href="#watch" class="hero-cta">
+      Discover the Watch
+    </a>
+  </div>
+
 </section>
-<script>
+
+
+
+
+
+
+
+  <script>
     const burger = document.getElementById("burger");
     const panel = document.getElementById("side");
     const backdrop = document.getElementById("backdrop");
     const closeBtn = document.getElementById("closeBtn");
-    const toggleBtn = document.getElementById("toggleColorBtn");
     const loginBtn = document.getElementById("loginBtn");
     let isDark = false;
 
@@ -1176,57 +1336,58 @@ body.dark{ --panelSolid:#2b2b2b; }
       document.body.style.overflow = "";
     }
 
-    toggleBtn.addEventListener("click", () => {
-  if (!isDark) {
-    // Ενεργοποίηση dark mode
-    document.body.classList.add("dark"); // ➜ ενεργοποιεί τα CSS πιο πάνω
 
-    document.body.style.background = "#2b2b2b";
-    document.body.style.color = "white";
-    toggleBtn.textContent = "Switch to white";
+     const toggleBtn = document.getElementById("toggleColorBtn");
 
-    loginBtn.style.background = "white";
-    loginBtn.style.color = "black";
-    loginBtn.style.border = "2px solid white";
+if (toggleBtn) {
+  toggleBtn.addEventListener("click", () => {
+    if (!isDark) {
+      document.body.classList.add("dark");
+      document.body.style.background = "#2b2b2b";
+      document.body.style.color = "white";
+      toggleBtn.textContent = "Switch to white";
 
-    document.querySelector(".brand img").src = "GearNox_white_transparent.png";
-
-    loginBtn.onmouseover = () => {
-      loginBtn.style.background = "black";
-      loginBtn.style.color = "white";
-    };
-    loginBtn.onmouseout = () => {
       loginBtn.style.background = "white";
       loginBtn.style.color = "black";
-    };
+      loginBtn.style.border = "2px solid white";
 
-    isDark = true;
-  } else {
-    // Επαναφορά σε light mode
-    document.body.classList.remove("dark"); // ➜ επαναφέρει τα αρχικά CSS
+      document.querySelector(".brand img").src = "GearNox_white_transparent.png";
 
-    document.body.style.background = "white";
-    document.body.style.color = "black";
-    toggleBtn.textContent = "Switch to dark gray";
+      loginBtn.onmouseover = () => {
+        loginBtn.style.background = "black";
+        loginBtn.style.color = "white";
+      };
+      loginBtn.onmouseout = () => {
+        loginBtn.style.background = "white";
+        loginBtn.style.color = "black";
+      };
 
-    loginBtn.style.background = "black";
-    loginBtn.style.color = "white";
-    loginBtn.style.border = "2px solid black";
+      isDark = true;
+    } else {
+      document.body.classList.remove("dark");
+      document.body.style.background = "white";
+      document.body.style.color = "black";
+      toggleBtn.textContent = "Switch to dark gray";
 
-    document.querySelector(".brand img").src = "GearNox_black_transparent.png";
-
-    loginBtn.onmouseover = () => {
-      loginBtn.style.background = "white";
-      loginBtn.style.color = "black";
-    };
-    loginBtn.onmouseout = () => {
       loginBtn.style.background = "black";
       loginBtn.style.color = "white";
-    };
+      loginBtn.style.border = "2px solid black";
 
-    isDark = false;
-  }
-});
+      document.querySelector(".brand img").src = "GearNox_black_transparent.png";
+
+      loginBtn.onmouseover = () => {
+        loginBtn.style.background = "white";
+        loginBtn.style.color = "black";
+      };
+      loginBtn.onmouseout = () => {
+        loginBtn.style.background = "black";
+        loginBtn.style.color = "white";
+      };
+
+      isDark = false;
+    }
+  });
+}
     
     loginBtn.onmouseover = () => {
       loginBtn.style.background = "white";
@@ -1353,13 +1514,11 @@ function closeContact(){
 }
 
 // άνοιγμα από το menu (κλείνουμε πρώτα το burger για καθαρή εμπειρία)
-if (contactLink){
-  contactLink.addEventListener("click", (e)=>{
-    e.preventDefault();
-    closeMenu();
-    setTimeout(openContact, 200);
-  });
-}
+contactLink.addEventListener("click", (e)=>{
+  e.preventDefault();
+  closeMenu();
+  setTimeout(openContact, 200);
+});
 
 contactClose.addEventListener("click", closeContact);
 contactCancel.addEventListener("click", closeContact);
@@ -1397,6 +1556,7 @@ contactModal.addEventListener("keydown", (e)=>{
   else if(!e.shiftKey && document.activeElement === last){ first.focus(); e.preventDefault(); }
 });
 </script>
+
 <script>
 (function(){
   const header = document.getElementById("topHeader");
@@ -1475,9 +1635,7 @@ contactModal.addEventListener("keydown", (e)=>{
     const showP = clamp01(after / 140);   // πόσο γρήγορα εμφανίζεται
 
     const shouldShow = (progress >= 0.999) && (showP > 0.05);
-    const hideAfter  = after > 600;       // προαιρετικό hide
-
-    showActions(shouldShow && !hideAfter);
+      showActions(shouldShow);
   }
 
   measure();
@@ -1485,56 +1643,106 @@ contactModal.addEventListener("keydown", (e)=>{
 
   window.addEventListener("resize", ()=>{ measure(); update(); }, { passive:true });
   window.addEventListener("scroll", update, { passive:true });
+
+
+
+
+
+  (() => {
+  const header = document.getElementById("topHeader") || document.querySelector(".header");
+  if (!header) return;
+
+  const TH = 12; // πόσο scroll χρειάζεται για να “ενεργοποιηθεί”
+  let lastY = window.scrollY;
+
+  function onScroll(){
+    const y = window.scrollY;
+
+    // μόνο ένα state για τα animations που θες
+    if (y > TH) header.classList.add("is-scrolled");
+    else header.classList.remove("is-scrolled");
+
+    lastY = y;
+  }
+
+  window.addEventListener("scroll", onScroll, { passive:true });
+  onScroll();
+})();
 })();
 </script>
+
+<script src="./main.js"> </script>
+
 <script>
 (() => {
-  const header = document.getElementById("topHeader");
+  const header = document.getElementById("topHeader") || document.querySelector(".header");
   const nav = document.getElementById("centerActions");
-  if(!header || !nav) return;
+  if (!nav) return;
 
   const drops = Array.from(nav.querySelectorAll(".hdrop"));
 
   function setHeaderH(){
-    header.style.setProperty("--header-h", header.getBoundingClientRect().height + "px");
+    if(!header) return;
+    document.documentElement.style.setProperty("--header-h", header.getBoundingClientRect().height + "px");
   }
+  setHeaderH();
+  window.addEventListener("resize", setHeaderH, { passive:true });
 
   function closeAll(except=null){
-    drops.forEach(d => {
+    drops.forEach(d=>{
       if(d !== except){
         d.classList.remove("open");
-        const b = d.querySelector("button");
+        const b = d.querySelector(".hbtn");
         if(b) b.setAttribute("aria-expanded","false");
       }
     });
   }
 
+  function ensureClip(panel){
+    const first = panel.firstElementChild;
+    if(first && first.classList.contains("drop-clip")) return first;
 
-function openDrop(d){
-  const btn = d.querySelector("button");
-  const panel = d.querySelector(".drop-panel");
-  if(!btn || !panel) return;
+    const clip = document.createElement("div");
+    clip.className = "drop-clip";
+    while(panel.firstChild) clip.appendChild(panel.firstChild);
+    panel.appendChild(clip);
+    return clip;
+  }
 
-  d.classList.add("open");
-  btn.setAttribute("aria-expanded","true");
-
-  const pr = panel.getBoundingClientRect();
-  const br = btn.getBoundingClientRect();
-
-  const neckX = (br.left + br.width/2) - pr.left;
-  const neckW = Math.max(70, br.width - 14);
-
-  panel.style.setProperty("--neck-x", neckX + "px");
-  panel.style.setProperty("--neck-w", neckW + "px");
- panel.style.setProperty("--neck-h", "36px");
-}
-
-  drops.forEach(d => {
-    const btn = d.querySelector("button");
+  function openDrop(d){
+    const btn = d.querySelector(".hbtn");
     const panel = d.querySelector(".drop-panel");
     if(!btn || !panel) return;
 
-    btn.addEventListener("click", (e) => {
+    ensureClip(panel);
+
+    d.classList.add("open");
+    btn.setAttribute("aria-expanded","true");
+
+    // ✅ μέτρα ΑΦΟΥ το panel είναι open (για σωστά sizes)
+    requestAnimationFrame(() => {
+      // το panel είναι fixed + centered -> βρίσκουμε το "0" του panel
+      const pr = panel.getBoundingClientRect();
+      const br = btn.getBoundingClientRect();
+
+      // ✅ neckX: κέντρο κουμπιού μέσα στο panel (viewport math σωστό εδώ)
+      const neckX = (br.left + br.width / 2) - pr.left;
+
+      // ✅ neckW: πλάτος λαιμού από οπτικό πλάτος κουμπιού
+      const neckW = Math.max(90, Math.round(br.width + 1));
+
+      panel.style.setProperty("--neck-x", neckX + "px");
+      panel.style.setProperty("--neck-w", neckW + "px");
+      panel.style.setProperty("--neck-h", "47px");
+    });
+  }
+
+  drops.forEach(d=>{
+    const btn = d.querySelector(".hbtn");
+    const panel = d.querySelector(".drop-panel");
+    if(!btn || !panel) return;
+
+    btn.addEventListener("click", (e)=>{
       e.stopPropagation();
       const willOpen = !d.classList.contains("open");
       closeAll();
@@ -1544,17 +1752,131 @@ function openDrop(d){
     panel.addEventListener("click", (e)=> e.stopPropagation());
   });
 
-  document.addEventListener("click", () => closeAll());
-  document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeAll(); });
+  document.addEventListener("click", ()=> closeAll());
+  document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeAll(); });
 
-  setHeaderH();
-  window.addEventListener("resize", () => {
+  window.addEventListener("resize", ()=>{
     setHeaderH();
-    const openOne = drops.find(d => d.classList.contains("open"));
+    const openOne = drops.find(d=> d.classList.contains("open"));
     if(openOne) openDrop(openOne);
   }, { passive:true });
 })();
 </script>
-<script src="./main.js"> </script>
+
+
+<script>
+(() => {
+  const el = document.querySelector(".video-hero .hero-copy");
+  if(!el) return;
+
+  const clamp01 = (x) => Math.max(0, Math.min(1, x));
+
+  const RANGE = 420;  // πόσο scroll θέλεις για να εξαφανιστεί τελείως
+  const MOVE  = 80;   // πόσα px να “πέφτει” όταν εξαφανίζεται
+
+  let ticking = false;
+
+  function apply(){
+    ticking = false;
+
+    const y = window.scrollY || 0;
+    const t = clamp01(y / RANGE);     // 0->1
+
+    // Scroll down: fade out + go down
+    el.style.opacity = String(1 - t);
+    el.style.setProperty("--scrollY", (t * MOVE) + "px");
+  }
+
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(apply);
+  }
+
+  apply();
+  window.addEventListener("scroll", onScroll, { passive:true });
+  window.addEventListener("resize", onScroll, { passive:true });
+})();
+</script>
+
+
+<script>
+(() => {
+  const header = document.getElementById("topHeader") || document.querySelector(".header");
+  if (!header) return;
+
+  // Πότε γίνεται 3-γραμμές (burger)
+  const DOWN_TRIGGER = 67;
+
+  // Πότε γυρίζει πίσω σε 1 γραμμή (θέλουμε να είναι ΠΙΟ ΧΑΜΗΛΑ για “hysteresis”)
+  const UP_RESET = 120;
+
+  // αρχική κατάσταση: 1 γραμμή
+  header.classList.remove("is-scrolldown");
+  header.classList.add("is-scrollup");
+
+  let ticking = false;
+
+  function apply(){
+    ticking = false;
+    const y = window.scrollY || 0;
+
+    if (y >= DOWN_TRIGGER) {
+      header.classList.add("is-scrolldown");
+      header.classList.remove("is-scrollup");
+    } else if (y <= UP_RESET) {
+      header.classList.remove("is-scrolldown");
+      header.classList.add("is-scrollup");
+    }
+    // ενδιάμεσα ΔΕΝ αλλάζουμε τίποτα -> άρα “μένει” όπως είναι
+  }
+
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(apply);
+  }
+
+  apply();
+  window.addEventListener("scroll", onScroll, { passive:true });
+})();
+</script>
+
+<script>
+(() => {
+  const section = document.querySelector(".image-hero");
+  if(!section) return;
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+  function update(){
+    const r = section.getBoundingClientRect();
+    const vh = window.innerHeight;
+
+    // progress 0..1 όσο “περνάει” το section από την οθόνη
+    const progress = clamp((vh - r.top) / (vh + r.height), 0, 1);
+
+    // ΜΟΝΟ η φωτο κατεβαίνει λίγο
+    const imgY = Math.round(progress * 40); // πχ 18 πιο ήπιο, 40 πιο έντονο
+    section.style.setProperty("--imgY", imgY + "px");
+  }
+
+  let ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      update();
+      ticking = false;
+    });
+  }
+
+  update();
+  window.addEventListener("scroll", onScroll, { passive:true });
+  window.addEventListener("resize", () => requestAnimationFrame(update), { passive:true });
+})();
+</script>
+
 </body>
+
 </html>
