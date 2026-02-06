@@ -29,3 +29,13 @@ body {
   opacity: 1;
   transform: scale(1);
 }
+
+
+#brand {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 44px;
+  opacity: 0.35;
+  pointer-events: none;
+}
