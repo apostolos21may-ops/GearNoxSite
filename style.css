@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #0b1220, #000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Inter, system-ui, sans-serif;
+  overflow: hidden;
+}
+
+#word {
+  color: #e5e7eb;
+  font-size: clamp(42px, 7vw, 110px);
+  font-weight: 800;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+
+  max-width: 90vw;
+  text-align: center;
+  line-height: 1.15;
+
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+#word.show {
+  opacity: 1;
+  transform: scale(1);
+}
