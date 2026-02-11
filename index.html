@@ -1,45 +1,352 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="el">
 <head>
-<meta charset="UTF-8" />
-<style>
-body {
-  margin: 0;
-  background: radial-gradient(circle at top, #111827, #000);
-  color: #e5e7eb;
-  font-family: Inter, Arial, sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-.word {
-  position: absolute;
-  font-size: 3rem;
-  opacity: 0;
-  animation: show 12s infinite;
-  text-align: center;
-  padding: 0 20px;
-}
-.word:nth-child(1){ animation-delay:0s;}
-.word:nth-child(2){ animation-delay:3s;}
-.word:nth-child(3){ animation-delay:6s;}
-.word:nth-child(4){ animation-delay:9s;}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Reel - CryptoKosmos</title>
+  <style>
+    :root{
+      --w:1080; --h:1920;
+      --bg1:#070a12; --bg2:#0b1633;
+      --text:#fff;
+      --muted:rgba(255,255,255,.75);
+      --accent:#46b3ff;
+      --ok:#39d98a;
+      --glass:rgba(0,0,0,.35);
+      --dur:12s;
+    }
 
-@keyframes show {
-  0% {opacity:0; transform: translateY(20px);}
-  10% {opacity:1; transform: translateY(0);}
-  25% {opacity:1;}
-  35% {opacity:0;}
-}
-</style>
+    *{ box-sizing:border-box; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+    body{
+      margin:0; background:#0b0f1a; color:var(--text);
+      height:100vh; display:grid; place-items:center;
+      padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+    }
+
+    /* 9:16 stage */
+    .stage{
+      position:relative;
+      width:min(420px, 96vw);
+      aspect-ratio: 9 / 16;
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow: 0 20px 70px rgba(0,0,0,.55);
+      background:linear-gradient(180deg,var(--bg1),var(--bg2));
+      transform: translateZ(0);
+    }
+
+    /* Background layers */
+    .bg{
+      position:absolute; inset:0;
+    }
+    .dots{
+      position:absolute; inset:0;
+      opacity:.18;
+      background-image: radial-gradient(rgba(255,255,255,.75) 1.2px, transparent 1.2px);
+      background-size: 42px 42px;
+      transform: translate3d(0,0,0);
+      animation: drift var(--dur) linear infinite;
+    }
+    @keyframes drift{
+      0%{ transform: translate(0,0); }
+      100%{ transform: translate(-42px,-42px); }
+    }
+
+    .bars{
+      position:absolute; right:-40px; bottom:16%;
+      width:52%; height:40%;
+      display:flex; gap:10px; align-items:flex-end;
+      opacity:.25;
+      filter: saturate(1.2);
+    }
+    .bar{
+      width:22px; border-radius:10px 10px 4px 4px;
+      background: var(--accent);
+      animation: pop 1.6s ease-in-out infinite;
+    }
+    .bar:nth-child(6), .bar:nth-child(7), .bar:nth-child(8), .bar:nth-child(9){
+      background: var(--ok);
+    }
+    .bar:nth-child(1){ height:20%; animation-delay:.0s;}
+    .bar:nth-child(2){ height:28%; animation-delay:.1s;}
+    .bar:nth-child(3){ height:36%; animation-delay:.2s;}
+    .bar:nth-child(4){ height:46%; animation-delay:.3s;}
+    .bar:nth-child(5){ height:58%; animation-delay:.4s;}
+    .bar:nth-child(6){ height:72%; animation-delay:.5s;}
+    .bar:nth-child(7){ height:88%; animation-delay:.6s;}
+    .bar:nth-child(8){ height:100%; animation-delay:.7s;}
+    .bar:nth-child(9){ height:92%; animation-delay:.8s;}
+    @keyframes pop{
+      0%,100%{ transform: translateY(0); opacity:.9; }
+      50%{ transform: translateY(-10px); opacity:1; }
+    }
+
+    .curve{
+      position:absolute; right:-120px; bottom:22%;
+      width:520px; height:520px;
+      border-radius:50%;
+      border: 8px solid rgba(70,179,255,.35);
+      filter: blur(.2px);
+      animation: spin var(--dur) linear infinite;
+      transform-origin: center;
+    }
+    @keyframes spin{
+      0%{ transform: rotate(0deg); }
+      100%{ transform: rotate(360deg); }
+    }
+
+    /* Top tag */
+    .top{
+      position:absolute; top:18px; left:18px; right:18px;
+      display:flex; justify-content:space-between; align-items:center;
+      color: rgba(255,255,255,.7);
+      font-weight:800; font-size:14px; letter-spacing:.3px;
+      text-transform:none;
+      z-index:5;
+      pointer-events:none;
+    }
+    .pill{
+      background: rgba(0,0,0,.28);
+      padding:10px 12px;
+      border-radius:999px;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    /* Scenes container */
+    .scene{
+      position:absolute; inset:0;
+      display:grid; place-items:center;
+      padding: 120px 60px 220px;
+      z-index:4;
+      opacity:0;
+      transform: translateY(18px);
+      pointer-events:none;
+    }
+    .card{
+      width:100%;
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 28px;
+      padding: 48px 42px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+    }
+    .h1{
+      font-size: 48px;
+      line-height: 1.05;
+      margin: 0 0 18px;
+      font-weight: 900;
+      letter-spacing: -.5px;
+    }
+    .h1 .accent{ color: var(--accent); }
+    .sub{
+      font-size: 24px;
+      line-height: 1.35;
+      margin: 0;
+      color: rgba(255,255,255,.82);
+      font-weight: 650;
+    }
+    .list{
+      margin: 20px 0 0;
+      display:grid;
+      gap: 12px;
+      font-size: 26px;
+      font-weight: 800;
+    }
+    .li{
+      display:flex; gap:12px; align-items:flex-start;
+      color: rgba(255,255,255,.92);
+    }
+    .dot{
+      width:12px; height:12px; border-radius:50%;
+      background: var(--accent);
+      margin-top: 10px;
+      flex:0 0 auto;
+      box-shadow: 0 0 0 8px rgba(70,179,255,.12);
+    }
+    .underline{
+      position:relative; display:inline-block;
+    }
+    .underline::after{
+      content:"";
+      position:absolute; left:0; bottom:-6px;
+      height:10px; width:0%;
+      background: rgba(70,179,255,.28);
+      border-radius: 999px;
+      animation: underline 2.2s ease forwards;
+    }
+    @keyframes underline{
+      to { width: 100%; }
+    }
+
+    /* Footer */
+    .footer{
+      position:absolute; left:18px; right:18px; bottom:18px;
+      z-index:5;
+    }
+    .footer .bar2{
+      display:flex; justify-content:space-between; align-items:center;
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: rgba(0,0,0,.30);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(10px);
+    }
+    .brand{ font-weight: 900; letter-spacing:.2px; }
+    .site{ color: rgba(255,255,255,.7); font-weight: 750; }
+
+    /* Playback states */
+    .stage:not(.playing) .overlay{
+      opacity:1; pointer-events:auto;
+    }
+    .overlay{
+      position:absolute; inset:0;
+      display:grid; place-items:center;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,.30), rgba(0,0,0,.65));
+      z-index:10;
+      opacity:0;
+      transition: opacity .25s ease;
+    }
+    .ui{
+      width: min(360px, 86%);
+      display:grid; gap:12px;
+    }
+    .btn{
+      border:0; border-radius: 16px;
+      padding: 14px 16px;
+      font-weight: 900;
+      cursor:pointer;
+      background:#2b77ff;
+      color:white;
+      box-shadow: 0 12px 35px rgba(43,119,255,.35);
+    }
+    .btn.secondary{
+      background: rgba(255,255,255,.10);
+      box-shadow:none;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .note{
+      text-align:center;
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
+      line-height:1.35;
+    }
+
+    /* Scene timings (12s total) */
+    .stage.playing .s1{ animation: show 2.0s ease both; }
+    .stage.playing .s2{ animation: show 3.0s ease both; animation-delay:2.0s; }
+    .stage.playing .s3{ animation: show 3.0s ease both; animation-delay:5.0s; }
+    .stage.playing .s4{ animation: show 2.0s ease both; animation-delay:8.0s; }
+    .stage.playing .s5{ animation: show 2.0s ease both; animation-delay:10.0s; }
+
+    @keyframes show{
+      0%{ opacity:0; transform: translateY(18px) scale(.985); }
+      12%{ opacity:1; transform: translateY(0) scale(1); }
+      88%{ opacity:1; transform: translateY(0) scale(1); }
+      100%{ opacity:0; transform: translateY(-10px) scale(.995); }
+    }
+  </style>
 </head>
 <body>
+  <div class="stage" id="stage">
+    <div class="bg">
+      <div class="dots"></div>
+      <div class="curve"></div>
+      <div class="bars" aria-hidden="true">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+    </div>
 
-<div class="word">Everyone watches price.</div>
-<div class="word">Few watch volume.</div>
-<div class="word">Almost no one watches momentum.</div>
-<div class="word">That’s where moves start.</div>
+  
 
+    <!-- SCENE 1 -->
+    <section class="scene s1">
+      <div class="card">
+        <h1 class="h1">Bullish news.<br><span class="accent">Price dumps.</span></h1>
+        <p class="sub">That’s not “random”.</p>
+      </div>
+    </section>
+
+    <!-- SCENE 2 -->
+    <section class="scene s2">
+      <div class="card">
+        <h1 class="h1">Want the real signal?</h1>
+        <p class="sub">Most people watch price.<br><span class="accent">Smart money watches flow.</span></p>
+      </div>
+    </section>
+
+    <!-- SCENE 3 -->
+    <section class="scene s3">
+      <div class="card">
+        <h1 class="h1">Track:</h1>
+        <div class="list">
+          <div class="li"><span class="dot"></span><span><span class="underline">Liquidity</span> (where stops sit)</span></div>
+          <div class="li"><span class="dot"></span><span>Momentum (who’s in control)</span></div>
+          <div class="li"><span class="dot"></span><span>Participation (real demand)</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 4 -->
+    <section class="scene s4">
+      <div class="card">
+        <h1 class="h1"><span class="accent">Price</span> is the result.</h1>
+        <p class="sub">Not the cause.</p>
+      </div>
+    </section>
+
+    <!-- SCENE 5 -->
+    <section class="scene s5">
+      <div class="card">
+        <h1 class="h1">Track it before it moves.</h1>
+        <p class="sub">Follow for more + tools.</p>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="bar2">
+        <div class="brand">CryptoKosmos</div>
+        <div class="site">@CryptoKosmosApp</div>
+      </div>
+    </div>
+
+    <!-- Overlay controls -->
+    <div class="overlay">
+      <div class="ui">
+        <button class="btn" id="start">Start (12s)</button>
+        <button class="btn secondary" id="restart">Restart</button>
+        <div class="note">
+          Άνοιξέ το full screen και κάνε <b>Screen Recording</b> για να το ανεβάσεις στο Instagram.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const stage = document.getElementById("stage");
+    const startBtn = document.getElementById("start");
+    const restartBtn = document.getElementById("restart");
+
+    function play(){
+      // restart animations cleanly
+      stage.classList.remove("playing");
+      // force reflow
+      void stage.offsetWidth;
+      stage.classList.add("playing");
+
+      // auto stop after 12s (shows overlay again)
+      clearTimeout(window.__t);
+      window.__t = setTimeout(() => {
+        stage.classList.remove("playing");
+      }, 12000);
+    }
+
+    startBtn.addEventListener("click", play);
+    restartBtn.addEventListener("click", play);
+
+    // First frame: overlay is visible because not playing.
+  </script>
 </body>
 </html>
