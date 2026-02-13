@@ -1,41 +1,56 @@
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #000;
   height: 100vh;
-  background: radial-gradient(circle at top, #0b1220, #000);
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-family: Inter, system-ui, sans-serif;
-  overflow: hidden;
+  align-items: center;
 }
 
-#word {
-  color: #e5e7eb;
-  font-size: clamp(42px, 7vw, 110px);
+.container {
+  width: 100%;
+  height: 100%;
+  max-width: 430px;
+  max-height: 760px;
+
+  padding: 40px 24px; /* ⬅️ ΑΥΤΟ ΛΥΝΕΙ ΤΟ ΘΕΜΑ */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.text {
+  position: absolute;
+  font-size: 3rem;
   font-weight: 800;
+  color: white;
   opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-
-  max-width: 90vw;
-  text-align: center;
-  line-height: 1.15;
-
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  transform: scale(0.9);
+  transition: all 0.5s ease;
 }
 
-#word.show {
+.text.active {
   opacity: 1;
   transform: scale(1);
 }
 
+#t2 {
+  color: #ff4d4d;
+}
 
-#brand {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 44px;
-  opacity: 0.35;
-  pointer-events: none;
+#t4 span {
+  color: #00ff9c;
+}
+
+.small {
+  font-size: 2rem;
+  opacity: 0.8;
 }

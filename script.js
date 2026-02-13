@@ -1,23 +1,14 @@
-const words = [
-  "Price lies.",
-  "Liquidity doesn't.",
-  "Smart money watches flow.",
-  "Not charts.",
-  "Narratives."
-];
+const texts = document.querySelectorAll('.text');
 
-const el = document.getElementById("word");
-let i = 0;
+let index = 0;
 
-function showWord() {
-  el.classList.remove("show");
-
-  setTimeout(() => {
-    el.textContent = words[i];
-    el.classList.add("show");
-    i = (i + 1) % words.length;
-  }, 400);
+function showNext() {
+  texts.forEach(t => t.classList.remove('active'));
+  if (index < texts.length) {
+    texts[index].classList.add('active');
+    index++;
+  }
 }
 
-showWord();
-setInterval(showWord, 2200);
+setInterval(showNext, 1800);
+showNext();
