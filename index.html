@@ -1,28 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Crypto Reel</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<title>Patience Reel</title>
+<style>
+  body {
+    margin: 0;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    color: white;
+  }
+
+  .text {
+    font-size: 48px;
+    text-align: center;
+    opacity: 0;
+    animation: fade 25s linear forwards;
+  }
+
+  @keyframes fade {
+    0% { opacity: 0; }
+    5% { opacity: 1; }
+    20% { opacity: 1; }
+    25% { opacity: 0; }
+
+    30% { opacity: 1; content: "Not because they’re wrong."; }
+  }
+</style>
 </head>
 <body>
 
-  <div class="container">
+<div id="text" class="text">90% of traders exit here…</div>
 
+<script>
+const messages = [
+  "90% of traders exit here…",
+  "Not because they’re wrong.",
+  "But because they can’t handle waiting.",
+  "The market tests patience before it rewards conviction.",
+  "If this hit you — you’re learning.",
+  "Follow for market psychology."
+];
 
- <div class="text small" id="t5">
-      Not headlines.
-    </div>
+let i = 0;
+const textEl = document.getElementById("text");
 
-    <div class="text active" id="t1">Bullish news.</div>
-    <div class="text" id="t2">Bearish price.</div>
-    <div class="text" id="t3">Why?</div>
-    <div class="text highlight" id="t4">
-      Markets move on <span>LIQUIDITY</span>
-    </div>
-   
-  </div>
+setInterval(() => {
+  i++;
+  if (i < messages.length) {
+    textEl.style.opacity = 0;
+    setTimeout(() => {
+      textEl.textContent = messages[i];
+      textEl.style.opacity = 1;
+    }, 300);
+  }
+}, 3500);
+</script>
 
-  <script src="script.js"></script>
 </body>
 </html>
