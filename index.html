@@ -3,62 +3,120 @@
 <head>
 <meta charset="UTF-8" />
 <title>Patience Reel</title>
+
 <style>
-  body {
-    margin: 0;
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    font-family: Arial, sans-serif;
-    color: white;
-  }
+:root {
+  --bg1: #050505;
+  --bg2: #0b0f1a;
+  --accent: #3cff9e;
+}
 
-  .text {
-    font-size: 48px;
-    text-align: center;
-    opacity: 0;
-    animation: fade 25s linear forwards;
-  }
+* {
+  box-sizing: border-box;
+}
 
-  @keyframes fade {
-    0% { opacity: 0; }
-    5% { opacity: 1; }
-    20% { opacity: 1; }
-    25% { opacity: 0; }
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: white;
+  overflow: hidden;
+}
 
-    30% { opacity: 1; content: "Not because they’re wrong."; }
-  }
+/* subtle moving grain */
+body::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.text {
+  max-width: 900px;
+  padding: 0 40px;
+  text-align: center;
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transform: scale(0.95);
+  filter: blur(6px);
+  transition: 
+    opacity 1s ease,
+    transform 1s ease,
+    filter 1s ease;
+}
+
+.text.show {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+
+.highlight {
+  color: var(--accent);
+}
+
+.footer {
+  position: absolute;
+  bottom: 60px;
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  letter-spacing: 0.08em;
+}
+
+.footer.show {
+  opacity: 0.7;
+}
 </style>
 </head>
+
 <body>
 
-<div id="text" class="text">90% of traders exit here…</div>
+<div id="text" class="text"></div>
+<div id="footer" class="footer">FOLLOW FOR MARKET PSYCHOLOGY</div>
 
 <script>
 const messages = [
   "90% of traders exit here…",
-  "Not because they’re wrong.",
-  "But because they can’t handle waiting.",
-  "The market tests patience before it rewards conviction.",
-  "If this hit you — you’re learning.",
-  "Follow for market psychology."
+  "90% of traders exit here…",
+  "Not because they’re <span class='highlight'>wrong</span>.",
+  "But because they can’t handle <span class='highlight'>waiting</span>.",
+  "The market tests <span class='highlight'>patience</span><br>before it rewards conviction.",
+  "If this hit you —<br><span class='highlight'>you’re learning.</span>"
 ];
 
-let i = 0;
 const textEl = document.getElementById("text");
+const footerEl = document.getElementById("footer");
 
-setInterval(() => {
-  i++;
-  if (i < messages.length) {
-    textEl.style.opacity = 0;
-    setTimeout(() => {
-      textEl.textContent = messages[i];
-      textEl.style.opacity = 1;
-    }, 300);
+let index = 0;
+
+function showMessage() {
+  textEl.classList.remove("show");
+
+  setTimeout(() => {
+    textEl.innerHTML = messages[index];
+    textEl.classList.add("show");
+  }, 600);
+
+  index++;
+
+  if (index === messages.length) {
+    setTimeout(() => footerEl.classList.add("show"), 2000);
+    clearInterval(loop);
   }
-}, 3500);
+}
+
+showMessage();
+const loop = setInterval(showMessage, 3800);
 </script>
 
 </body>
