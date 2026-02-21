@@ -1,74 +1,476 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Crypto Reel</title>
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CryptoKosmos Reel — Altcoin Reality Check</title>
 
-  body {
-    background: radial-gradient(circle at top, #0b0f1a, #000);
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    color: #fff;
-    overflow: hidden;
-  }
-
-  .reel {
-    text-align: center;
-    width: 90%;
-    max-width: 900px;
-  }
-
-  .line {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: reveal 0.8s ease-out forwards;
-  }
-
-  .l1 { animation-delay: 0.5s; font-size: 3.2rem; font-weight: 600; }
-  .l2 { animation-delay: 1.6s; font-size: 3.2rem; font-weight: 600; }
-  .l3 { animation-delay: 2.9s; font-size: 2.2rem; opacity: 0.85; }
-  .l4 { animation-delay: 4.3s; font-size: 3rem; font-weight: 700; }
-  .l5 { animation-delay: 5.2s; font-size: 3.8rem; font-weight: 800; color: #4cc9f0; }
-  .l6 { animation-delay: 6.4s; font-size: 2.5rem; opacity: 0.9; }
-
-  @keyframes reveal {
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  <style>
+    :root{
+      --bg:#070A10;
+      --fg:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.65);
+      --accent:#5bb4ff;
+      --accent2:#7b61ff;
+      --shadow:rgba(0,0,0,.55);
     }
-  }
 
-  /* subtle grain */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-  }
-</style>
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; }
+    body{
+      display:grid;
+      place-items:center;
+      background: radial-gradient(900px 500px at 15% 10%, rgba(91,180,255,.18), transparent 60%),
+                  radial-gradient(800px 520px at 85% 30%, rgba(123,97,255,.16), transparent 60%),
+                  var(--bg);
+      overflow:hidden;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue";
+    }
+
+    /* 9:16 stage */
+    .stage{
+      width:min(420px, 92vw);
+      aspect-ratio: 9 / 16;
+      border-radius:26px;
+      position:relative;
+      overflow:hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent 55%),
+                  radial-gradient(1000px 700px at 50% 30%, rgba(0,0,0,.0), rgba(0,0,0,.55)),
+                  var(--bg);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: 0 30px 90px rgba(0,0,0,.55);
+    }
+
+    /* subtle moving grain */
+    .grain{
+      position:absolute; inset:-20%;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      opacity:.12;
+      mix-blend-mode:overlay;
+      animation: grainMove 6s steps(10) infinite;
+      pointer-events:none;
+    }
+    @keyframes grainMove{
+      0%{ transform:translate(0,0) rotate(0deg); }
+      100%{ transform:translate(-8%, -6%) rotate(2deg); }
+    }
+
+    /* scanlines */
+    .scan{
+      position:absolute; inset:0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.035) 0px,
+        rgba(255,255,255,.035) 1px,
+        rgba(0,0,0,0) 3px,
+        rgba(0,0,0,0) 6px
+      );
+      opacity:.10;
+      mix-blend-mode:soft-light;
+      pointer-events:none;
+    }
+
+    /* glow blob */
+    .glow{
+      position:absolute; inset:-40% -40% auto -40%;
+      height:70%;
+      background: radial-gradient(circle at 30% 45%, rgba(91,180,255,.28), transparent 60%),
+                  radial-gradient(circle at 70% 35%, rgba(123,97,255,.26), transparent 62%);
+      filter: blur(18px);
+      opacity:.7;
+      animation: floatGlow 7.5s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes floatGlow{
+      0%,100%{ transform:translateY(0); opacity:.65; }
+      50%{ transform:translateY(18px); opacity:.85; }
+    }
+
+    /* content layout */
+    .content{
+      position:absolute; inset:0;
+      padding:34px 26px;
+      display:grid;
+      grid-template-rows: 1fr auto;
+      align-items:center;
+      z-index:3;
+    }
+
+    .center{
+      display:grid;
+      gap:16px;
+      align-content:center;
+      justify-items:center;
+      text-align:center;
+      padding: 0 8px;
+    }
+
+    .kicker{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:800;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-size:11px;
+      color: rgba(255,255,255,.80);
+      background: rgba(15,18,22,.45);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(10px);
+    }
+    .dot{
+      width:8px; height:8px; border-radius:99px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 18px rgba(91,180,255,.35);
+    }
+
+    .headline{
+      font-weight: 950;
+      letter-spacing: -0.03em;
+      line-height:1.05;
+      font-size: clamp(28px, 5.2vw, 44px);
+      color: var(--fg);
+      text-shadow: 0 18px 44px rgba(0,0,0,.55);
+      transform: translateZ(0);
+    }
+
+    .sub{
+      max-width: 28ch;
+      font-size: 14px;
+      line-height:1.55;
+      color: var(--muted);
+    }
+
+    /* Big word emphasis */
+    .big{
+      font-size: clamp(38px, 8vw, 62px);
+      letter-spacing: -0.04em;
+    }
+
+    /* Glitch effect */
+    .glitch{
+      position:relative;
+      display:inline-block;
+    }
+    .glitch::before,
+    .glitch::after{
+      content: attr(data-text);
+      position:absolute;
+      left:0; top:0;
+      width:100%;
+      overflow:hidden;
+      opacity:.9;
+      clip-path: inset(0 0 0 0);
+      pointer-events:none;
+    }
+    .glitch::before{
+      transform: translate(1px, -1px);
+      color: rgba(91,180,255,.85);
+      mix-blend-mode:screen;
+      animation: glitchA 1.8s infinite linear alternate-reverse;
+    }
+    .glitch::after{
+      transform: translate(-1px, 1px);
+      color: rgba(123,97,255,.75);
+      mix-blend-mode:screen;
+      animation: glitchB 2.2s infinite linear alternate-reverse;
+    }
+    @keyframes glitchA{
+      0%{ clip-path: inset(0 0 90% 0); }
+      20%{ clip-path: inset(20% 0 45% 0); }
+      40%{ clip-path: inset(55% 0 20% 0); }
+      60%{ clip-path: inset(10% 0 65% 0); }
+      80%{ clip-path: inset(70% 0 10% 0); }
+      100%{ clip-path: inset(0 0 75% 0); }
+    }
+    @keyframes glitchB{
+      0%{ clip-path: inset(85% 0 0 0); }
+      20%{ clip-path: inset(45% 0 30% 0); }
+      40%{ clip-path: inset(10% 0 65% 0); }
+      60%{ clip-path: inset(60% 0 15% 0); }
+      80%{ clip-path: inset(25% 0 55% 0); }
+      100%{ clip-path: inset(78% 0 5% 0); }
+    }
+
+    /* slide transitions */
+    .slide{
+      opacity:0;
+      transform: translateY(18px) scale(.985);
+      filter: blur(6px);
+      transition: opacity .45s ease, transform .55s cubic-bezier(.2,.9,.2,1), filter .55s ease;
+      will-change: opacity, transform, filter;
+    }
+    .slide.is-on{
+      opacity:1;
+      transform: translateY(0) scale(1);
+      filter: blur(0px);
+    }
+
+    /* bottom brand + progress */
+    .bottom{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding-top:18px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      letter-spacing:.2px;
+      color: rgba(255,255,255,.88);
+    }
+    .mark{
+      width:34px; height:34px;
+      border-radius:12px;
+      background: linear-gradient(135deg, rgba(91,180,255,.95), rgba(123,97,255,.95));
+      box-shadow: 0 18px 40px rgba(91,180,255,.20);
+      display:grid;
+      place-items:center;
+      color:#0b1020;
+      font-weight:950;
+    }
+
+    .progress{
+      flex:1;
+      height:10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.08);
+      overflow:hidden;
+    }
+    .bar{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 24px rgba(91,180,255,.35);
+      border-radius:999px;
+      transition: width .1s linear;
+    }
+
+    .hint{
+      position:absolute;
+      top:14px; left:14px;
+      font-size:11px;
+      color: rgba(255,255,255,.55);
+      z-index:5;
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.08);
+      padding:6px 10px;
+      border-radius:999px;
+      backdrop-filter: blur(10px);
+    }
+
+    .btns{
+      position:absolute;
+      top:14px; right:14px;
+      display:flex; gap:8px;
+      z-index:6;
+    }
+    button{
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      padding:8px 10px;
+      border-radius:12px;
+      font-weight:800;
+      font-size:12px;
+      color: rgba(255,255,255,.86);
+      background: rgba(15,18,22,.45);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(10px);
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    button:hover{ transform: translateY(-1px); border-color: rgba(91,180,255,.45); }
+
+    /* responsive to bigger screens */
+    @media (min-width: 700px){
+      .stage{ width: 460px; }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="stage" id="stage">
+    <div class="glow"></div>
+    <div class="grain"></div>
+    <div class="scan"></div>
 
-  <div class="reel">
-    <div class="line l1">The market</div>
-    <div class="line l2">doesn’t care.</div>
+    <div class="hint">9:16 • Screen record this (fullscreen)</div>
 
-    <div class="line l3">about your feelings.</div>
+    <div class="btns">
+      <button id="restartBtn">Restart</button>
+      <button id="pauseBtn">Pause</button>
+    </div>
 
-    <div class="line l4">Only</div>
-    <div class="line l5">discipline</div>
-    <div class="line l6">survives.</div>
+    <div class="content">
+      <div class="center">
+
+        <!-- Slide 1 -->
+        <div class="slide is-on" data-dur="2000">
+          <div class="kicker"><span class="dot"></span>ALTCOIN CHECK</div>
+          <div class="headline">
+            <span class="glitch" data-text="Before you buy an altcoin…">Before you buy an altcoin…</span>
+          </div>
+          <div class="sub">Give yourself 10 seconds. Save months of pain.</div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide" data-dur="1700">
+          <div class="headline big">
+            Ask yourself <span style="color:rgba(91,180,255,.95)">this</span>.
+          </div>
+          <div class="sub">Not “will it pump?” — something more important.</div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide" data-dur="1800">
+          <div class="headline big">
+            Who is <span class="glitch" data-text="BUYING">BUYING</span> it?
+          </div>
+          <div class="sub">Real demand or only your timeline?</div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide" data-dur="1800">
+          <div class="headline big">
+            Who buys <span style="color:rgba(123,97,255,.95)">after</span> you?
+          </div>
+          <div class="sub">If you can’t name the next buyer…</div>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide" data-dur="1700">
+          <div class="headline big">
+            Where is the <span class="glitch" data-text="LIQUIDITY">LIQUIDITY</span>?
+          </div>
+          <div class="sub">Can you exit without nuking the chart?</div>
+        </div>
+
+        <!-- Slide 6 -->
+        <div class="slide" data-dur="1700">
+          <div class="headline big">
+            Where are you <span style="color:#ff6b6b">WRONG</span>?
+          </div>
+          <div class="sub">Invalidation + size. Or it’s a lottery ticket.</div>
+        </div>
+
+        <!-- Slide 7 (final) -->
+        <div class="slide" data-dur="2400">
+          <div class="kicker"><span class="dot"></span>REALITY</div>
+          <div class="headline">
+            If you can’t answer all four,<br/>
+            you’re not early — <span style="color:rgba(91,180,255,.95)">you’re exit liquidity.</span>
+          </div>
+          <div class="sub">CryptoKosmos • Think before you click buy.</div>
+        </div>
+
+      </div>
+
+      <div class="bottom">
+        <div class="brand">
+          <div class="mark">CK</div>
+          <div>CryptoKosmos</div>
+        </div>
+
+        <div class="progress" aria-label="progress">
+          <div class="bar" id="bar"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const bar = document.getElementById('bar');
+    const restartBtn = document.getElementById('restartBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+
+    let idx = 0;
+    let t0 = 0;
+    let running = true;
+    let raf = null;
+
+    const total = slides.reduce((acc, s) => acc + (Number(s.dataset.dur) || 1800), 0);
+
+    function show(i){
+      slides.forEach((s, k) => s.classList.toggle('is-on', k === i));
+    }
+
+    function restart(){
+      idx = 0;
+      t0 = performance.now();
+      running = true;
+      pauseBtn.textContent = "Pause";
+      show(idx);
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(loop);
+    }
+
+    function togglePause(){
+      running = !running;
+      pauseBtn.textContent = running ? "Pause" : "Play";
+      if(running){
+        // re-anchor timing so it continues smoothly
+        t0 = performance.now() - elapsedSoFar();
+        raf = requestAnimationFrame(loop);
+      }else{
+        cancelAnimationFrame(raf);
+      }
+    }
+
+    function elapsedSoFar(){
+      // elapsed up to current slide start + within-slide progress
+      const before = slides.slice(0, idx).reduce((acc, s) => acc + (Number(s.dataset.dur)||1800), 0);
+      // approximate current slide progress by reading bar width
+      const pct = parseFloat(bar.style.width) || 0;
+      return (pct/100) * total;
+    }
+
+    function loop(now){
+      if(!running) return;
+
+      const elapsed = now - t0;
+      const pct = Math.min(100, (elapsed / total) * 100);
+      bar.style.width = pct + "%";
+
+      // determine which slide we are in
+      let acc = 0;
+      let newIdx = 0;
+      for(let i=0;i<slides.length;i++){
+        acc += (Number(slides[i].dataset.dur) || 1800);
+        if(elapsed < acc){
+          newIdx = i;
+          break;
+        }
+        newIdx = slides.length - 1;
+      }
+
+      if(newIdx !== idx){
+        idx = newIdx;
+        show(idx);
+      }
+
+      // loop again
+      if(elapsed >= total){
+        // tiny hold then restart (so you can record endlessly)
+        setTimeout(restart, 600);
+        return;
+      }
+
+      raf = requestAnimationFrame(loop);
+    }
+
+    restartBtn.addEventListener('click', restart);
+    pauseBtn.addEventListener('click', togglePause);
+
+    // start
+    restart();
+  </script>
 </body>
 </html>
