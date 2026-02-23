@@ -3,441 +3,408 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CryptoKosmos Reel — Altcoin Reality Check</title>
+  <title>Crypto Reel — Auto</title>
 
   <style>
     :root{
       --bg:#070A10;
       --fg:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.65);
-      --accent:#5bb4ff;
-      --accent2:#7b61ff;
-      --shadow:rgba(0,0,0,.55);
+      --muted:rgba(255,255,255,.70);
+      --a:#5bb4ff;
+      --b:#7b61ff;
+      --c:#00f0ff;
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
     }
 
     *{ box-sizing:border-box; }
-    html,body{ height:100%; margin:0; }
-    body{
-      display:grid;
-      place-items:center;
-      background: radial-gradient(900px 500px at 15% 10%, rgba(91,180,255,.18), transparent 60%),
-                  radial-gradient(800px 520px at 85% 30%, rgba(123,97,255,.16), transparent 60%),
-                  var(--bg);
-      overflow:hidden;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue";
-    }
+    html,body{ height:100%; margin:0; background:var(--bg); color:var(--fg); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+    body{ display:grid; place-items:center; padding:16px; }
 
     /* 9:16 stage */
     .stage{
       width:min(420px, 92vw);
       aspect-ratio: 9 / 16;
-      border-radius:26px;
-      position:relative;
+      border-radius: 26px;
       overflow:hidden;
-      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent 55%),
-                  radial-gradient(1000px 700px at 50% 30%, rgba(0,0,0,.0), rgba(0,0,0,.55)),
-                  var(--bg);
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow: 0 30px 90px rgba(0,0,0,.55);
-    }
-
-    /* subtle moving grain */
-    .grain{
-      position:absolute; inset:-20%;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
-      opacity:.12;
-      mix-blend-mode:overlay;
-      animation: grainMove 6s steps(10) infinite;
-      pointer-events:none;
-    }
-    @keyframes grainMove{
-      0%{ transform:translate(0,0) rotate(0deg); }
-      100%{ transform:translate(-8%, -6%) rotate(2deg); }
-    }
-
-    /* scanlines */
-    .scan{
-      position:absolute; inset:0;
-      background: repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,.035) 0px,
-        rgba(255,255,255,.035) 1px,
-        rgba(0,0,0,0) 3px,
-        rgba(0,0,0,0) 6px
-      );
-      opacity:.10;
-      mix-blend-mode:soft-light;
-      pointer-events:none;
-    }
-
-    /* glow blob */
-    .glow{
-      position:absolute; inset:-40% -40% auto -40%;
-      height:70%;
-      background: radial-gradient(circle at 30% 45%, rgba(91,180,255,.28), transparent 60%),
-                  radial-gradient(circle at 70% 35%, rgba(123,97,255,.26), transparent 62%);
-      filter: blur(18px);
-      opacity:.7;
-      animation: floatGlow 7.5s ease-in-out infinite;
-      pointer-events:none;
-    }
-    @keyframes floatGlow{
-      0%,100%{ transform:translateY(0); opacity:.65; }
-      50%{ transform:translateY(18px); opacity:.85; }
-    }
-
-    /* content layout */
-    .content{
-      position:absolute; inset:0;
-      padding:34px 26px;
-      display:grid;
-      grid-template-rows: 1fr auto;
-      align-items:center;
-      z-index:3;
-    }
-
-    .center{
-      display:grid;
-      gap:16px;
-      align-content:center;
-      justify-items:center;
-      text-align:center;
-      padding: 0 8px;
-    }
-
-    .kicker{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding:8px 12px;
-      border-radius:999px;
-      font-weight:800;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      font-size:11px;
-      color: rgba(255,255,255,.80);
-      background: rgba(15,18,22,.45);
+      position:relative;
+      box-shadow: var(--shadow);
       border: 1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(10px);
-    }
-    .dot{
-      width:8px; height:8px; border-radius:99px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 18px rgba(91,180,255,.35);
-    }
-
-    .headline{
-      font-weight: 950;
-      letter-spacing: -0.03em;
-      line-height:1.05;
-      font-size: clamp(28px, 5.2vw, 44px);
-      color: var(--fg);
-      text-shadow: 0 18px 44px rgba(0,0,0,.55);
-      transform: translateZ(0);
+      background:
+        radial-gradient(900px 420px at 20% 20%, rgba(91,180,255,.16), transparent 60%),
+        radial-gradient(900px 420px at 80% 30%, rgba(123,97,255,.14), transparent 60%),
+        radial-gradient(800px 520px at 50% 90%, rgba(0,240,255,.10), transparent 65%),
+        #070A10;
     }
 
-    .sub{
-      max-width: 28ch;
-      font-size: 14px;
-      line-height:1.55;
-      color: var(--muted);
-    }
-
-    /* Big word emphasis */
-    .big{
-      font-size: clamp(38px, 8vw, 62px);
-      letter-spacing: -0.04em;
-    }
-
-    /* Glitch effect */
-    .glitch{
-      position:relative;
-      display:inline-block;
-    }
-    .glitch::before,
-    .glitch::after{
-      content: attr(data-text);
-      position:absolute;
-      left:0; top:0;
-      width:100%;
-      overflow:hidden;
+    /* subtle animated light */
+    .glow{
+      position:absolute; inset:-40%;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(91,180,255,.20), transparent 55%),
+        radial-gradient(circle at 70% 30%, rgba(123,97,255,.18), transparent 55%),
+        radial-gradient(circle at 50% 70%, rgba(0,240,255,.12), transparent 58%);
+      filter: blur(18px);
       opacity:.9;
-      clip-path: inset(0 0 0 0);
+      animation: drift 7.5s ease-in-out infinite;
       pointer-events:none;
     }
-    .glitch::before{
-      transform: translate(1px, -1px);
-      color: rgba(91,180,255,.85);
-      mix-blend-mode:screen;
-      animation: glitchA 1.8s infinite linear alternate-reverse;
-    }
-    .glitch::after{
-      transform: translate(-1px, 1px);
-      color: rgba(123,97,255,.75);
-      mix-blend-mode:screen;
-      animation: glitchB 2.2s infinite linear alternate-reverse;
-    }
-    @keyframes glitchA{
-      0%{ clip-path: inset(0 0 90% 0); }
-      20%{ clip-path: inset(20% 0 45% 0); }
-      40%{ clip-path: inset(55% 0 20% 0); }
-      60%{ clip-path: inset(10% 0 65% 0); }
-      80%{ clip-path: inset(70% 0 10% 0); }
-      100%{ clip-path: inset(0 0 75% 0); }
-    }
-    @keyframes glitchB{
-      0%{ clip-path: inset(85% 0 0 0); }
-      20%{ clip-path: inset(45% 0 30% 0); }
-      40%{ clip-path: inset(10% 0 65% 0); }
-      60%{ clip-path: inset(60% 0 15% 0); }
-      80%{ clip-path: inset(25% 0 55% 0); }
-      100%{ clip-path: inset(78% 0 5% 0); }
+    @keyframes drift{
+      0%,100%{ transform: translate3d(0,0,0) scale(1); opacity:.85; }
+      50%{ transform: translate3d(2.5%, -2.5%, 0) scale(1.03); opacity:1; }
     }
 
-    /* slide transitions */
+    /* grain */
+    .grain{
+      position:absolute; inset:-40%;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+      opacity:.12;
+      animation: grain 1.2s steps(2) infinite;
+      pointer-events:none;
+    }
+    @keyframes grain{
+      0%{ transform:translate(0,0); }
+      20%{ transform:translate(-2%, 2%); }
+      40%{ transform:translate(-3%, -1%); }
+      60%{ transform:translate(2%, -2%); }
+      80%{ transform:translate(3%, 1%); }
+      100%{ transform:translate(0,0); }
+    }
+
+    /* progress */
+    .progress{
+      position:absolute; left:16px; right:16px; top:16px;
+      height:8px; border-radius:999px;
+      background: rgba(255,255,255,.10);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      z-index:50;
+    }
+    .bar{
+      height:100%; width:0%;
+      background: linear-gradient(90deg, rgba(91,180,255,.95), rgba(123,97,255,.95), rgba(0,240,255,.92));
+      border-radius:999px;
+      box-shadow: 0 8px 22px rgba(91,180,255,.25);
+    }
+
+    /* slide system */
+    .slides{ position:absolute; inset:0; }
     .slide{
+      position:absolute; inset:0;
+      padding: 56px 20px 30px;
+      display:grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 14px;
+
       opacity:0;
-      transform: translateY(18px) scale(.985);
+      transform: scale(1.02);
       filter: blur(6px);
-      transition: opacity .45s ease, transform .55s cubic-bezier(.2,.9,.2,1), filter .55s ease;
-      will-change: opacity, transform, filter;
+      transition: opacity .55s ease, transform .75s cubic-bezier(.2,.8,.2,1), filter .55s ease;
     }
     .slide.is-on{
       opacity:1;
-      transform: translateY(0) scale(1);
-      filter: blur(0px);
+      transform: scale(1);
+      filter: blur(0);
     }
 
-    /* bottom brand + progress */
-    .bottom{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+    /* top tag */
+    .tag{
+      justify-self:start;
+      display:inline-flex;
       gap:10px;
-      padding-top:18px;
-    }
-
-    .brand{
-      display:flex;
       align-items:center;
-      gap:10px;
-      font-weight:900;
-      letter-spacing:.2px;
-      color: rgba(255,255,255,.88);
-    }
-    .mark{
-      width:34px; height:34px;
-      border-radius:12px;
-      background: linear-gradient(135deg, rgba(91,180,255,.95), rgba(123,97,255,.95));
-      box-shadow: 0 18px 40px rgba(91,180,255,.20);
-      display:grid;
-      place-items:center;
-      color:#0b1020;
-      font-weight:950;
-    }
-
-    .progress{
-      flex:1;
-      height:10px;
-      border-radius:999px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.08);
-      overflow:hidden;
-    }
-    .bar{
-      height:100%;
-      width:0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 24px rgba(91,180,255,.35);
-      border-radius:999px;
-      transition: width .1s linear;
-    }
-
-    .hint{
-      position:absolute;
-      top:14px; left:14px;
-      font-size:11px;
-      color: rgba(255,255,255,.55);
-      z-index:5;
-      background: rgba(0,0,0,.22);
-      border: 1px solid rgba(255,255,255,.08);
-      padding:6px 10px;
-      border-radius:999px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(15,18,22,.55);
+      border: 1px solid rgba(91,180,255,.25);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing:.2px;
+      color: var(--muted);
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: linear-gradient(135deg, var(--a), var(--b));
+      box-shadow: 0 10px 20px rgba(91,180,255,.22);
     }
 
-    .btns{
-      position:absolute;
-      top:14px; right:14px;
-      display:flex; gap:8px;
-      z-index:6;
+    /* big text */
+    .title{
+      align-self:center;
+      font-size: clamp(26px, 5.2vw, 40px);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      font-weight: 950;
+      text-wrap: balance;
+      margin:0;
+      text-shadow: 0 18px 44px rgba(0,0,0,.55);
     }
-    button{
-      appearance:none;
-      border:none;
-      cursor:pointer;
-      padding:8px 10px;
-      border-radius:12px;
-      font-weight:800;
-      font-size:12px;
-      color: rgba(255,255,255,.86);
-      background: rgba(15,18,22,.45);
+
+    .title .accent{
+      background: linear-gradient(90deg, rgba(91,180,255,1), rgba(123,97,255,1), rgba(0,240,255,.95));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color: transparent;
+    }
+
+    /* bullet block */
+    .bullets{
+      margin:0;
+      padding: 14px 14px;
+      border-radius: 18px;
+      background: rgba(0,0,0,.28);
       border: 1px solid rgba(255,255,255,.10);
       backdrop-filter: blur(10px);
-      transition: transform .15s ease, border-color .15s ease;
+      -webkit-backdrop-filter: blur(10px);
+      display:grid;
+      gap:10px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
     }
-    button:hover{ transform: translateY(-1px); border-color: rgba(91,180,255,.45); }
+    .bullets li{
+      list-style:none;
+      font-weight: 850;
+      font-size: 13px;
+      line-height:1.25;
+      color: rgba(255,255,255,.88);
 
-    /* responsive to bigger screens */
-    @media (min-width: 700px){
-      .stage{ width: 460px; }
+      opacity:0;
+      transform: translateX(18px);
+    }
+
+    /* animate bullets on active slide */
+    .slide.is-on .bullets li{
+      animation: bIn .6s ease forwards;
+    }
+    .slide.is-on .bullets li:nth-child(1){ animation-delay:.10s; }
+    .slide.is-on .bullets li:nth-child(2){ animation-delay:.18s; }
+    .slide.is-on .bullets li:nth-child(3){ animation-delay:.26s; }
+
+    @keyframes bIn{
+      to{ opacity:1; transform: translateX(0); }
+    }
+
+    /* bottom CTA */
+    .cta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(15,18,22,.48);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: rgba(255,255,255,.82);
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .pill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(91,180,255,.14);
+      border: 1px solid rgba(91,180,255,.26);
+      color: rgba(91,180,255,.95);
+      font-weight: 900;
+      letter-spacing:.25px;
+    }
+
+    /* slide background shapes */
+    .shape{
+      position:absolute; inset:auto;
+      width: 220px; height: 220px;
+      border-radius: 999px;
+      filter: blur(0px);
+      opacity:.55;
+      transform: translateZ(0);
+      mix-blend-mode: screen;
+      pointer-events:none;
+    }
+    .s1{ left:-70px; top:120px; background: radial-gradient(circle at 30% 30%, rgba(91,180,255,.85), transparent 60%); }
+    .s2{ right:-90px; top:200px; background: radial-gradient(circle at 30% 30%, rgba(123,97,255,.85), transparent 60%); }
+    .s3{ left:40px; bottom:-100px; width:260px; height:260px; background: radial-gradient(circle at 30% 30%, rgba(0,240,255,.65), transparent 60%); }
+
+    /* tiny safe footer */
+    .brand{
+      position:absolute; left:16px; bottom:14px;
+      display:flex; gap:10px; align-items:center;
+      color: rgba(255,255,255,.70);
+      font-weight: 850;
+      font-size: 12px;
+      z-index:60;
+      pointer-events:none;
+      text-shadow: 0 14px 36px rgba(0,0,0,.55);
+    }
+    .logo{
+      width:26px; height:26px; border-radius:10px;
+      background: linear-gradient(135deg, rgba(91,180,255,.95), rgba(123,97,255,.95));
+      box-shadow: 0 14px 30px rgba(91,180,255,.18);
+    }
+
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .slide, .glow, .grain, .slide.is-on .bullets li{ animation:none !important; transition:none !important; }
     }
   </style>
 </head>
 
 <body>
+  <main class="stage" aria-label="Auto crypto reel">
+    <div class="glow"></div>
+    <div class="grain"></div>
 
-  
+    <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
 
-    <div class="content">
-      <div class="center">
+    <div class="slides">
+      <!-- SLIDE 1 -->
+      <section class="slide is-on" data-dur="2200"
+        data-text-title="Altcoins don’t move together.<br><span class='accent'>Capital rotates.</span>"
+        data-text-b1="If your coin isn’t moving while the narrative is hot…"
+        data-text-b2="It’s not ‘early’. It’s being ignored by liquidity."
+        data-text-b3="Listen to flows, not timelines.">
+        <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
 
-        <!-- Slide 1 -->
-        <div class="slide is-on" data-dur="2000">
-          <div class="kicker"><span class="dot"></span>ALTCOIN CHECK</div>
-          <div class="headline">
-            <span class="glitch" data-text="Before you buy an altcoin…">Before you buy an altcoin…</span>
-          </div>
-          <div class="sub">Give yourself 10 seconds. Save months of pain.</div>
+        <div class="tag"><span class="dot"></span> Market Psychology</div>
+
+        <h1 class="title"></h1>
+
+        <ul class="bullets">
+          <li></li><li></li><li></li>
+        </ul>
+
+        <div class="cta">
+          <span>Think in rotations, not hopes.</span>
+          <span class="pill">SAFE</span>
         </div>
+      </section>
 
-        <!-- Slide 2 -->
-        <div class="slide" data-dur="1700">
-          <div class="headline big">
-            Ask yourself <span style="color:rgba(91,180,255,.95)">this</span>.
-          </div>
-          <div class="sub">Not “will it pump?” — something more important.</div>
+      <!-- SLIDE 2 -->
+      <section class="slide" data-dur="2200"
+        data-text-title="Narratives bring <span class='accent'>attention</span>.<br>Liquidity decides <span class='accent'>winners</span>."
+        data-text-b1="Leaders get volume first. Laggards get leftovers."
+        data-text-b2="Real strength shows on pullbacks, not pumps."
+        data-text-b3="No liquidity = no follow-through.">
+        <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
+
+        <div class="tag"><span class="dot"></span> Liquidity Basics</div>
+
+        <h1 class="title"></h1>
+
+        <ul class="bullets">
+          <li></li><li></li><li></li>
+        </ul>
+
+        <div class="cta">
+          <span>Attention is cheap. Liquidity isn’t.</span>
+          <span class="pill">FLOW</span>
         </div>
+      </section>
 
-        <!-- Slide 3 -->
-        <div class="slide" data-dur="1800">
-          <div class="headline big">
-            Who is <span class="glitch" data-text="BUYING">BUYING</span> it?
-          </div>
-          <div class="sub">Real demand or only your timeline?</div>
+      <!-- SLIDE 3 -->
+      <section class="slide" data-dur="2200"
+        data-text-title="Before you buy,<br>ask <span class='accent'>4 questions</span>."
+        data-text-b1="Who is buying it?"
+        data-text-b2="Who buys after you?"
+        data-text-b3="Where are you wrong (invalidation)?">
+        <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
+
+        <div class="tag"><span class="dot"></span> Entry Checklist</div>
+
+        <h1 class="title"></h1>
+
+        <ul class="bullets">
+          <li></li><li></li><li></li>
+        </ul>
+
+        <div class="cta">
+          <span>If you can’t answer, you’re exit liquidity.</span>
+          <span class="pill">ENTRY</span>
         </div>
+      </section>
 
-        <!-- Slide 4 -->
-        <div class="slide" data-dur="1800">
-          <div class="headline big">
-            Who buys <span style="color:rgba(123,97,255,.95)">after</span> you?
-          </div>
-          <div class="sub">If you can’t name the next buyer…</div>
-        </div>
+      <!-- SLIDE 4 -->
+      <section class="slide" data-dur="2300"
+        data-text-title="Discipline survives<br><span class='accent'>cycles</span>."
+        data-text-b1="Fear buys tops."
+        data-text-b2="Hope holds bags."
+        data-text-b3="Plans protect capital.">
+        <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
 
-        <!-- Slide 5 -->
-        <div class="slide" data-dur="1700">
-          <div class="headline big">
-            Where is the <span class="glitch" data-text="LIQUIDITY">LIQUIDITY</span>?
-          </div>
-          <div class="sub">Can you exit without nuking the chart?</div>
-        </div>
+        <div class="tag"><span class="dot"></span> Trading Mindset</div>
 
-        <!-- Slide 6 -->
-        <div class="slide" data-dur="1700">
-          <div class="headline big">
-            Where are you <span style="color:#ff6b6b">WRONG</span>?
-          </div>
-          <div class="sub">Invalidation + size. Or it’s a lottery ticket.</div>
-        </div>
+        <h1 class="title"></h1>
 
-        <!-- Slide 7 (final) -->
-        <div class="slide" data-dur="2400">
-          <div class="kicker"><span class="dot"></span>REALITY</div>
-          <div class="headline">
-            If you can’t answer all four,<br/>
-            you’re not early — <span style="color:rgba(91,180,255,.95)">you’re exit liquidity.</span>
-          </div>
-          <div class="sub">CryptoKosmos • Think before you click buy.</div>
-        </div>
+        <ul class="bullets">
+          <li></li><li></li><li></li>
+        </ul>
 
-      </div>
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const bar = document.getElementById('bar');
 
-      <div class="bottom">
-        <div class="brand">
-          <div class="mark">CK</div>
-          <div>CryptoKosmos</div>
-        </div>
+    // Fill content from data-text-*
+    function hydrateSlide(slide){
+      const title = slide.querySelector('.title');
+      const li = slide.querySelectorAll('.bullets li');
+      title.innerHTML = slide.dataset.textTitle || "";
+      li[0].textContent = slide.dataset.textB1 || "";
+      li[1].textContent = slide.dataset.textB2 || "";
+      li[2].textContent = slide.dataset.textB3 || "";
+    }
+    slides.forEach(hydrateSlide);
 
-        <div class="progress" aria-label="progress">
-          <div class="bar" id="bar"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+    let idx = 0;
+    let t0 = performance.now();
+    let raf = null;
 
-<script>
-  const slides = Array.from(document.querySelectorAll('.slide'));
-  const bar = document.getElementById('bar');
+    const durs = slides.map(s => Number(s.dataset.dur) || 2200);
+    const total = durs.reduce((a,b)=>a+b,0);
 
-  let idx = 0;
-  let startTime = null;
-  let rafId = null;
-
-  const durations = slides.map(s => Number(s.dataset.dur) || 1800);
-  const totalDuration = durations.reduce((a, b) => a + b, 0);
-
-  function showSlide(i) {
-    slides.forEach((s, k) => {
-      s.classList.toggle('is-on', k === i);
-    });
-  }
-
-  function start() {
-    idx = 0;
-    startTime = performance.now();
-    showSlide(idx);
-    cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(loop);
-  }
-
-  function loop(now) {
-    const elapsed = now - startTime;
-
-    // progress bar
-    if (bar) {
-      bar.style.width = Math.min(100, (elapsed / totalDuration) * 100) + '%';
+    function show(i){
+      slides.forEach((s,k)=> s.classList.toggle('is-on', k===i));
     }
 
-    let sum = 0;
-    let nextIdx = slides.length - 1;
-
-    for (let i = 0; i < durations.length; i++) {
-      sum += durations[i];
-      if (elapsed < sum) {
-        nextIdx = i;
-        break;
-      }
-    }
-
-    if (nextIdx !== idx) {
-      idx = nextIdx;
-      showSlide(idx);
-    }
-
-    // loop χωρίς pause / χωρίς controls
-    if (elapsed >= totalDuration) {
-      startTime = performance.now();
+    function restart(){
       idx = 0;
-      showSlide(idx);
+      t0 = performance.now();
+      show(idx);
+      if(raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(loop);
     }
 
-    rafId = requestAnimationFrame(loop);
-  }
+    function loop(now){
+      const elapsed = now - t0;
 
-  // ▶ AUTO PLAY ON LOAD
-  start();
-</script>
+      // progress
+      const pct = Math.min(100, (elapsed/total)*100);
+      bar.style.width = pct + "%";
 
+      // find active slide by elapsed
+      let acc = 0;
+      let newIdx = slides.length - 1;
+      for(let i=0;i<slides.length;i++){
+        acc += durs[i];
+        if(elapsed < acc){ newIdx = i; break; }
+      }
+
+      if(newIdx !== idx){
+        idx = newIdx;
+        show(idx);
+      }
+
+      if(elapsed >= total){
+        // loop with tiny beat
+        setTimeout(restart, 450);
+        return;
+      }
+
+      raf = requestAnimationFrame(loop);
+    }
+
+    // AUTO START
+    restart();
+  </script>
 </body>
 </html>
