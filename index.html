@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Crypto Reel — Auto</title>
+  <title>CryptoKosmos Reel — Narrative Hype</title>
 
   <style>
     :root{
@@ -36,7 +36,7 @@
         #070A10;
     }
 
-    /* subtle animated light */
+    /* animated light */
     .glow{
       position:absolute; inset:-40%;
       background:
@@ -141,7 +141,6 @@
       margin:0;
       text-shadow: 0 18px 44px rgba(0,0,0,.55);
     }
-
     .title .accent{
       background: linear-gradient(90deg, rgba(91,180,255,1), rgba(123,97,255,1), rgba(0,240,255,.95));
       -webkit-background-clip:text;
@@ -149,7 +148,7 @@
       color: transparent;
     }
 
-    /* bullet block */
+    /* bullets */
     .bullets{
       margin:0;
       padding: 14px 14px;
@@ -168,24 +167,16 @@
       font-size: 13px;
       line-height:1.25;
       color: rgba(255,255,255,.88);
-
       opacity:0;
       transform: translateX(18px);
     }
-
-    /* animate bullets on active slide */
-    .slide.is-on .bullets li{
-      animation: bIn .6s ease forwards;
-    }
+    .slide.is-on .bullets li{ animation: bIn .6s ease forwards; }
     .slide.is-on .bullets li:nth-child(1){ animation-delay:.10s; }
     .slide.is-on .bullets li:nth-child(2){ animation-delay:.18s; }
     .slide.is-on .bullets li:nth-child(3){ animation-delay:.26s; }
+    @keyframes bIn{ to{ opacity:1; transform: translateX(0); } }
 
-    @keyframes bIn{
-      to{ opacity:1; transform: translateX(0); }
-    }
-
-    /* bottom CTA */
+    /* CTA */
     .cta{
       display:flex;
       justify-content:space-between;
@@ -211,12 +202,11 @@
       letter-spacing:.25px;
     }
 
-    /* slide background shapes */
+    /* shapes */
     .shape{
       position:absolute; inset:auto;
       width: 220px; height: 220px;
       border-radius: 999px;
-      filter: blur(0px);
       opacity:.55;
       transform: translateZ(0);
       mix-blend-mode: screen;
@@ -226,7 +216,7 @@
     .s2{ right:-90px; top:200px; background: radial-gradient(circle at 30% 30%, rgba(123,97,255,.85), transparent 60%); }
     .s3{ left:40px; bottom:-100px; width:260px; height:260px; background: radial-gradient(circle at 30% 30%, rgba(0,240,255,.65), transparent 60%); }
 
-    /* tiny safe footer */
+    /* brand */
     .brand{
       position:absolute; left:16px; bottom:14px;
       display:flex; gap:10px; align-items:center;
@@ -243,7 +233,6 @@
       box-shadow: 0 14px 30px rgba(91,180,255,.18);
     }
 
-    /* reduced motion */
     @media (prefers-reduced-motion: reduce){
       .slide, .glow, .grain, .slide.is-on .bullets li{ animation:none !important; transition:none !important; }
     }
@@ -260,85 +249,74 @@
     <div class="slides">
       <!-- SLIDE 1 -->
       <section class="slide is-on" data-dur="2200"
-        data-text-title="Altcoins don’t move together.<br><span class='accent'>Capital rotates.</span>"
-        data-text-b1="If your coin isn’t moving while the narrative is hot…"
-        data-text-b2="It’s not ‘early’. It’s being ignored by liquidity."
-        data-text-b3="Listen to flows, not timelines.">
+        data-text-title="Narrative hype is<br><span class='accent'>not a signal.</span>"
+        data-text-b1="It’s attention without confirmation."
+        data-text-b2="It feels ‘early’… until it dumps."
+        data-text-b3="Price follows liquidity, not likes.">
         <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
-
-        <div class="tag"><span class="dot"></span> Market Psychology</div>
-
+        <div class="tag"><span class="dot"></span> Narrative Hype</div>
         <h1 class="title"></h1>
-
-        <ul class="bullets">
-          <li></li><li></li><li></li>
-        </ul>
-
-        <div class="cta">
-          <span>Think in rotations, not hopes.</span>
-          <span class="pill">SAFE</span>
-        </div>
+        <ul class="bullets"><li></li><li></li><li></li></ul>
+        <div class="cta"><span>Don’t confuse noise with flow.</span><span class="pill">HYPE</span></div>
       </section>
 
       <!-- SLIDE 2 -->
       <section class="slide" data-dur="2200"
-        data-text-title="Narratives bring <span class='accent'>attention</span>.<br>Liquidity decides <span class='accent'>winners</span>."
-        data-text-b1="Leaders get volume first. Laggards get leftovers."
-        data-text-b2="Real strength shows on pullbacks, not pumps."
-        data-text-b3="No liquidity = no follow-through.">
+        data-text-title="3 signs you’re late<br><span class='accent'>to the party</span>"
+        data-text-b1="Crowded timeline & “easy money” posts."
+        data-text-b2="Late volume spikes after a big green candle."
+        data-text-b3="Everyone shills — nobody shows liquidity.">
         <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
-
-        <div class="tag"><span class="dot"></span> Liquidity Basics</div>
-
+        <div class="tag"><span class="dot"></span> Red Flags</div>
         <h1 class="title"></h1>
-
-        <ul class="bullets">
-          <li></li><li></li><li></li>
-        </ul>
-
-        <div class="cta">
-          <span>Attention is cheap. Liquidity isn’t.</span>
-          <span class="pill">FLOW</span>
-        </div>
+        <ul class="bullets"><li></li><li></li><li></li></ul>
+        <div class="cta"><span>Hype is usually exit liquidity.</span><span class="pill">LATE</span></div>
       </section>
 
       <!-- SLIDE 3 -->
       <section class="slide" data-dur="2200"
-        data-text-title="Before you buy,<br>ask <span class='accent'>4 questions</span>."
-        data-text-b1="Who is buying it?"
-        data-text-b2="Who buys after you?"
-        data-text-b3="Where are you wrong (invalidation)?">
+        data-text-title="The market asks:<br><span class='accent'>Where’s the liquidity?</span>"
+        data-text-b1="Who is buying (real size)?"
+        data-text-b2="Where is the next buyer above you?"
+        data-text-b3="What level proves you wrong?">
         <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
-
-        <div class="tag"><span class="dot"></span> Entry Checklist</div>
-
+        <div class="tag"><span class="dot"></span> Liquidity Check</div>
         <h1 class="title"></h1>
-
-        <ul class="bullets">
-          <li></li><li></li><li></li>
-        </ul>
-
-        <div class="cta">
-          <span>If you can’t answer, you’re exit liquidity.</span>
-          <span class="pill">ENTRY</span>
-        </div>
+        <ul class="bullets"><li></li><li></li><li></li></ul>
+        <div class="cta"><span>Questions > FOMO.</span><span class="pill">FLOW</span></div>
       </section>
 
       <!-- SLIDE 4 -->
-      <section class="slide" data-dur="2300"
-        data-text-title="Discipline survives<br><span class='accent'>cycles</span>."
-        data-text-b1="Fear buys tops."
-        data-text-b2="Hope holds bags."
-        data-text-b3="Plans protect capital.">
+      <section class="slide" data-dur="2200"
+        data-text-title="What to do instead:<br><span class='accent'>wait for rotation</span>"
+        data-text-b1="Track leaders first (volume + strength)."
+        data-text-b2="Buy pullbacks, not breakouts into hype."
+        data-text-b3="Size small until confirmation.">
         <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
-
-        <div class="tag"><span class="dot"></span> Trading Mindset</div>
-
+        <div class="tag"><span class="dot"></span> Strategy</div>
         <h1 class="title"></h1>
+        <ul class="bullets"><li></li><li></li><li></li></ul>
+        <div class="cta"><span>Rotations reward patience.</span><span class="pill">WAIT</span></div>
+      </section>
 
-        <ul class="bullets">
-          <li></li><li></li><li></li>
-        </ul>
+      <!-- SLIDE 5 -->
+      <section class="slide" data-dur="2400"
+        data-text-title="Want the full checklist?<br><span class='accent'>Read the article</span>"
+        data-text-b1="Narrative Hype Checklist"
+        data-text-b2="Spot ‘already late’ setups"
+        data-text-b3="Trade with liquidity, not hope">
+        <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
+        <div class="tag"><span class="dot"></span> CryptoKosmos</div>
+        <h1 class="title"></h1>
+        <ul class="bullets"><li></li><li></li><li></li></ul>
+        <div class="cta">
+          <span>cryptokosmos.app/news/narrativehype.html</span>
+          <span class="pill">READ</span>
+        </div>
+      </section>
+    </div>
+
+  </main>
 
   <script>
     const slides = Array.from(document.querySelectorAll('.slide'));
@@ -381,7 +359,7 @@
       const pct = Math.min(100, (elapsed/total)*100);
       bar.style.width = pct + "%";
 
-      // find active slide by elapsed
+      // active slide by elapsed
       let acc = 0;
       let newIdx = slides.length - 1;
       for(let i=0;i<slides.length;i++){
@@ -395,7 +373,6 @@
       }
 
       if(elapsed >= total){
-        // loop with tiny beat
         setTimeout(restart, 450);
         return;
       }
@@ -403,7 +380,6 @@
       raf = requestAnimationFrame(loop);
     }
 
-    // AUTO START
     restart();
   </script>
 </body>
