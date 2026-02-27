@@ -3,26 +3,31 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CryptoKosmos Reel — Narrative Hype</title>
+  <title>CryptoKosmos Reel — Liquidity vs Narratives</title>
 
   <style>
     :root{
       --bg:#070A10;
-      --fg:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.70);
+      --fg:rgba(255,255,255,.94);
+      --muted:rgba(255,255,255,.72);
       --a:#5bb4ff;
       --b:#7b61ff;
       --c:#00f0ff;
-      --shadow: 0 22px 70px rgba(0,0,0,.55);
+      --shadow: 0 22px 70px rgba(0,0,0,.58);
     }
 
     *{ box-sizing:border-box; }
-    html,body{ height:100%; margin:0; background:var(--bg); color:var(--fg); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; }
-    body{ display:grid; place-items:center; padding:16px; }
+    html,body{ height:100%; margin:0; background:var(--bg); color:var(--fg); }
+    body{
+      display:grid;
+      place-items:center;
+      padding:16px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
 
     /* 9:16 stage */
     .stage{
-      width:min(420px, 92vw);
+      width:min(430px, 95vw);
       aspect-ratio: 9 / 16;
       border-radius: 26px;
       overflow:hidden;
@@ -30,21 +35,20 @@
       box-shadow: var(--shadow);
       border: 1px solid rgba(255,255,255,.10);
       background:
-        radial-gradient(900px 420px at 20% 20%, rgba(91,180,255,.16), transparent 60%),
-        radial-gradient(900px 420px at 80% 30%, rgba(123,97,255,.14), transparent 60%),
-        radial-gradient(800px 520px at 50% 90%, rgba(0,240,255,.10), transparent 65%),
+        radial-gradient(900px 420px at 20% 20%, rgba(91,180,255,.18), transparent 60%),
+        radial-gradient(900px 420px at 80% 30%, rgba(123,97,255,.16), transparent 60%),
+        radial-gradient(800px 520px at 50% 90%, rgba(0,240,255,.12), transparent 65%),
         #070A10;
     }
 
-    /* animated light */
     .glow{
       position:absolute; inset:-40%;
       background:
-        radial-gradient(circle at 30% 40%, rgba(91,180,255,.20), transparent 55%),
-        radial-gradient(circle at 70% 30%, rgba(123,97,255,.18), transparent 55%),
-        radial-gradient(circle at 50% 70%, rgba(0,240,255,.12), transparent 58%);
+        radial-gradient(circle at 30% 40%, rgba(91,180,255,.24), transparent 55%),
+        radial-gradient(circle at 70% 30%, rgba(123,97,255,.20), transparent 55%),
+        radial-gradient(circle at 50% 70%, rgba(0,240,255,.14), transparent 58%);
       filter: blur(18px);
-      opacity:.9;
+      opacity:.95;
       animation: drift 7.5s ease-in-out infinite;
       pointer-events:none;
     }
@@ -53,7 +57,6 @@
       50%{ transform: translate3d(2.5%, -2.5%, 0) scale(1.03); opacity:1; }
     }
 
-    /* grain */
     .grain{
       position:absolute; inset:-40%;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
@@ -71,7 +74,7 @@
       100%{ transform:translate(0,0); }
     }
 
-    /* progress */
+    /* progress (top) */
     .progress{
       position:absolute; left:16px; right:16px; top:16px;
       height:8px; border-radius:999px;
@@ -87,7 +90,7 @@
       box-shadow: 0 8px 22px rgba(91,180,255,.25);
     }
 
-    /* slide system */
+    /* slides */
     .slides{ position:absolute; inset:0; }
     .slide{
       position:absolute; inset:0;
@@ -98,7 +101,7 @@
 
       opacity:0;
       transform: scale(1.02);
-      filter: blur(6px);
+      filter: blur(7px);
       transition: opacity .55s ease, transform .75s cubic-bezier(.2,.8,.2,1), filter .55s ease;
     }
     .slide.is-on{
@@ -107,7 +110,6 @@
       filter: blur(0);
     }
 
-    /* top tag */
     .tag{
       justify-self:start;
       display:inline-flex;
@@ -119,7 +121,7 @@
       border: 1px solid rgba(91,180,255,.25);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      font-weight: 800;
+      font-weight: 900;
       font-size: 12px;
       letter-spacing:.2px;
       color: var(--muted);
@@ -130,7 +132,6 @@
       box-shadow: 0 10px 20px rgba(91,180,255,.22);
     }
 
-    /* big text */
     .title{
       align-self:center;
       font-size: clamp(26px, 5.2vw, 40px);
@@ -148,7 +149,6 @@
       color: transparent;
     }
 
-    /* bullets */
     .bullets{
       margin:0;
       padding: 14px 14px;
@@ -163,10 +163,10 @@
     }
     .bullets li{
       list-style:none;
-      font-weight: 850;
+      font-weight: 900;
       font-size: 13px;
       line-height:1.25;
-      color: rgba(255,255,255,.88);
+      color: rgba(255,255,255,.90);
       opacity:0;
       transform: translateX(18px);
     }
@@ -176,7 +176,6 @@
     .slide.is-on .bullets li:nth-child(3){ animation-delay:.26s; }
     @keyframes bIn{ to{ opacity:1; transform: translateX(0); } }
 
-    /* CTA */
     .cta{
       display:flex;
       justify-content:space-between;
@@ -189,7 +188,7 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       color: rgba(255,255,255,.82);
-      font-weight: 800;
+      font-weight: 900;
       font-size: 12px;
     }
     .pill{
@@ -198,17 +197,15 @@
       background: rgba(91,180,255,.14);
       border: 1px solid rgba(91,180,255,.26);
       color: rgba(91,180,255,.95);
-      font-weight: 900;
+      font-weight: 950;
       letter-spacing:.25px;
     }
 
-    /* shapes */
     .shape{
-      position:absolute; inset:auto;
+      position:absolute;
       width: 220px; height: 220px;
       border-radius: 999px;
       opacity:.55;
-      transform: translateZ(0);
       mix-blend-mode: screen;
       pointer-events:none;
     }
@@ -216,12 +213,11 @@
     .s2{ right:-90px; top:200px; background: radial-gradient(circle at 30% 30%, rgba(123,97,255,.85), transparent 60%); }
     .s3{ left:40px; bottom:-100px; width:260px; height:260px; background: radial-gradient(circle at 30% 30%, rgba(0,240,255,.65), transparent 60%); }
 
-    /* brand */
     .brand{
       position:absolute; left:16px; bottom:14px;
       display:flex; gap:10px; align-items:center;
       color: rgba(255,255,255,.70);
-      font-weight: 850;
+      font-weight: 900;
       font-size: 12px;
       z-index:60;
       pointer-events:none;
@@ -240,7 +236,7 @@
 </head>
 
 <body>
-  <main class="stage" aria-label="Auto crypto reel">
+  <main class="stage" aria-label="CryptoKosmos Reel">
     <div class="glow"></div>
     <div class="grain"></div>
 
@@ -249,73 +245,84 @@
     <div class="slides">
       <!-- SLIDE 1 -->
       <section class="slide is-on" data-dur="2200"
-        data-text-title="Narrative hype is<br><span class='accent'>not a signal.</span>"
-        data-text-b1="It’s attention without confirmation."
-        data-text-b2="It feels ‘early’… until it dumps."
-        data-text-b3="Price follows liquidity, not likes.">
+        data-text-title="Sentiment <span class='accent'>resets</span>."
+        data-text-b1="Price drops shake out weak hands."
+        data-text-b2="But markets don’t move on emotion."
+        data-text-b3="They move on positioning.">
         <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
-        <div class="tag"><span class="dot"></span> Narrative Hype</div>
+        <div class="tag"><span class="dot"></span> Market Reality</div>
         <h1 class="title"></h1>
         <ul class="bullets"><li></li><li></li><li></li></ul>
-        <div class="cta"><span>Don’t confuse noise with flow.</span><span class="pill">HYPE</span></div>
+        <div class="cta"><span>Noise fades. Data remains.</span><span class="pill">RESET</span></div>
       </section>
 
       <!-- SLIDE 2 -->
       <section class="slide" data-dur="2200"
-        data-text-title="3 signs you’re late<br><span class='accent'>to the party</span>"
-        data-text-b1="Crowded timeline & “easy money” posts."
-        data-text-b2="Late volume spikes after a big green candle."
-        data-text-b3="Everyone shills — nobody shows liquidity.">
+        data-text-title="ETF inflows <span class='accent'>rise</span>."
+        data-text-b1="That’s not retail chasing candles."
+        data-text-b2="That’s institutions building exposure."
+        data-text-b3="Flows tell you who’s serious.">
         <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
-        <div class="tag"><span class="dot"></span> Red Flags</div>
+        <div class="tag"><span class="dot"></span> Flow Watch</div>
         <h1 class="title"></h1>
         <ul class="bullets"><li></li><li></li><li></li></ul>
-        <div class="cta"><span>Hype is usually exit liquidity.</span><span class="pill">LATE</span></div>
+        <div class="cta"><span>Follow inflows, not opinions.</span><span class="pill">ETF</span></div>
       </section>
 
       <!-- SLIDE 3 -->
       <section class="slide" data-dur="2200"
-        data-text-title="The market asks:<br><span class='accent'>Where’s the liquidity?</span>"
-        data-text-b1="Who is buying (real size)?"
-        data-text-b2="Where is the next buyer above you?"
-        data-text-b3="What level proves you wrong?">
+        data-text-title="Retail watches <span class='accent'>headlines</span>."
+        data-text-b1="“BTC down” becomes a story."
+        data-text-b2="Fear spreads faster than facts."
+        data-text-b3="Most decisions happen too late.">
         <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
-        <div class="tag"><span class="dot"></span> Liquidity Check</div>
+        <div class="tag"><span class="dot"></span> Psychology</div>
         <h1 class="title"></h1>
         <ul class="bullets"><li></li><li></li><li></li></ul>
-        <div class="cta"><span>Questions > FOMO.</span><span class="pill">FLOW</span></div>
+        <div class="cta"><span>Headlines sell emotion.</span><span class="pill">RETAIL</span></div>
       </section>
 
       <!-- SLIDE 4 -->
       <section class="slide" data-dur="2200"
-        data-text-title="What to do instead:<br><span class='accent'>wait for rotation</span>"
-        data-text-b1="Track leaders first (volume + strength)."
-        data-text-b2="Buy pullbacks, not breakouts into hype."
-        data-text-b3="Size small until confirmation.">
+        data-text-title="Institutions watch <span class='accent'>flows</span>."
+        data-text-b1="They care about liquidity."
+        data-text-b2="They scale in when sentiment is weak."
+        data-text-b3="They don’t need hype to buy.">
         <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
-        <div class="tag"><span class="dot"></span> Strategy</div>
+        <div class="tag"><span class="dot"></span> Smart Money</div>
         <h1 class="title"></h1>
         <ul class="bullets"><li></li><li></li><li></li></ul>
-        <div class="cta"><span>Rotations reward patience.</span><span class="pill">WAIT</span></div>
+        <div class="cta"><span>Quiet accumulation is real.</span><span class="pill">FLOW</span></div>
       </section>
 
       <!-- SLIDE 5 -->
-      <section class="slide" data-dur="2400"
-        data-text-title="Want the full checklist?<br><span class='accent'>Read the article</span>"
-        data-text-b1="Narrative Hype Checklist"
-        data-text-b2="Spot ‘already late’ setups"
-        data-text-b3="Trade with liquidity, not hope">
+      <section class="slide" data-dur="2300"
+        data-text-title="Liquidity &gt; <span class='accent'>Narratives</span>."
+        data-text-b1="Narratives bring attention."
+        data-text-b2="Liquidity decides winners."
+        data-text-b3="Rotation is the whole game.">
         <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
-        <div class="tag"><span class="dot"></span> CryptoKosmos</div>
+        <div class="tag"><span class="dot"></span> Core Lesson</div>
         <h1 class="title"></h1>
         <ul class="bullets"><li></li><li></li><li></li></ul>
-        <div class="cta">
-          <span>cryptokosmos.app/news/narrativehype.html</span>
-          <span class="pill">READ</span>
-        </div>
+        <div class="cta"><span>Follow capital, not hope.</span><span class="pill">REAL</span></div>
+      </section>
+
+      <!-- SLIDE 6 -->
+      <section class="slide" data-dur="2300"
+        data-text-title="Honest question:"
+        data-text-b1="Do you follow narratives…"
+        data-text-b2="or do you follow liquidity?"
+        data-text-b3="Pick one. Then build a plan.">
+        <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
+        <div class="tag"><span class="dot"></span> Your Edge</div>
+        <h1 class="title"></h1>
+        <ul class="bullets"><li></li><li></li><li></li></ul>
+        <div class="cta"><span>Comment: “FLOW” if you get it.</span><span class="pill">CTA</span></div>
       </section>
     </div>
 
+  
   </main>
 
   <script>
@@ -359,7 +366,7 @@
       const pct = Math.min(100, (elapsed/total)*100);
       bar.style.width = pct + "%";
 
-      // active slide by elapsed
+      // active slide
       let acc = 0;
       let newIdx = slides.length - 1;
       for(let i=0;i<slides.length;i++){
@@ -380,6 +387,7 @@
       raf = requestAnimationFrame(loop);
     }
 
+    // AUTO START
     restart();
   </script>
 </body>
