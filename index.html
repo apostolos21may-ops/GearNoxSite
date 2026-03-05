@@ -1,458 +1,150 @@
-<!doctype html>
-<html lang="el">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Liquidity > Price (Reel)</title>
-  <style>
-    :root{
-      --bg:#070A12;
-      --card:#0C1224;
-      --ink:#EAF0FF;
-      --muted:#9AA7C7;
-      --accent:#33FFD1;
-      --accent2:#7C5CFF;
-      --danger:#FF4D6D;
-      --shadow: 0 24px 80px rgba(0,0,0,.45);
-      --radius: 22px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      background:
-        radial-gradient(900px 900px at 20% 10%, rgba(124,92,255,.18), transparent 60%),
-        radial-gradient(700px 700px at 80% 30%, rgba(51,255,209,.14), transparent 60%),
-        radial-gradient(900px 900px at 50% 95%, rgba(255,77,109,.10), transparent 60%),
-        var(--bg);
-      color:var(--ink);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      overflow:hidden;
-    }
+<meta charset="UTF-8">
+<title>Crypto Liquidity Signal</title>
 
-    /* 9:16 frame */
-    .frame{
-      width:min(420px, 92vw);
-      aspect-ratio: 9 / 16;
-      border-radius: 30px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.06), transparent 22%),
-        linear-gradient(135deg, rgba(51,255,209,.08), rgba(124,92,255,.08)),
-        #050712;
-      box-shadow: var(--shadow);
-      position:relative;
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,.08);
-    }
+<style>
 
-    /* film grain */
-    .frame::after{
-      content:"";
-      position:absolute; inset:-40%;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
-      opacity:.08;
-      transform:rotate(10deg);
-      pointer-events:none;
-      animation: grain 6s steps(6) infinite;
-    }
-    @keyframes grain{
-      0%{transform:translate(0,0) rotate(10deg)}
-      20%{transform:translate(-3%,2%) rotate(10deg)}
-      40%{transform:translate(2%,-3%) rotate(10deg)}
-      60%{transform:translate(-2%,-2%) rotate(10deg)}
-      80%{transform:translate(3%,1%) rotate(10deg)}
-      100%{transform:translate(0,0) rotate(10deg)}
-    }
+body{
+background:#050505;
+color:#00ff9c;
+font-family: "Courier New", monospace;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+overflow:hidden;
+}
 
-    /* top HUD */
-    .hud{
-      position:absolute; left:0; right:0; top:0;
-      padding:14px 16px 10px;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px;
-      z-index:5;
-    }
-    .tag{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(10px);
-      font-weight:700;
-      letter-spacing:.3px;
-      font-size:12px;
-      color:var(--ink);
-    }
-    .dot{
-      width:9px; height:9px; border-radius:50%;
-      background: var(--accent);
-      box-shadow: 0 0 18px rgba(51,255,209,.65);
-    }
-    .timer{
-      font-variant-numeric: tabular-nums;
-      color:var(--muted);
-      font-size:12px;
-      font-weight:600;
-    }
+.container{
+width:500px;
+height:800px;
+border:2px solid #00ff9c;
+padding:40px;
+box-shadow:0 0 40px #00ff9c33;
+position:relative;
+}
 
-    /* progress */
-    .progress{
-      position:absolute; left:16px; right:16px; top:48px;
-      height:4px;
-      background:rgba(255,255,255,.08);
-      border-radius:999px;
-      overflow:hidden;
-      z-index:5;
-    }
-    .bar{
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 24px rgba(124,92,255,.35);
-      animation: progress 14s linear infinite;
-    }
-    @keyframes progress{
-      0%{width:0%}
-      100%{width:100%}
-    }
+.scanline{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:2px;
+background:#00ff9c;
+animation:scan 4s linear infinite;
+}
 
-    /* slides */
-    .slides{
-      position:absolute; inset:0;
-      padding:82px 18px 18px;
-      display:grid;
-      place-items:stretch;
-    }
-    .slide{
-      position:absolute; inset:82px 18px 18px;
-      border-radius: var(--radius);
-      background: rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
-      backdrop-filter: blur(10px);
-      padding:18px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      opacity:0;
-      transform: translateY(12px) scale(.985);
-      animation: show 14s infinite;
-    }
+@keyframes scan{
+0%{top:0}
+100%{top:100%}
+}
 
-    /* timing: 4 slides */
-    .s1{ animation-delay: 0s; }
-    .s2{ animation-delay: 3.5s; }
-    .s3{ animation-delay: 7s; }
-    .s4{ animation-delay: 10.5s; }
+.title{
+font-size:28px;
+margin-bottom:40px;
+animation:flicker 2s infinite alternate;
+}
 
-    @keyframes show{
-      0%{opacity:0; transform: translateY(12px) scale(.985)}
-      8%{opacity:1; transform: translateY(0) scale(1)}
-      78%{opacity:1; transform: translateY(0) scale(1)}
-      100%{opacity:0; transform: translateY(-10px) scale(.99)}
-    }
+@keyframes flicker{
+0%{opacity:1}
+100%{opacity:0.6}
+}
 
-    .title{
-      font-size:34px;
-      line-height:1.05;
-      letter-spacing:-.6px;
-      margin:0;
-    }
-    .sub{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.4;
-    }
+.block{
+margin:30px 0;
+font-size:22px;
+opacity:0;
+animation:fade 1s forwards;
+}
 
-    /* glitch hook */
-    .glitch{
-      position:relative;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.9px;
-    }
-    .glitch::before,
-    .glitch::after{
-      content:attr(data-text);
-      position:absolute;
-      left:0; top:0;
-      width:100%;
-      opacity:.85;
-      mix-blend-mode:screen;
-      pointer-events:none;
-    }
-    .glitch::before{
-      transform:translate(1px,0);
-      color: var(--accent);
-      clip-path: inset(0 0 55% 0);
-      animation: glitch 1.4s infinite linear alternate-reverse;
-    }
-    .glitch::after{
-      transform:translate(-1px,0);
-      color: var(--danger);
-      clip-path: inset(55% 0 0 0);
-      animation: glitch 1.1s infinite linear alternate-reverse;
-    }
-    @keyframes glitch{
-      0%{transform:translate(1px,0)}
-      20%{transform:translate(-1px,1px)}
-      40%{transform:translate(2px,-1px)}
-      60%{transform:translate(-2px,0)}
-      80%{transform:translate(1px,-2px)}
-      100%{transform:translate(0,1px)}
-    }
+.block:nth-child(2){animation-delay:1s}
+.block:nth-child(3){animation-delay:2s}
+.block:nth-child(4){animation-delay:3s}
+.block:nth-child(5){animation-delay:4s}
 
-    /* cards */
-    .grid{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:10px;
-      margin-top:6px;
-    }
-    .card{
-      background: rgba(0,0,0,.28);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 18px;
-      padding:12px 12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .left{
-      display:flex; flex-direction:column; gap:2px;
-      min-width:0;
-    }
-    .label{
-      font-size:12px;
-      color:var(--muted);
-      letter-spacing:.3px;
-      text-transform:uppercase;
-    }
-    .value{
-      font-size:18px;
-      font-weight:800;
-      letter-spacing:-.2px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .pill{
-      padding:7px 10px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:800;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
-      display:inline-flex; align-items:center; gap:8px;
-    }
-    .up{ color: var(--accent); }
-    .down{ color: var(--danger); }
+@keyframes fade{
+to{opacity:1}
+}
 
-    /* mini chart placeholder */
-    .chart{
-      height:120px;
-      border-radius:18px;
-      border:1px dashed rgba(255,255,255,.14);
-      background:
-        radial-gradient(400px 120px at 10% 20%, rgba(51,255,209,.14), transparent 60%),
-        radial-gradient(400px 120px at 90% 70%, rgba(124,92,255,.12), transparent 60%),
-        rgba(255,255,255,.03);
-      display:grid;
-      place-items:center;
-      color:rgba(234,240,255,.72);
-      font-weight:700;
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.6px;
-    }
+.signal{
+margin-top:60px;
+font-size:30px;
+color:#00ff9c;
+text-shadow:0 0 20px #00ff9c;
+animation:pulse 1.5s infinite;
+}
 
-    /* big statement */
-    .big{
-      margin-top:auto;
-      padding:14px 14px;
-      border-radius:18px;
-      background: linear-gradient(135deg, rgba(51,255,209,.14), rgba(124,92,255,.14));
-      border:1px solid rgba(255,255,255,.14);
-    }
-    .big h2{
-      margin:0;
-      font-size:22px;
-      line-height:1.12;
-      letter-spacing:-.3px;
-    }
-    .big p{
-      margin:8px 0 0;
-      color:rgba(234,240,255,.78);
-      font-size:13px;
-      line-height:1.35;
-    }
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.05)}
+100%{transform:scale(1)}
+}
 
-    /* footer CTA */
-    .cta{
-      position:absolute; left:18px; right:18px; bottom:16px;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px;
-      z-index:6;
-      pointer-events:none;
-    }
-    .handle{
-      pointer-events:none;
-      font-weight:800;
-      font-size:12px;
-      color:rgba(234,240,255,.85);
-      background:rgba(0,0,0,.25);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:999px;
-      padding:8px 10px;
-      backdrop-filter: blur(10px);
-    }
-    .hint{
-      pointer-events:none;
-      font-size:12px;
-      color:rgba(154,167,199,.95);
-    }
+.chart{
+position:absolute;
+bottom:40px;
+left:40px;
+right:40px;
+height:150px;
+border-left:2px solid #00ff9c;
+border-bottom:2px solid #00ff9c;
+}
 
-    /* small helper */
-    .muted{color:var(--muted)}
-    .accent{color:var(--accent)}
-  </style>
+.line{
+position:absolute;
+bottom:0;
+left:0;
+width:0%;
+height:2px;
+background:#00ff9c;
+animation:chart 5s linear forwards;
+}
+
+@keyframes chart{
+0%{width:0%}
+100%{width:100%}
+}
+
+</style>
 </head>
 
 <body>
-  <div class="frame" role="img" aria-label="Reel-style crypto infographic: Liquidity moves first, price reacts last.">
-    <div class="hud">
-      <div class="tag"><span class="dot"></span> LIQUIDITY WATCH</div>
-      <div class="timer" id="timer">00:14</div>
-    </div>
 
-    <div class="progress"><div class="bar"></div></div>
+<div class="container">
 
-    <div class="slides">
+<div class="scanline"></div>
 
-      <!-- Slide 1: Hook -->
-      <section class="slide s1">
-        <h1 class="title glitch" data-text="YOU’RE LATE IF YOU WATCH PRICE">
-          YOU’RE LATE IF YOU WATCH PRICE
-        </h1>
-        <p class="sub">
-          Most traders watch candles. <span class="accent">Smart money watches liquidity.</span>
-        </p>
-        <div class="chart">Drop your chart / screenshot here</div>
+<div class="title">
+MARKET SIGNAL DETECTED
+</div>
 
-        <div class="big">
-          <h2>Liquidity moves first.<br/>Price reacts last.</h2>
-          <p>Watch flows + supply + positioning — not noise.</p>
-        </div>
-      </section>
+<div class="block">
+ETF FLOWS ↑
+</div>
 
-      <!-- Slide 2: ETF Flows -->
-      <section class="slide s2">
-        <h1 class="title">1) ETF Flows</h1>
-        <p class="sub">When institutions accumulate, price usually follows later.</p>
+<div class="block">
+STABLECOIN SUPPLY ↑
+</div>
 
-        <div class="grid">
-          <div class="card">
-            <div class="left">
-              <div class="label">Net Inflows</div>
-              <div class="value">Rising week-over-week</div>
-            </div>
-            <div class="pill up">▲ Bullish flow</div>
-          </div>
+<div class="block">
+OPEN INTEREST ↑
+</div>
 
-          <div class="card">
-            <div class="left">
-              <div class="label">Signal</div>
-              <div class="value">Positioning > Headlines</div>
-            </div>
-            <div class="pill">Data-driven</div>
-          </div>
-        </div>
+<div class="block">
+MARKET POSITIONING...
+</div>
 
-        <div class="big">
-          <h2>Retail reacts to news.<br/>Institutions react to flows.</h2>
-          <p>Flows are the footprint. Price is the headline.</p>
-        </div>
-      </section>
+<div class="signal">
+PRICE REACTION INCOMING
+</div>
 
-      <!-- Slide 3: Stablecoin Supply -->
-      <section class="slide s3">
-        <h1 class="title">2) Stablecoin Supply</h1>
-        <p class="sub">More stablecoins = more potential buying power waiting on the sidelines.</p>
+<div class="chart">
+<div class="line"></div>
+</div>
 
-        <div class="grid">
-          <div class="card">
-            <div class="left">
-              <div class="label">Supply</div>
-              <div class="value">Growing</div>
-            </div>
-            <div class="pill up">▲ Liquidity expanding</div>
-          </div>
+</div>
 
-          <div class="card">
-            <div class="left">
-              <div class="label">What it means</div>
-              <div class="value">Dry powder increases</div>
-            </div>
-            <div class="pill">Macro signal</div>
-          </div>
-        </div>
-
-        <div class="big">
-          <h2>Liquidity builds quietly.<br/>Breakouts come loud.</h2>
-          <p>Watch the money supply before the candles.</p>
-        </div>
-      </section>
-
-      <!-- Slide 4: Open Interest + Final -->
-      <section class="slide s4">
-        <h1 class="title">3) Open Interest</h1>
-        <p class="sub">Expanding OI = positioning is growing. Risk is stacking.</p>
-
-        <div class="grid">
-          <div class="card">
-            <div class="left">
-              <div class="label">Open Interest</div>
-              <div class="value">Expanding</div>
-            </div>
-            <div class="pill up">▲ Build-up</div>
-          </div>
-
-          <div class="card">
-            <div class="left">
-              <div class="label">Key idea</div>
-              <div class="value">Price reacts last</div>
-            </div>
-            <div class="pill">Always</div>
-          </div>
-        </div>
-
-        <div class="big">
-          <h2>Everyone watches price.<br/>Few watch positioning.</h2>
-          <p class="muted">ETF flows • Stablecoin supply • On-chain accumulation</p>
-        </div>
-      </section>
-    </div>
-
-  </div>
-
-  <script>
-    // simple looping timer for the HUD (14s loop)
-    const total = 14;
-    const el = document.getElementById('timer');
-    let t = total;
-
-    function tick(){
-      const s = String(t).padStart(2,'0');
-      el.textContent = `00:${s}`;
-      t--;
-      if(t < 0) t = total;
-    }
-    tick();
-    setInterval(tick, 1000);
-  </script>
 </body>
 </html>
