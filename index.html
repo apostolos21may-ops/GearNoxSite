@@ -1,150 +1,464 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Crypto Liquidity Signal</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Liquidity Reel</title>
 
-<style>
+  <style>
+    :root{
+      --bg:#050816;
+      --fg:#f4f7ff;
+      --muted:rgba(255,255,255,.72);
+      --red:#ff6b6b;
+      --green:#4dffb8;
+      --blue:#6fb6ff;
+      --card:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.10);
+    }
 
-body{
-background:#050505;
-color:#00ff9c;
-font-family: "Courier New", monospace;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-overflow:hidden;
-}
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;
+      height:100%;
+      background:var(--bg);
+      color:var(--fg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      overflow:hidden;
+    }
 
-.container{
-width:500px;
-height:800px;
-border:2px solid #00ff9c;
-padding:40px;
-box-shadow:0 0 40px #00ff9c33;
-position:relative;
-}
+    body{
+      display:grid;
+      place-items:center;
+      padding:16px;
+    }
 
-.scanline{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:2px;
-background:#00ff9c;
-animation:scan 4s linear infinite;
-}
+    .stage{
+      width:min(430px, 94vw);
+      aspect-ratio:9/16;
+      border-radius:28px;
+      overflow:hidden;
+      position:relative;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(700px 400px at 0% 0%, rgba(255,107,107,.14), transparent 60%),
+        radial-gradient(700px 400px at 100% 0%, rgba(77,255,184,.12), transparent 60%),
+        radial-gradient(800px 500px at 50% 100%, rgba(111,182,255,.10), transparent 60%),
+        linear-gradient(180deg, #07101f, #050816);
+      box-shadow:0 30px 90px rgba(0,0,0,.45);
+    }
 
-@keyframes scan{
-0%{top:0}
-100%{top:100%}
-}
+    .grain{
+      position:absolute;
+      inset:-20%;
+      opacity:.08;
+      pointer-events:none;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.5) 1px, transparent 1px);
+      background-size:12px 12px;
+      mix-blend-mode:overlay;
+      animation:grain 8s linear infinite;
+    }
 
-.title{
-font-size:28px;
-margin-bottom:40px;
-animation:flicker 2s infinite alternate;
-}
+    @keyframes grain{
+      0%{transform:translate(0,0)}
+      25%{transform:translate(-1.5%,1%)}
+      50%{transform:translate(1%, -1.5%)}
+      75%{transform:translate(1.5%,1%)}
+      100%{transform:translate(0,0)}
+    }
 
-@keyframes flicker{
-0%{opacity:1}
-100%{opacity:0.6}
-}
+    .topbar{
+      position:absolute;
+      top:0; left:0; right:0;
+      padding:16px 16px 10px;
+      z-index:5;
+    }
 
-.block{
-margin:30px 0;
-font-size:22px;
-opacity:0;
-animation:fade 1s forwards;
-}
+    .progress{
+      height:6px;
+      width:100%;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+    }
 
-.block:nth-child(2){animation-delay:1s}
-.block:nth-child(3){animation-delay:2s}
-.block:nth-child(4){animation-delay:3s}
-.block:nth-child(5){animation-delay:4s}
+    .bar{
+      width:0%;
+      height:100%;
+      background:linear-gradient(90deg, var(--red), var(--blue), var(--green));
+      animation:progress 18s linear infinite;
+    }
 
-@keyframes fade{
-to{opacity:1}
-}
+    @keyframes progress{
+      from{width:0%}
+      to{width:100%}
+    }
 
-.signal{
-margin-top:60px;
-font-size:30px;
-color:#00ff9c;
-text-shadow:0 0 20px #00ff9c;
-animation:pulse 1.5s infinite;
-}
+    .content{
+      position:absolute;
+      inset:24px 18px 24px 18px;
+      padding-top:18px;
+    }
 
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.05)}
-100%{transform:scale(1)}
-}
+    .screen{
+      position:absolute;
+      inset:34px 0 0 0;
+      opacity:0;
+      transform:translateY(18px) scale(.98);
+      animation:scene 18s infinite;
+    }
 
-.chart{
-position:absolute;
-bottom:40px;
-left:40px;
-right:40px;
-height:150px;
-border-left:2px solid #00ff9c;
-border-bottom:2px solid #00ff9c;
-}
+    .s1{animation-delay:0s}
+    .s2{animation-delay:6s}
+    .s3{animation-delay:12s}
 
-.line{
-position:absolute;
-bottom:0;
-left:0;
-width:0%;
-height:2px;
-background:#00ff9c;
-animation:chart 5s linear forwards;
-}
+    @keyframes scene{
+      0%, 30%{
+        opacity:1;
+        transform:translateY(0) scale(1);
+      }
+      36%, 100%{
+        opacity:0;
+        transform:translateY(18px) scale(.98);
+      }
+    }
 
-@keyframes chart{
-0%{width:0%}
-100%{width:100%}
-}
+    /* Scene 1 */
+    .split{
+      height:100%;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      align-items:stretch;
+    }
 
-</style>
+    .panel{
+      position:relative;
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:var(--card);
+      padding:18px 16px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .panel.left{
+      background:
+        linear-gradient(180deg, rgba(255,107,107,.14), rgba(255,107,107,.04)),
+        rgba(255,255,255,.04);
+    }
+
+    .panel.right{
+      background:
+        linear-gradient(180deg, rgba(77,255,184,.14), rgba(77,255,184,.04)),
+        rgba(255,255,255,.04);
+    }
+
+    .eyebrow{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:var(--muted);
+      font-weight:700;
+    }
+
+    .big{
+      font-size:38px;
+      line-height:.96;
+      font-weight:900;
+      letter-spacing:-.04em;
+      margin:10px 0 0;
+    }
+
+    .big small{
+      display:block;
+      font-size:18px;
+      line-height:1.1;
+      color:var(--muted);
+      font-weight:700;
+      letter-spacing:0;
+      margin-top:12px;
+    }
+
+    .chartbox{
+      height:190px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(0,0,0,.18);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .line-red,
+    .line-green{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:24px;
+      height:2px;
+      transform-origin:left center;
+    }
+
+    .line-red{
+      background:linear-gradient(90deg, transparent 0%, var(--red) 18%, var(--red) 100%);
+      clip-path:polygon(0 20%, 10% 10%, 20% 25%, 30% 18%, 40% 40%, 50% 34%, 60% 58%, 70% 54%, 80% 70%, 90% 62%, 100% 78%, 100% 100%, 0 100%);
+      height:100%;
+      opacity:.9;
+    }
+
+    .line-green{
+      background:linear-gradient(90deg, transparent 0%, var(--green) 18%, var(--green) 100%);
+      clip-path:polygon(0 82%, 10% 78%, 20% 74%, 30% 68%, 40% 62%, 50% 56%, 60% 48%, 70% 42%, 80% 34%, 90% 20%, 100% 8%, 100% 100%, 0 100%);
+      height:100%;
+      opacity:.95;
+    }
+
+    .people{
+      display:flex;
+      gap:8px;
+      margin-top:14px;
+      opacity:.8;
+    }
+
+    .people span{
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:rgba(255,255,255,.18);
+      display:block;
+    }
+
+    /* Scene 2 */
+    .scene-two{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:14px;
+    }
+
+    .headline{
+      font-size:18px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:var(--muted);
+      font-weight:800;
+      text-align:center;
+    }
+
+    .signal-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:16px 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      animation:float 3s ease-in-out infinite;
+    }
+
+    .signal-card:nth-child(2){animation-delay:.1s}
+    .signal-card:nth-child(3){animation-delay:.25s}
+    .signal-card:nth-child(4){animation-delay:.4s}
+
+    @keyframes float{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-4px)}
+    }
+
+    .signal-left{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .signal-title{
+      font-size:23px;
+      font-weight:850;
+      letter-spacing:-.02em;
+    }
+
+    .signal-sub{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.25;
+    }
+
+    .badge{
+      padding:9px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.10);
+      white-space:nowrap;
+    }
+
+    .up{color:var(--green)}
+
+    /* Scene 3 */
+    .scene-three{
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .final-box{
+      margin-top:22px;
+      padding:22px 18px;
+      border-radius:26px;
+      background:
+        linear-gradient(135deg, rgba(255,107,107,.12), rgba(111,182,255,.10), rgba(77,255,184,.12)),
+        rgba(255,255,255,.04);
+      border:1px solid var(--line);
+    }
+
+    .final-title{
+      font-size:42px;
+      line-height:.94;
+      font-weight:950;
+      letter-spacing:-.05em;
+      margin:0;
+    }
+
+    .final-title .green{color:var(--green)}
+    .final-title .blue{color:var(--blue)}
+
+    .final-sub{
+      margin-top:16px;
+      font-size:18px;
+      line-height:1.25;
+      color:var(--muted);
+      font-weight:650;
+      max-width:90%;
+    }
+
+    .footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding:14px 16px;
+      border-radius:18px;
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+    }
+
+    .brand{
+      font-size:13px;
+      font-weight:800;
+      color:var(--fg);
+    }
+
+    .cta{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:700;
+    }
+  </style>
 </head>
-
 <body>
+  <main class="stage">
+    <div class="grain"></div>
 
-<div class="container">
+    <div class="topbar">
+      <div class="progress"><div class="bar"></div></div>
+    </div>
 
-<div class="scanline"></div>
+    <div class="content">
 
-<div class="title">
-MARKET SIGNAL DETECTED
-</div>
+      <!-- Scene 1 -->
+      <section class="screen s1">
+        <div class="split">
+          <div class="panel left">
+            <div>
+              <div class="eyebrow">Retail focus</div>
+              <div class="big">
+                PRICE
+                <small>Most people watch candles.</small>
+              </div>
+            </div>
+            <div>
+              <div class="chartbox">
+                <div class="line-red"></div>
+              </div>
+              <div class="people">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
 
-<div class="block">
-ETF FLOWS ↑
-</div>
+          <div class="panel right">
+            <div>
+              <div class="eyebrow">Smart money focus</div>
+              <div class="big">
+                LIQUIDITY
+                <small>Positioning starts before price.</small>
+              </div>
+            </div>
+            <div class="chartbox">
+              <div class="line-green"></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-<div class="block">
-STABLECOIN SUPPLY ↑
-</div>
+      <!-- Scene 2 -->
+      <section class="screen s2">
+        <div class="scene-two">
+          <div class="headline">Right now</div>
 
-<div class="block">
-OPEN INTEREST ↑
-</div>
+          <div class="signal-card">
+            <div class="signal-left">
+              <div class="signal-title">ETF inflows</div>
+              <div class="signal-sub">Institutional capital entering the market</div>
+            </div>
+            <div class="badge up">RISING</div>
+          </div>
 
-<div class="block">
-MARKET POSITIONING...
-</div>
+          <div class="signal-card">
+            <div class="signal-left">
+              <div class="signal-title">Stablecoin supply</div>
+              <div class="signal-sub">Dry powder building across the ecosystem</div>
+            </div>
+            <div class="badge up">GROWING</div>
+          </div>
 
-<div class="signal">
-PRICE REACTION INCOMING
-</div>
+          <div class="signal-card">
+            <div class="signal-left">
+              <div class="signal-title">Open interest</div>
+              <div class="signal-sub">More positioning before the move</div>
+            </div>
+            <div class="badge up">EXPANDING</div>
+          </div>
+        </div>
+      </section>
 
-<div class="chart">
-<div class="line"></div>
-</div>
+      <!-- Scene 3 -->
+      <section class="screen s3">
+        <div class="scene-three">
+          <div class="final-box">
+            <h1 class="final-title">
+              The market is <span class="green">positioning</span>.
+            </h1>
+            <div class="final-sub">
+              <span class="blue">Price</span> will react later.
+            </div>
+          </div>
 
-</div>
+          <div class="footer">
+            <div class="brand">CryptoKosmos</div>
+            <div class="cta">Follow the flows, not the noise.</div>
+          </div>
+        </div>
+      </section>
 
+    </div>
+  </main>
 </body>
 </html>
