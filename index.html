@@ -3,18 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Liquidity Reel</title>
+  <title>Bitcoin Reacts to Macro</title>
 
   <style>
     :root{
-      --bg:#050816;
-      --fg:#f4f7ff;
-      --muted:rgba(255,255,255,.72);
-      --red:#ff6b6b;
-      --green:#4dffb8;
-      --blue:#6fb6ff;
-      --card:rgba(255,255,255,.06);
+      --bg:#050814;
+      --fg:#f3f6ff;
+      --muted:rgba(243,246,255,.72);
       --line:rgba(255,255,255,.10);
+      --red:#ff5f6d;
+      --orange:#ffb347;
+      --blue:#70b8ff;
+      --green:#47f5b3;
+      --card:rgba(255,255,255,.06);
+      --shadow:0 26px 80px rgba(0,0,0,.48);
     }
 
     *{box-sizing:border-box}
@@ -40,38 +42,34 @@
       overflow:hidden;
       position:relative;
       border:1px solid rgba(255,255,255,.08);
+      box-shadow:var(--shadow);
       background:
-        radial-gradient(700px 400px at 0% 0%, rgba(255,107,107,.14), transparent 60%),
-        radial-gradient(700px 400px at 100% 0%, rgba(77,255,184,.12), transparent 60%),
-        radial-gradient(800px 500px at 50% 100%, rgba(111,182,255,.10), transparent 60%),
-        linear-gradient(180deg, #07101f, #050816);
-      box-shadow:0 30px 90px rgba(0,0,0,.45);
+        radial-gradient(800px 400px at 0% 0%, rgba(255,95,109,.18), transparent 60%),
+        radial-gradient(900px 500px at 100% 20%, rgba(112,184,255,.14), transparent 60%),
+        radial-gradient(700px 400px at 50% 100%, rgba(71,245,179,.10), transparent 60%),
+        linear-gradient(180deg, #09101f 0%, #050814 100%);
     }
 
-    .grain{
+    .noise{
       position:absolute;
       inset:-20%;
-      opacity:.08;
+      opacity:.07;
       pointer-events:none;
-      background-image:
-        radial-gradient(circle, rgba(255,255,255,.5) 1px, transparent 1px);
-      background-size:12px 12px;
+      background-image:radial-gradient(circle, rgba(255,255,255,.6) 1px, transparent 1px);
+      background-size:14px 14px;
+      animation:drift 8s linear infinite;
       mix-blend-mode:overlay;
-      animation:grain 8s linear infinite;
     }
-
-    @keyframes grain{
+    @keyframes drift{
       0%{transform:translate(0,0)}
-      25%{transform:translate(-1.5%,1%)}
-      50%{transform:translate(1%, -1.5%)}
-      75%{transform:translate(1.5%,1%)}
+      50%{transform:translate(-1.5%,1.2%)}
       100%{transform:translate(0,0)}
     }
 
-    .topbar{
+    .top{
       position:absolute;
       top:0; left:0; right:0;
-      padding:16px 16px 10px;
+      padding:14px 16px 10px;
       z-index:5;
     }
 
@@ -85,10 +83,11 @@
     }
 
     .bar{
-      width:0%;
       height:100%;
-      background:linear-gradient(90deg, var(--red), var(--blue), var(--green));
+      width:0%;
+      background:linear-gradient(90deg, var(--red), var(--orange), var(--blue), var(--green));
       animation:progress 18s linear infinite;
+      box-shadow:0 0 22px rgba(112,184,255,.35);
     }
 
     @keyframes progress{
@@ -96,66 +95,89 @@
       to{width:100%}
     }
 
-    .content{
+    .ticker{
       position:absolute;
-      inset:24px 18px 24px 18px;
-      padding-top:18px;
+      top:28px;
+      left:18px;
+      right:18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      z-index:4;
+      pointer-events:none;
     }
 
-    .screen{
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+      backdrop-filter:blur(10px);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:var(--red);
+      box-shadow:0 0 16px rgba(255,95,109,.7);
+      animation:pulse 1s infinite;
+    }
+
+    @keyframes pulse{
+      0%,100%{transform:scale(1);opacity:1}
+      50%{transform:scale(1.35);opacity:.7}
+    }
+
+    .time{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:700;
+    }
+
+    .wrap{
       position:absolute;
-      inset:34px 0 0 0;
+      inset:56px 16px 16px;
+    }
+
+    .scene{
+      position:absolute;
+      inset:0;
       opacity:0;
-      transform:translateY(18px) scale(.98);
+      transform:translateY(20px) scale(.985);
       animation:scene 18s infinite;
     }
 
     .s1{animation-delay:0s}
-    .s2{animation-delay:6s}
-    .s3{animation-delay:12s}
+    .s2{animation-delay:4.5s}
+    .s3{animation-delay:9s}
+    .s4{animation-delay:13.5s}
 
     @keyframes scene{
-      0%, 30%{
+      0%,20%{
         opacity:1;
         transform:translateY(0) scale(1);
       }
-      36%, 100%{
+      25%,100%{
         opacity:0;
-        transform:translateY(18px) scale(.98);
+        transform:translateY(20px) scale(.985);
       }
     }
 
-    /* Scene 1 */
-    .split{
+    .card{
       height:100%;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-      align-items:stretch;
-    }
-
-    .panel{
-      position:relative;
       border-radius:24px;
-      overflow:hidden;
-      border:1px solid var(--line);
       background:var(--card);
-      padding:18px 16px;
+      border:1px solid var(--line);
+      backdrop-filter:blur(12px);
+      padding:18px;
       display:flex;
       flex-direction:column;
-      justify-content:space-between;
-    }
-
-    .panel.left{
-      background:
-        linear-gradient(180deg, rgba(255,107,107,.14), rgba(255,107,107,.04)),
-        rgba(255,255,255,.04);
-    }
-
-    .panel.right{
-      background:
-        linear-gradient(180deg, rgba(77,255,184,.14), rgba(77,255,184,.04)),
-        rgba(255,255,255,.04);
     }
 
     .eyebrow{
@@ -163,200 +185,190 @@
       text-transform:uppercase;
       letter-spacing:.16em;
       color:var(--muted);
-      font-weight:700;
-    }
-
-    .big{
-      font-size:38px;
-      line-height:.96;
-      font-weight:900;
-      letter-spacing:-.04em;
-      margin:10px 0 0;
-    }
-
-    .big small{
-      display:block;
-      font-size:18px;
-      line-height:1.1;
-      color:var(--muted);
-      font-weight:700;
-      letter-spacing:0;
-      margin-top:12px;
-    }
-
-    .chartbox{
-      height:190px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(0,0,0,.18);
-      position:relative;
-      overflow:hidden;
-    }
-
-    .line-red,
-    .line-green{
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:24px;
-      height:2px;
-      transform-origin:left center;
-    }
-
-    .line-red{
-      background:linear-gradient(90deg, transparent 0%, var(--red) 18%, var(--red) 100%);
-      clip-path:polygon(0 20%, 10% 10%, 20% 25%, 30% 18%, 40% 40%, 50% 34%, 60% 58%, 70% 54%, 80% 70%, 90% 62%, 100% 78%, 100% 100%, 0 100%);
-      height:100%;
-      opacity:.9;
-    }
-
-    .line-green{
-      background:linear-gradient(90deg, transparent 0%, var(--green) 18%, var(--green) 100%);
-      clip-path:polygon(0 82%, 10% 78%, 20% 74%, 30% 68%, 40% 62%, 50% 56%, 60% 48%, 70% 42%, 80% 34%, 90% 20%, 100% 8%, 100% 100%, 0 100%);
-      height:100%;
-      opacity:.95;
-    }
-
-    .people{
-      display:flex;
-      gap:8px;
-      margin-top:14px;
-      opacity:.8;
-    }
-
-    .people span{
-      width:16px;
-      height:16px;
-      border-radius:50%;
-      background:rgba(255,255,255,.18);
-      display:block;
-    }
-
-    /* Scene 2 */
-    .scene-two{
-      height:100%;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      gap:14px;
-    }
-
-    .headline{
-      font-size:18px;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      color:var(--muted);
       font-weight:800;
-      text-align:center;
+      margin-bottom:10px;
     }
 
-    .signal-card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:16px 16px;
+    .title{
+      margin:0;
+      font-size:42px;
+      line-height:.94;
+      letter-spacing:-.05em;
+      font-weight:950;
+    }
+
+    .title.small{
+      font-size:34px;
+    }
+
+    .sub{
+      margin:14px 0 0;
+      font-size:16px;
+      line-height:1.35;
+      color:var(--muted);
+      max-width:92%;
+    }
+
+    .newsbox{
+      margin-top:20px;
+      display:grid;
+      gap:12px;
+    }
+
+    .news{
       display:flex;
-      justify-content:space-between;
       align-items:center;
-      animation:float 3s ease-in-out infinite;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 14px;
+      border-radius:18px;
+      background:rgba(0,0,0,.20);
+      border:1px solid rgba(255,255,255,.08);
     }
 
-    .signal-card:nth-child(2){animation-delay:.1s}
-    .signal-card:nth-child(3){animation-delay:.25s}
-    .signal-card:nth-child(4){animation-delay:.4s}
-
-    @keyframes float{
-      0%,100%{transform:translateY(0)}
-      50%{transform:translateY(-4px)}
-    }
-
-    .signal-left{
+    .left{
       display:flex;
-      flex-direction:column;
-      gap:4px;
+      align-items:center;
+      gap:12px;
     }
 
-    .signal-title{
-      font-size:23px;
+    .icon{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      font-size:22px;
+      font-weight:900;
+      flex:0 0 auto;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.06);
+    }
+
+    .icon.oil{color:var(--orange)}
+    .icon.pol{color:var(--red)}
+    .icon.vol{color:var(--blue)}
+    .icon.btc{color:var(--green)}
+
+    .label{
+      font-size:18px;
       font-weight:850;
       letter-spacing:-.02em;
     }
 
-    .signal-sub{
-      font-size:13px;
+    .desc{
+      font-size:12px;
       color:var(--muted);
+      margin-top:2px;
       line-height:1.25;
     }
 
-    .badge{
-      padding:9px 12px;
+    .tag{
+      padding:8px 10px;
       border-radius:999px;
-      font-size:12px;
+      font-size:11px;
       font-weight:900;
-      background:rgba(255,255,255,.07);
       border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
       white-space:nowrap;
     }
 
-    .up{color:var(--green)}
-
-    /* Scene 3 */
-    .scene-three{
-      height:100%;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
+    .chart{
+      margin-top:auto;
+      height:170px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)),
+        rgba(0,0,0,.18);
+      position:relative;
+      overflow:hidden;
     }
 
-    .final-box{
-      margin-top:22px;
-      padding:22px 18px;
-      border-radius:26px;
+    .grid{
+      position:absolute;
+      inset:0;
       background:
-        linear-gradient(135deg, rgba(255,107,107,.12), rgba(111,182,255,.10), rgba(77,255,184,.12)),
+        linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size:36px 36px;
+      opacity:.35;
+    }
+
+    .macro-line{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg, transparent 0%, var(--red) 18%, var(--orange) 55%, var(--blue) 100%);
+      clip-path:polygon(0 78%, 10% 74%, 18% 70%, 28% 66%, 38% 55%, 48% 58%, 58% 48%, 68% 54%, 78% 34%, 88% 28%, 100% 12%, 100% 100%, 0 100%);
+      opacity:.95;
+      animation:slide 4s ease-in-out infinite;
+    }
+
+    @keyframes slide{
+      0%,100%{transform:translateX(-1.5%)}
+      50%{transform:translateX(1.5%)}
+    }
+
+    .big-center{
+      height:100%;
+      display:grid;
+      place-items:center;
+      text-align:left;
+    }
+
+    .statement{
+      width:100%;
+      padding:22px 18px;
+      border-radius:24px;
+      background:
+        linear-gradient(135deg, rgba(255,95,109,.12), rgba(112,184,255,.10), rgba(71,245,179,.12)),
         rgba(255,255,255,.04);
       border:1px solid var(--line);
     }
 
-    .final-title{
-      font-size:42px;
-      line-height:.94;
-      font-weight:950;
-      letter-spacing:-.05em;
+    .statement h2{
       margin:0;
+      font-size:40px;
+      line-height:.96;
+      letter-spacing:-.05em;
+      font-weight:950;
     }
 
-    .final-title .green{color:var(--green)}
-    .final-title .blue{color:var(--blue)}
-
-    .final-sub{
-      margin-top:16px;
-      font-size:18px;
-      line-height:1.25;
+    .statement p{
+      margin:14px 0 0;
       color:var(--muted);
-      font-weight:650;
-      max-width:90%;
+      font-size:17px;
+      line-height:1.32;
+      max-width:95%;
     }
+
+    .accent-red{color:var(--red)}
+    .accent-blue{color:var(--blue)}
+    .accent-green{color:var(--green)}
+    .accent-orange{color:var(--orange)}
 
     .footer{
+      position:absolute;
+      left:16px; right:16px; bottom:16px;
       display:flex;
       justify-content:space-between;
       align-items:center;
-      gap:12px;
-      padding:14px 16px;
+      gap:10px;
+      padding:12px 14px;
       border-radius:18px;
-      background:rgba(255,255,255,.05);
-      border:1px solid var(--line);
+      background:rgba(0,0,0,.24);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(10px);
+      z-index:4;
+      font-size:12px;
     }
 
     .brand{
-      font-size:13px;
-      font-weight:800;
-      color:var(--fg);
+      font-weight:900;
+      letter-spacing:.02em;
     }
 
-    .cta{
-      font-size:12px;
+    .hint{
       color:var(--muted);
       font-weight:700;
     }
@@ -364,100 +376,127 @@
 </head>
 <body>
   <main class="stage">
-    <div class="grain"></div>
+    <div class="noise"></div>
 
-    <div class="topbar">
+    <div class="top">
       <div class="progress"><div class="bar"></div></div>
     </div>
 
-    <div class="content">
+    <div class="ticker">
+      <div class="chip"><span class="dot"></span> Macro Alert</div>
+      <div class="time">Bitcoin & Markets</div>
+    </div>
+
+    <div class="wrap">
 
       <!-- Scene 1 -->
-      <section class="screen s1">
-        <div class="split">
-          <div class="panel left">
-            <div>
-              <div class="eyebrow">Retail focus</div>
-              <div class="big">
-                PRICE
-                <small>Most people watch candles.</small>
-              </div>
-            </div>
-            <div>
-              <div class="chartbox">
-                <div class="line-red"></div>
-              </div>
-              <div class="people">
-                <span></span><span></span><span></span><span></span><span></span>
-              </div>
-            </div>
-          </div>
+      <section class="scene s1">
+        <div class="card">
+          <div class="eyebrow">Breaking context</div>
+          <h1 class="title">Markets are on edge.</h1>
+          <p class="sub">
+            Rising macro uncertainty changes liquidity behavior across all risk assets.
+          </p>
 
-          <div class="panel right">
-            <div>
-              <div class="eyebrow">Smart money focus</div>
-              <div class="big">
-                LIQUIDITY
-                <small>Positioning starts before price.</small>
-              </div>
-            </div>
-            <div class="chartbox">
-              <div class="line-green"></div>
-            </div>
+          <div class="chart">
+            <div class="grid"></div>
+            <div class="macro-line"></div>
           </div>
         </div>
       </section>
 
       <!-- Scene 2 -->
-      <section class="screen s2">
-        <div class="scene-two">
-          <div class="headline">Right now</div>
+      <section class="scene s2">
+        <div class="card">
+          <div class="eyebrow">What is driving it</div>
+          <h1 class="title small">Macro pressure is building.</h1>
 
-          <div class="signal-card">
-            <div class="signal-left">
-              <div class="signal-title">ETF inflows</div>
-              <div class="signal-sub">Institutional capital entering the market</div>
+          <div class="newsbox">
+            <div class="news">
+              <div class="left">
+                <div class="icon oil">🛢</div>
+                <div>
+                  <div class="label">Oil moving</div>
+                  <div class="desc">Energy spikes tend to raise uncertainty fast.</div>
+                </div>
+              </div>
+              <div class="tag">Risk</div>
             </div>
-            <div class="badge up">RISING</div>
-          </div>
 
-          <div class="signal-card">
-            <div class="signal-left">
-              <div class="signal-title">Stablecoin supply</div>
-              <div class="signal-sub">Dry powder building across the ecosystem</div>
+            <div class="news">
+              <div class="left">
+                <div class="icon pol">⚠</div>
+                <div>
+                  <div class="label">Politics heating up</div>
+                  <div class="desc">Macro headlines move positioning before price.</div>
+                </div>
+              </div>
+              <div class="tag">Newsflow</div>
             </div>
-            <div class="badge up">GROWING</div>
-          </div>
 
-          <div class="signal-card">
-            <div class="signal-left">
-              <div class="signal-title">Open interest</div>
-              <div class="signal-sub">More positioning before the move</div>
+            <div class="news">
+              <div class="left">
+                <div class="icon vol">📉</div>
+                <div>
+                  <div class="label">Volatility rising</div>
+                  <div class="desc">Cross-market reactions get sharper in uncertain periods.</div>
+                </div>
+              </div>
+              <div class="tag">Vol</div>
             </div>
-            <div class="badge up">EXPANDING</div>
           </div>
         </div>
       </section>
 
       <!-- Scene 3 -->
-      <section class="screen s3">
-        <div class="scene-three">
-          <div class="final-box">
-            <h1 class="final-title">
-              The market is <span class="green">positioning</span>.
-            </h1>
-            <div class="final-sub">
-              <span class="blue">Price</span> will react later.
+      <section class="scene s3">
+        <div class="card">
+          <div class="eyebrow">Liquidity shift</div>
+          <h1 class="title small">When macro changes, liquidity moves.</h1>
+          <p class="sub">
+            Capital rotates. Risk appetite changes. Bitcoin does not trade in isolation.
+          </p>
+
+          <div class="newsbox" style="margin-top:28px">
+            <div class="news">
+              <div class="left">
+                <div class="icon btc">₿</div>
+                <div>
+                  <div class="label">Bitcoin reacts</div>
+                  <div class="desc">Not just to sentiment — but to macro-driven flows.</div>
+                </div>
+              </div>
+              <div class="tag">Flow</div>
             </div>
           </div>
 
-          <div class="footer">
-            <div class="brand">CryptoKosmos</div>
-            <div class="cta">Follow the flows, not the noise.</div>
+          <div class="chart" style="margin-top:24px">
+            <div class="grid"></div>
+            <div class="macro-line"></div>
           </div>
         </div>
       </section>
 
+      <!-- Scene 4 -->
+      <section class="scene s4">
+        <div class="big-center">
+          <div class="statement">
+            <h2>
+              Bitcoin doesn’t ignore <span class="accent-orange">macro</span>.<br>
+              It <span class="accent-green">reacts</span> to it.
+            </h2>
+            <p>
+              Watch liquidity. Watch macro. Price is usually the last thing to move.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="footer">
+      <div class="brand">CryptoKosmos</div>
+      <div class="hint">Follow the flows, not the noise.</div>
     </div>
   </main>
 </body>
