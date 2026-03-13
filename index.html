@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Crypto Signal Reel</title>
+  <title>Smart Money Reel</title>
 
   <style>
     :root{
-      --bg:#060b17;
-      --bg2:#0b1224;
+      --bg:#060913;
+      --bg2:#0c1324;
       --fg:#f5f7ff;
       --muted:rgba(245,247,255,.72);
       --line:rgba(255,255,255,.10);
-      --green:#52f2b3;
-      --blue:#6fb7ff;
+      --green:#45f0b0;
+      --blue:#69b7ff;
       --orange:#ffb357;
-      --red:#ff6c7a;
+      --red:#ff6b79;
       --card:rgba(255,255,255,.055);
-      --shadow:0 24px 70px rgba(0,0,0,.46);
+      --shadow:0 28px 80px rgba(0,0,0,.46);
     }
 
     *{box-sizing:border-box}
@@ -26,7 +26,7 @@
       height:100%;
       background:var(--bg);
       color:var(--fg);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       overflow:hidden;
     }
 
@@ -37,7 +37,7 @@
     }
 
     .stage{
-      width:min(430px, 94vw);
+      width:min(430px,94vw);
       aspect-ratio:9/16;
       position:relative;
       overflow:hidden;
@@ -45,16 +45,16 @@
       border:1px solid rgba(255,255,255,.08);
       box-shadow:var(--shadow);
       background:
-        radial-gradient(700px 420px at 10% 0%, rgba(111,183,255,.16), transparent 58%),
-        radial-gradient(700px 420px at 100% 20%, rgba(82,242,179,.14), transparent 60%),
+        radial-gradient(700px 420px at 0% 0%, rgba(105,183,255,.16), transparent 58%),
+        radial-gradient(700px 420px at 100% 10%, rgba(69,240,176,.14), transparent 60%),
         radial-gradient(700px 420px at 50% 100%, rgba(255,179,87,.12), transparent 60%),
-        linear-gradient(180deg, var(--bg2), var(--bg));
+        linear-gradient(180deg,var(--bg2),var(--bg));
     }
 
     .noise{
       position:absolute;
       inset:-20%;
-      background-image:radial-gradient(circle, rgba(255,255,255,.55) 1px, transparent 1px);
+      background-image:radial-gradient(circle, rgba(255,255,255,.5) 1px, transparent 1px);
       background-size:14px 14px;
       opacity:.06;
       mix-blend-mode:overlay;
@@ -71,8 +71,8 @@
     .top{
       position:absolute;
       top:0; left:0; right:0;
-      z-index:5;
       padding:14px 16px 8px;
+      z-index:6;
     }
 
     .progress{
@@ -80,8 +80,8 @@
       height:6px;
       border-radius:999px;
       background:rgba(255,255,255,.08);
-      overflow:hidden;
       border:1px solid rgba(255,255,255,.08);
+      overflow:hidden;
     }
 
     .bar{
@@ -89,7 +89,7 @@
       height:100%;
       background:linear-gradient(90deg,var(--blue),var(--green),var(--orange));
       animation:progress 18s linear infinite;
-      box-shadow:0 0 24px rgba(82,242,179,.35);
+      box-shadow:0 0 22px rgba(69,240,176,.34);
     }
 
     @keyframes progress{
@@ -105,7 +105,7 @@
       display:flex;
       justify-content:space-between;
       align-items:center;
-      z-index:6;
+      z-index:7;
       pointer-events:none;
     }
 
@@ -113,8 +113,8 @@
       display:inline-flex;
       align-items:center;
       gap:8px;
-      border-radius:999px;
       padding:8px 12px;
+      border-radius:999px;
       background:rgba(0,0,0,.24);
       border:1px solid rgba(255,255,255,.10);
       backdrop-filter:blur(10px);
@@ -124,24 +124,22 @@
       letter-spacing:.1em;
     }
 
-    .live-dot{
-      width:8px;
-      height:8px;
-      border-radius:50%;
+    .dot{
+      width:8px;height:8px;border-radius:50%;
       background:var(--green);
-      box-shadow:0 0 18px rgba(82,242,179,.75);
+      box-shadow:0 0 16px rgba(69,240,176,.7);
       animation:pulse 1.2s infinite;
-    }
-
-    @keyframes pulse{
-      0%,100%{transform:scale(1);opacity:1}
-      50%{transform:scale(1.35);opacity:.7}
     }
 
     .time{
       font-size:12px;
       color:var(--muted);
       font-weight:700;
+    }
+
+    @keyframes pulse{
+      0%,100%{transform:scale(1);opacity:1}
+      50%{transform:scale(1.35);opacity:.7}
     }
 
     .wrap{
@@ -226,7 +224,7 @@
       padding:22px 18px;
       border:1px solid var(--line);
       background:
-        linear-gradient(135deg, rgba(111,183,255,.12), rgba(82,242,179,.10), rgba(255,179,87,.10)),
+        linear-gradient(135deg, rgba(105,183,255,.12), rgba(69,240,176,.10), rgba(255,179,87,.10)),
         rgba(255,255,255,.04);
     }
 
@@ -286,9 +284,9 @@
       flex:0 0 auto;
     }
 
+    .icon.etf{color:var(--blue)}
     .icon.stable{color:var(--green)}
-    .icon.chain{color:var(--blue)}
-    .icon.btc{color:var(--orange)}
+    .icon.institution{color:var(--orange)}
 
     .label{
       font-size:20px;
@@ -393,13 +391,12 @@
     </div>
 
     <div class="hud">
-      <div class="chip"><span class="live-dot"></span> Signal Board</div>
-      <div class="time">Crypto Market Insight</div>
+      <div class="chip"><span class="dot"></span> Smart Money Watch</div>
+      <div class="time">Bitcoin • Liquidity • Flows</div>
     </div>
 
     <div class="wrap">
 
-      <!-- Scene 1 -->
       <section class="scene s1">
         <div class="center">
           <div class="statement">
@@ -407,25 +404,24 @@
               Most people watch <span class="accent-orange">price</span>.
             </h2>
             <p>
-              But the real signal is <span class="accent-green">liquidity</span>.
+              Smart money watches <span class="accent-green">liquidity</span>.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- Scene 2 -->
       <section class="scene s2">
         <div class="card">
-          <div class="eyebrow">What is building now</div>
-          <h1 class="title small">The market is giving clues.</h1>
+          <div class="eyebrow">What matters right now</div>
+          <h1 class="title small">The real signal is building.</h1>
 
           <div class="board">
             <div class="row">
               <div class="left">
-                <div class="icon stable">💵</div>
+                <div class="icon etf">📈</div>
                 <div>
-                  <div class="label">Stablecoin activity</div>
-                  <div class="desc">Liquidity across the ecosystem is expanding.</div>
+                  <div class="label">ETF inflows</div>
+                  <div class="desc">Institutional capital continues to matter.</div>
                 </div>
               </div>
               <div class="badge up">RISING</div>
@@ -433,36 +429,35 @@
 
             <div class="row">
               <div class="left">
-                <div class="icon chain">⛓</div>
+                <div class="icon stable">💵</div>
                 <div>
-                  <div class="label">On-chain transactions</div>
-                  <div class="desc">Network participation is starting to grow.</div>
+                  <div class="label">Stablecoin activity</div>
+                  <div class="desc">Liquidity inside crypto is quietly expanding.</div>
                 </div>
               </div>
-              <div class="badge up">INCREASING</div>
+              <div class="badge up">GROWING</div>
             </div>
 
             <div class="row">
               <div class="left">
-                <div class="icon btc">₿</div>
+                <div class="icon institution">🏛</div>
                 <div>
-                  <div class="label">Bitcoin structure</div>
-                  <div class="desc">Holding strong above key levels matters.</div>
+                  <div class="label">Institutional demand</div>
+                  <div class="desc">Big players are still building exposure.</div>
                 </div>
               </div>
-              <div class="badge up">STRONG</div>
+              <div class="badge up">BUILDING</div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Scene 3 -->
       <section class="scene s3">
         <div class="card">
-          <div class="eyebrow">Market structure</div>
-          <h1 class="title small">Something is building.</h1>
+          <div class="eyebrow">Market setup</div>
+          <h1 class="title small">Something is building in crypto.</h1>
           <p class="sub">
-            These conditions often appear before bigger volatility and stronger directional moves.
+            These conditions often appear before larger moves and stronger volatility.
           </p>
 
           <div class="chart">
@@ -473,15 +468,14 @@
         </div>
       </section>
 
-      <!-- Scene 4 -->
       <section class="scene s4">
         <div class="center">
           <div class="statement">
             <h2>
-              Price usually <span class="accent-blue">reacts</span> last.
+              <span class="accent-blue">Price</span> reacts last.
             </h2>
             <p>
-              Watch liquidity first. The biggest moves often begin before the crowd notices.
+              Watch liquidity first. The crowd usually notices only after the move begins.
             </p>
           </div>
         </div>
@@ -491,7 +485,7 @@
 
     <div class="footer">
       <div class="brand">CryptoKosmos</div>
-      <div class="hint">Follow the signals, not the noise.</div>
+      <div class="hint">Follow the flows, not the noise.</div>
     </div>
   </main>
 </body>
