@@ -1,492 +1,469 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Smart Money Reel</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Signal Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#060913;
-      --bg2:#0c1324;
-      --fg:#f5f7ff;
-      --muted:rgba(245,247,255,.72);
-      --line:rgba(255,255,255,.10);
-      --green:#45f0b0;
-      --blue:#69b7ff;
-      --orange:#ffb357;
-      --red:#ff6b79;
-      --card:rgba(255,255,255,.055);
-      --shadow:0 28px 80px rgba(0,0,0,.46);
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    *{box-sizing:border-box}
-    html,body{
-      margin:0;
-      height:100%;
-      background:var(--bg);
-      color:var(--fg);
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      overflow:hidden;
+    :root {
+      --bg1: #07111f;
+      --bg2: #0a1d2f;
+      --card: rgba(10, 22, 38, 0.72);
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #f5f7fb;
+      --muted: #9aa8bc;
+      --cyan: #67e8f9;
+      --green: #34d399;
+      --yellow: #fbbf24;
+      --red: #fb7185;
+      --shadow: 0 20px 70px rgba(0,0,0,0.45);
     }
 
-    body{
-      display:grid;
-      place-items:center;
-      padding:16px;
-    }
-
-    .stage{
-      width:min(430px,94vw);
-      aspect-ratio:9/16;
-      position:relative;
-      overflow:hidden;
-      border-radius:28px;
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:var(--shadow);
+    body {
+      min-height: 100vh;
+      font-family: "Inter", sans-serif;
+      color: var(--text);
       background:
-        radial-gradient(700px 420px at 0% 0%, rgba(105,183,255,.16), transparent 58%),
-        radial-gradient(700px 420px at 100% 10%, rgba(69,240,176,.14), transparent 60%),
-        radial-gradient(700px 420px at 50% 100%, rgba(255,179,87,.12), transparent 60%),
-        linear-gradient(180deg,var(--bg2),var(--bg));
+        radial-gradient(circle at 20% 20%, rgba(52, 211, 153, 0.10), transparent 30%),
+        radial-gradient(circle at 80% 15%, rgba(103, 232, 249, 0.12), transparent 30%),
+        radial-gradient(circle at 70% 80%, rgba(251, 191, 36, 0.08), transparent 25%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
     }
 
-    .noise{
-      position:absolute;
-      inset:-20%;
-      background-image:radial-gradient(circle, rgba(255,255,255,.5) 1px, transparent 1px);
-      background-size:14px 14px;
-      opacity:.06;
-      mix-blend-mode:overlay;
-      animation:noise 8s linear infinite;
-      pointer-events:none;
+    .grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0.25));
+      pointer-events: none;
     }
 
-    @keyframes noise{
-      0%{transform:translate(0,0)}
-      50%{transform:translate(-1.3%,1.2%)}
-      100%{transform:translate(0,0)}
+    .wrapper {
+      width: 100%;
+      max-width: 980px;
+      position: relative;
+      z-index: 2;
     }
 
-    .top{
-      position:absolute;
-      top:0; left:0; right:0;
-      padding:14px 16px 8px;
-      z-index:6;
+    .card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      padding: 34px;
+      overflow: hidden;
     }
 
-    .progress{
-      width:100%;
-      height:6px;
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.08);
-      overflow:hidden;
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(103,232,249,0.08), transparent 35%, rgba(52,211,153,0.06));
+      pointer-events: none;
     }
 
-    .bar{
-      width:0%;
-      height:100%;
-      background:linear-gradient(90deg,var(--blue),var(--green),var(--orange));
-      animation:progress 18s linear infinite;
-      box-shadow:0 0 22px rgba(69,240,176,.34);
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 2;
     }
 
-    @keyframes progress{
-      from{width:0%}
-      to{width:100%}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
     }
 
-    .hud{
-      position:absolute;
-      top:26px;
-      left:16px;
-      right:16px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      z-index:7;
-      pointer-events:none;
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      background: linear-gradient(135deg, rgba(103,232,249,0.18), rgba(52,211,153,0.16));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 20px rgba(255,255,255,0.03);
     }
 
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      background:rgba(0,0,0,.24);
-      border:1px solid rgba(255,255,255,.10);
-      backdrop-filter:blur(10px);
-      font-size:12px;
-      font-weight:850;
-      text-transform:uppercase;
-      letter-spacing:.1em;
+    .tag {
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(103,232,249,0.08);
+      border: 1px solid rgba(103,232,249,0.18);
     }
 
-    .dot{
-      width:8px;height:8px;border-radius:50%;
-      background:var(--green);
-      box-shadow:0 0 16px rgba(69,240,176,.7);
-      animation:pulse 1.2s infinite;
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 4.4rem);
+      line-height: 0.98;
+      letter-spacing: -2px;
+      max-width: 820px;
+      font-weight: 900;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 18px;
     }
 
-    .time{
-      font-size:12px;
-      color:var(--muted);
-      font-weight:700;
+    h1 span {
+      color: var(--cyan);
     }
 
-    @keyframes pulse{
-      0%,100%{transform:scale(1);opacity:1}
-      50%{transform:scale(1.35);opacity:.7}
+    .sub {
+      max-width: 760px;
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: var(--muted);
+      position: relative;
+      z-index: 2;
+      margin-bottom: 30px;
     }
 
-    .wrap{
-      position:absolute;
-      inset:56px 16px 16px;
+    .layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+      position: relative;
+      z-index: 2;
     }
 
-    .scene{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      transform:translateY(18px) scale(.985);
-      animation:scene 18s infinite;
+    .signals {
+      display: grid;
+      gap: 16px;
     }
 
-    .s1{animation-delay:0s}
-    .s2{animation-delay:4.5s}
-    .s3{animation-delay:9s}
-    .s4{animation-delay:13.5s}
+    .signal {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 18px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      transition: 0.25s ease;
+    }
 
-    @keyframes scene{
-      0%,20%{
-        opacity:1;
-        transform:translateY(0) scale(1);
+    .signal:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 1.4rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .icon.btc {
+      background: rgba(251, 191, 36, 0.13);
+      color: var(--yellow);
+    }
+
+    .icon.inst {
+      background: rgba(103, 232, 249, 0.12);
+      color: var(--cyan);
+    }
+
+    .icon.liq {
+      background: rgba(52, 211, 153, 0.12);
+      color: var(--green);
+    }
+
+    .signal h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .signal p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .side {
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel {
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      padding: 22px;
+    }
+
+    .panel-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .meter {
+      width: 100%;
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+      margin-bottom: 14px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .meter-fill {
+      width: 38%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--red), var(--yellow));
+      border-radius: 999px;
+      animation: pulseBar 2.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseBar {
+      from { width: 34%; }
+      to   { width: 42%; }
+    }
+
+    .sentiment-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .sentiment-note {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .quote {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .quote span {
+      color: var(--green);
+    }
+
+    .footer {
+      margin-top: 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+      flex-wrap: wrap;
+    }
+
+    .hashtags {
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .cta {
+      color: #031019;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(52, 211, 153, 0.18);
+    }
+
+    .floating-chart {
+      position: absolute;
+      right: -30px;
+      bottom: -30px;
+      width: 320px;
+      height: 220px;
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .floating-chart svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    @media (max-width: 860px) {
+      .layout {
+        grid-template-columns: 1fr;
       }
-      25%,100%{
-        opacity:0;
-        transform:translateY(18px) scale(.985);
+
+      .floating-chart {
+        width: 240px;
+        height: 170px;
+        right: -20px;
+        bottom: -20px;
+      }
+
+      .card {
+        padding: 24px;
       }
     }
 
-    .card{
-      height:100%;
-      border-radius:24px;
-      padding:18px;
-      border:1px solid var(--line);
-      background:var(--card);
-      backdrop-filter:blur(12px);
-      display:flex;
-      flex-direction:column;
-    }
+    @media (max-width: 560px) {
+      h1 {
+        letter-spacing: -1px;
+      }
 
-    .eyebrow{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      color:var(--muted);
-      font-weight:800;
-      margin-bottom:12px;
-    }
+      .signal {
+        align-items: flex-start;
+      }
 
-    .title{
-      margin:0;
-      font-size:44px;
-      line-height:.93;
-      letter-spacing:-.055em;
-      font-weight:950;
-    }
+      .icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+      }
 
-    .title.small{
-      font-size:34px;
-    }
-
-    .sub{
-      margin:14px 0 0;
-      font-size:16px;
-      line-height:1.35;
-      color:var(--muted);
-      max-width:92%;
-    }
-
-    .center{
-      display:grid;
-      place-items:center;
-      height:100%;
-      text-align:left;
-    }
-
-    .statement{
-      width:100%;
-      border-radius:24px;
-      padding:22px 18px;
-      border:1px solid var(--line);
-      background:
-        linear-gradient(135deg, rgba(105,183,255,.12), rgba(69,240,176,.10), rgba(255,179,87,.10)),
-        rgba(255,255,255,.04);
-    }
-
-    .statement h2{
-      margin:0;
-      font-size:42px;
-      line-height:.95;
-      letter-spacing:-.05em;
-      font-weight:950;
-    }
-
-    .statement p{
-      margin:14px 0 0;
-      color:var(--muted);
-      font-size:17px;
-      line-height:1.32;
-      max-width:96%;
-    }
-
-    .accent-green{color:var(--green)}
-    .accent-blue{color:var(--blue)}
-    .accent-orange{color:var(--orange)}
-
-    .board{
-      margin-top:22px;
-      display:grid;
-      gap:12px;
-    }
-
-    .row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:14px;
-      border-radius:18px;
-      background:rgba(0,0,0,.20);
-      border:1px solid rgba(255,255,255,.08);
-    }
-
-    .left{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
-    .icon{
-      width:44px;
-      height:44px;
-      border-radius:14px;
-      display:grid;
-      place-items:center;
-      font-size:20px;
-      font-weight:900;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.06);
-      flex:0 0 auto;
-    }
-
-    .icon.etf{color:var(--blue)}
-    .icon.stable{color:var(--green)}
-    .icon.institution{color:var(--orange)}
-
-    .label{
-      font-size:20px;
-      font-weight:850;
-      letter-spacing:-.02em;
-    }
-
-    .desc{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:2px;
-      line-height:1.25;
-    }
-
-    .badge{
-      padding:8px 10px;
-      border-radius:999px;
-      font-size:11px;
-      font-weight:900;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.05);
-      white-space:nowrap;
-    }
-
-    .up{color:var(--green)}
-
-    .chart{
-      margin-top:auto;
-      height:165px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.08);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)),
-        rgba(0,0,0,.18);
-      position:relative;
-      overflow:hidden;
-    }
-
-    .grid{
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(to right, rgba(255,255,255,.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,.05) 1px, transparent 1px);
-      background-size:34px 34px;
-      opacity:.32;
-    }
-
-    .signal-line{
-      position:absolute;
-      inset:0;
-      background:linear-gradient(90deg, transparent 0%, var(--blue) 15%, var(--green) 55%, var(--orange) 100%);
-      clip-path:polygon(0 78%, 10% 74%, 18% 69%, 28% 67%, 38% 58%, 48% 54%, 58% 46%, 68% 44%, 78% 28%, 88% 22%, 100% 10%, 100% 100%, 0 100%);
-      opacity:.96;
-      animation:slide 4s ease-in-out infinite;
-    }
-
-    .signal-line.two{
-      background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,.18) 10%, rgba(255,255,255,.08) 100%);
-      clip-path:polygon(0 84%, 10% 81%, 18% 78%, 28% 76%, 38% 68%, 48% 65%, 58% 59%, 68% 52%, 78% 42%, 88% 36%, 100% 24%, 100% 100%, 0 100%);
-      opacity:.8;
-    }
-
-    @keyframes slide{
-      0%,100%{transform:translateX(-1.2%)}
-      50%{transform:translateX(1.2%)}
-    }
-
-    .footer{
-      position:absolute;
-      left:16px; right:16px; bottom:16px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      padding:12px 14px;
-      border-radius:18px;
-      background:rgba(0,0,0,.24);
-      border:1px solid rgba(255,255,255,.08);
-      backdrop-filter:blur(10px);
-      z-index:5;
-      font-size:12px;
-    }
-
-    .brand{
-      font-weight:900;
-      letter-spacing:.02em;
-    }
-
-    .hint{
-      color:var(--muted);
-      font-weight:700;
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="stage">
-    <div class="noise"></div>
+  <div class="grid"></div>
 
-    <div class="top">
-      <div class="progress"><div class="bar"></div></div>
-    </div>
+  <div class="wrapper">
+    <div class="card">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-logo">₿</div>
+          <div>Market Watch</div>
+        </div>
+        <div class="tag">Today’s Video Idea</div>
+      </div>
 
-    <div class="hud">
-      <div class="chip"><span class="dot"></span> Smart Money Watch</div>
-      <div class="time">Bitcoin • Liquidity • Flows</div>
-    </div>
+      <h1>
+        Something <span>interesting</span><br>
+        is happening in the market.
+      </h1>
 
-    <div class="wrap">
+      <p class="sub">
+        Bitcoin remains resilient, institutional activity looks steady, and liquidity appears to be improving —
+        yet sentiment still feels cautious. That mismatch is where attention starts.
+      </p>
 
-      <section class="scene s1">
-        <div class="center">
-          <div class="statement">
-            <h2>
-              Most people watch <span class="accent-orange">price</span>.
-            </h2>
-            <p>
-              Smart money watches <span class="accent-green">liquidity</span>.
+      <div class="layout">
+        <div class="signals">
+          <div class="signal">
+            <div class="icon btc">₿</div>
+            <div>
+              <h3>Bitcoin holding strong</h3>
+              <p>Price structure remains firm while broader sentiment is still hesitant.</p>
+            </div>
+          </div>
+
+          <div class="signal">
+            <div class="icon inst">🏛</div>
+            <div>
+              <h3>Institutions still accumulating</h3>
+              <p>Big players tend to position quietly before retail confidence returns.</p>
+            </div>
+          </div>
+
+          <div class="signal">
+            <div class="icon liq">↗</div>
+            <div>
+              <h3>Liquidity slowly rising</h3>
+              <p>Capital flows are improving, even if the crowd still feels uncertain.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="side">
+          <div class="panel">
+            <div class="panel-title">Sentiment</div>
+            <div class="meter">
+              <div class="meter-fill"></div>
+            </div>
+            <div class="sentiment-row">
+              <span>Market Mood</span>
+              <span>Uncertain</span>
+            </div>
+            <p class="sentiment-note">
+              Caution is still high. That’s usually when most people stay distracted.
             </p>
           </div>
-        </div>
-      </section>
 
-      <section class="scene s2">
-        <div class="card">
-          <div class="eyebrow">What matters right now</div>
-          <h1 class="title small">The real signal is building.</h1>
-
-          <div class="board">
-            <div class="row">
-              <div class="left">
-                <div class="icon etf">📈</div>
-                <div>
-                  <div class="label">ETF inflows</div>
-                  <div class="desc">Institutional capital continues to matter.</div>
-                </div>
-              </div>
-              <div class="badge up">RISING</div>
-            </div>
-
-            <div class="row">
-              <div class="left">
-                <div class="icon stable">💵</div>
-                <div>
-                  <div class="label">Stablecoin activity</div>
-                  <div class="desc">Liquidity inside crypto is quietly expanding.</div>
-                </div>
-              </div>
-              <div class="badge up">GROWING</div>
-            </div>
-
-            <div class="row">
-              <div class="left">
-                <div class="icon institution">🏛</div>
-                <div>
-                  <div class="label">Institutional demand</div>
-                  <div class="desc">Big players are still building exposure.</div>
-                </div>
-              </div>
-              <div class="badge up">BUILDING</div>
+          <div class="panel">
+            <div class="panel-title">Hook Line</div>
+            <div class="quote">
+              Markets move when people least expect it.<br>
+              <span>Price reacts last.</span>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section class="scene s3">
-        <div class="card">
-          <div class="eyebrow">Market setup</div>
-          <h1 class="title small">Something is building in crypto.</h1>
-          <p class="sub">
-            These conditions often appear before larger moves and stronger volatility.
-          </p>
+      <div class="footer">
+        <div class="hashtags">#Bitcoin #Crypto #Markets</div>
+        <a href="#" class="cta">Ready to post</a>
+      </div>
 
-          <div class="chart">
-            <div class="grid"></div>
-            <div class="signal-line"></div>
-            <div class="signal-line two"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="scene s4">
-        <div class="center">
-          <div class="statement">
-            <h2>
-              <span class="accent-blue">Price</span> reacts last.
-            </h2>
-            <p>
-              Watch liquidity first. The crowd usually notices only after the move begins.
-            </p>
-          </div>
-        </div>
-      </section>
-
+      <div class="floating-chart">
+        <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 180 C40 165, 60 140, 90 145 C120 150, 135 115, 160 110 C190 104, 205 75, 230 70 C260 63, 280 25, 320 18"
+                stroke="url(#grad1)" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="90" cy="145" r="5" fill="#67E8F9"/>
+          <circle cx="160" cy="110" r="5" fill="#34D399"/>
+          <circle cx="230" cy="70" r="5" fill="#67E8F9"/>
+          <circle cx="320" cy="18" r="6" fill="#34D399"/>
+          <defs>
+            <linearGradient id="grad1" x1="0" y1="180" x2="320" y2="18" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FBBF24"/>
+              <stop offset="0.5" stop-color="#67E8F9"/>
+              <stop offset="1" stop-color="#34D399"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
     </div>
-
-    <div class="footer">
-      <div class="brand">CryptoKosmos</div>
-      <div class="hint">Follow the flows, not the noise.</div>
-    </div>
-  </main>
+  </div>
 </body>
 </html>
