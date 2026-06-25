@@ -1,35 +1,37 @@
 <!DOCTYPE html>
-<html lang="el">
+<html lang="en">
 <head>
  <meta charset="utf-8" />
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
  <!-- ========== META TAGS SECTION (SEO) ========== -->
-<title>GearNox — Design. Automate. Connect.</title>
-<meta name="title" content="GearNox — Design. Automate. Connect.">
-<meta name="description" content="Η GearNox σχεδιάζει καθαρά, αξιόπιστα εργαλεία λογισμικού και υλικού για δημιουργούς και ομάδες. Web συστήματα, αυτοματισμοί και design tools που απλώς δουλεύουν.">
+<title>GearNox — Time, Precisely Made.</title>
+<meta name="title" content="GearNox — Time, Precisely Made.">
+<meta name="description" content="GearNox builds precision watches engineered down to the last micron. Clean lines, premium materials, and a quiet kind of luxury.">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://gearnox.net/">
-<meta property="og:title" content="GearNox — Design. Automate. Connect.">
-<meta property="og:description" content="Καθαρό design & υψηλή απόδοση σε κάθε project.">
+<meta property="og:title" content="GearNox — Time, Precisely Made.">
+<meta property="og:description" content="Precision watches, engineered down to the last micron.">
 <meta property="og:image" content="https://gearnox.net/GearNox_black_transparent.png">
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:url" content="https://gearnox.net/">
-<meta property="twitter:title" content="GearNox — Design. Automate. Connect.">
-<meta property="twitter:description" content="Η GearNox δημιουργεί έξυπνα εργαλεία για ομάδες και δημιουργούς.">
+<meta property="twitter:title" content="GearNox — Time, Precisely Made.">
+<meta property="twitter:description" content="Precision watches, engineered down to the last micron.">
 <meta property="twitter:image" content="https://gearnox.net/GearNox_black_transparent.png">
 <!-- Schema.org Structured Data -->
 <script type="application/ld+json">
-  <link rel="icon" type="image/png" href="gearnox_icon.png">
 {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "GearNox",
   "url": "https://gearnox.net/",
   "logo": "https://gearnox.net/GearNox_black_transparent.png",
-  "description": "Η GearNox σχεδιάζει μινιμαλιστικά, αξιόπιστα εργαλεία λογισμικού/υλικού για δημιουργούς και ομάδες.",
+  "description": "GearNox designs precision watches engineered down to the last micron, with clean lines and premium materials.",
   "sameAs": [
     "https://gearnox.net/"
   ]
@@ -55,6 +57,11 @@
       --line: #000;
       --panel-w: 260px;
       --radius: 14px;
+
+      /* type system */
+      --font-display: "Fraunces", "Times New Roman", Georgia, serif;
+      --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "Space Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     }
 
     * {
@@ -63,7 +70,7 @@
 
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: var(--font-body);
       background: white;
       color: black;
       transition: background 0.4s ease, color 0.4s ease;
@@ -122,8 +129,9 @@
     .brand h1 {
       margin: 0;
       font-size: 34px;
-      font-family: "Times New Roman", Georgia, "Times", serif;
-      letter-spacing: 0.3px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     .brand img {
@@ -497,35 +505,45 @@ body.dark .header{
 
 .hero-kicker{
   display: inline-flex;
+  align-items: center;
+  gap: 10px;
   width: fit-content;
-  margin-bottom: 14px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.10);
-  border: 1px solid rgba(255,255,255,.18);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  letter-spacing: .18em;
-  font-size: 12px;
+  margin-bottom: 22px;
+  padding: 0;
+  border: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  font-family: var(--font-mono);
+  letter-spacing: .28em;
+  font-size: 11px;
   text-transform: uppercase;
-  color: rgba(255,255,255,.92);
+  color: rgba(255,255,255,.78);
+}
+.hero-kicker::before{
+  content:"";
+  width: 28px;
+  height: 1px;
+  background: rgba(255,255,255,.55);
 }
 
 .hero-title{
-  margin: 0 0 10px;
-  font-size: clamp(34px, 5vw, 64px);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  color: rgba(255,255,255,.96);
-  text-shadow: 0 10px 30px rgba(0,0,0,.35);
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(40px, 6.5vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: rgba(255,255,255,.97);
+  text-shadow: 0 10px 40px rgba(0,0,0,.4);
 }
 
 .hero-sub{
   margin: 0;
-  font-size: 16px;
-  line-height: 1.65;
-  color: rgba(255,255,255,.82);
-  max-width: 62ch;
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(255,255,255,.78);
+  max-width: 52ch;
 }
 
 .hero-scrollhint{
@@ -534,11 +552,12 @@ body.dark .header{
   left: 50%;
   bottom: 18px;
   transform: translateX(-50%);
-  font-size: 12px;
-  letter-spacing: .14em;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .28em;
   text-transform: uppercase;
   color: rgba(255,255,255,.72);
-  padding: 10px 14px;
+  padding: 10px 16px;
   border-radius: 999px;
   background: rgba(0,0,0,.35);
   border: 1px solid rgba(255,255,255,.14);
@@ -699,9 +718,12 @@ body.dark .header-line-fill{
 
 .action-btn{
   text-decoration:none;
-  font: 600 13px/1 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  color: rgba(35,35,35,0.65);
-  letter-spacing:.02em;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: rgba(35,35,35,0.62);
+  letter-spacing:.12em;
 
   /* αρχική θέση για stagger */
   opacity:0;
@@ -762,20 +784,35 @@ body.dark .header-line-fill{
 }
 
 
-.panel-inner{ padding: 16px; }
-.panel-inner h4{ margin:0 0 6px; font-size:14px; }
-.panel-inner p{ margin:0 0 12px; font-size:13px; color: rgba(20,20,20,0.62); }
+.panel-inner{ padding: 28px clamp(20px, 4vw, 48px); }
+.panel-inner h4{
+  margin:0 0 6px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size:22px;
+  letter-spacing: -0.01em;
+}
+.panel-inner p{ margin:0 0 18px; font-size:14px; color: rgba(20,20,20,0.55); }
 
 
 .panel-links{ display:flex; gap:10px; flex-wrap:wrap; }
 .panel-links a{
   text-decoration:none;
-  color: rgba(20,20,20,0.78);
-  border: 1px solid rgba(0,0,0,0.12);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: rgba(20,20,20,0.72);
+  border: 1px solid rgba(0,0,0,0.14);
   background: rgba(255,255,255,0.60);
-  padding: 10px 12px;
-  border-radius: 14px;
+  padding: 11px 16px;
+  border-radius: 999px;
   transition: .18s ease;
+}
+.panel-links a:hover{
+  color:#fff;
+  background:#0a0a0a;
+  border-color:#0a0a0a;
 }
 
 
@@ -842,29 +879,18 @@ body.dark .header-line-fill{
   border-radius: 999px;
 }
 
-/* όταν είναι open: ΘΕΛΟΥΜΕ ΜΟΝΟ ΤΟ ΚΕΙΜΕΝΟ */
+/* όταν είναι open: το κουμπί γίνεται σκέτο κείμενο — ο λαιμός σχηματίζει το σχήμα (Image 2) */
 #centerActions .hdrop.open > .hbtn{
   background: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-}
-
-/* κράτα το κείμενο ίδιο */
-#centerActions .hdrop.open > .hbtn{
   color: rgba(35,35,35,0.92) !important;
+  z-index: 4012 !important;
 }
 
-/* open panel */
-#centerActions .hdrop.open .drop-panel{
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-
-
-/* --- Panel (solid) --- */
+/* --- Panel (solid) container — ΧΩΡΙΣ clip ώστε να φαίνεται ο λαιμός --- */
 #centerActions .drop-panel{
   position: fixed !important;
   left: 50% !important;
@@ -874,49 +900,64 @@ body.dark .header-line-fill{
   width: min(1400px, calc(100vw - 0px)) !important;
   height: 230px !important;
 
-  background: #fff !important;                 /* ✅ όχι διάφανο */
-  border: 1px solid rgba(0,0,0,0.14) !important;
+  background: transparent !important;
+  border: 0 !important;
   border-radius: 0 0 26px 26px !important;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.20) !important;
+  box-shadow: none !important;
 
   overflow: visible !important;                /* για να φαίνεται ο λαιμός */
-  clip-path: none !important;
 
-  opacity: 0;
+  opacity: 1;
   pointer-events: none;
-  transition: opacity .18s ease !important;
 
   z-index: 3990 !important;
 }
 
+#centerActions .hdrop.open .drop-panel{
+  pointer-events: auto !important;
+}
 
-
-/* --- Fade down (clip) μόνο στο drop-clip --- */
+/* --- drop-clip: εδώ είναι η ορατή επιφάνεια + το συρταρωτό clip --- */
 #centerActions .drop-panel > .drop-clip{
   width: 100%;
   height: 100%;
-  border-radius: inherit;
-  overflow: hidden;
+  border-radius: 0 0 26px 26px;
 
-  clip-path: inset(0 0 100% 0 round 26px);
-  transition: clip-path .28s ease;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-top: 0;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.20);
+
+  /* closed: τυλιγμένο προς τα πάνω (μηδενικό ύψος) */
+  clip-path: inset(0 0 100% 0 round 0 0 26px 26px);
+  transition: clip-path .42s cubic-bezier(.22,.61,.36,1);
+
+  overflow: hidden;
 }
 #centerActions .hdrop.open .drop-panel > .drop-clip{
-  clip-path: inset(0 0 0 0 round 26px);
+  clip-path: inset(0 0 0 0 round 0 0 26px 26px);
+}
+
+/* το περιεχόμενο γλιστράει κι αυτό λίγο προς τα κάτω (χωρίς fade) */
+#centerActions .drop-panel .panel-inner{
+  transform: translateY(-10px);
+  transition: transform .42s cubic-bezier(.22,.61,.36,1);
+}
+#centerActions .hdrop.open .drop-panel .panel-inner{
+  transform: translateY(0);
 }
 
 
 
 
 /* --- THE NECK (moves by --neck-x and --neck-w) --- */
-#centerActions .hdrop.open .drop-panel::before{
+#centerActions .drop-panel::before{
   content:"";
   position:absolute;
 
   left: var(--neck-x, 50%);
-  transform: translateX(-50%);
 
-  top: calc(-1 * var(--neck-h, 20px));
+  top: calc(-1 * var(--neck-h, 42px));
   height: var(--neck-h, 42px);
   width: var(--neck-w, 70px);
 
@@ -924,12 +965,22 @@ body.dark .header-line-fill{
   border: 1px solid rgba(0,0,0,0.14);
   border-bottom: 0;
 
-   border-top-left-radius: 999px;
+  border-top-left-radius: 999px;
   border-top-right-radius: 999px;
   border-bottom-left-radius: 90px;
   border-bottom-right-radius: 90px;
   z-index: 4005;
   pointer-events:none;
+
+  /* λαιμός: σταθερός, εμφανίζεται/κρύβεται ΚΑΤΕΥΘΕΙΑΝ (χωρίς σύρσιμο) */
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0s, visibility 0s;
+}
+#centerActions .hdrop.open .drop-panel::before{
+  opacity: 1;
+  visibility: visible;
 }
 
 
@@ -1102,27 +1153,37 @@ body.dark .login-btn:hover{
 
 .slide .kicker{
   display:inline-flex;
+  align-items: center;
+  gap: 10px;
   width: fit-content;
-  margin-bottom: 14px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.10);
-  border: 1px solid rgba(255,255,255,.18);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  letter-spacing: .18em;
-  font-size: 12px;
+  margin-bottom: 22px;
+  padding: 0;
+  border: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  font-family: var(--font-mono);
+  letter-spacing: .28em;
+  font-size: 11px;
   text-transform: uppercase;
-  color: rgba(255,255,255,.92);
+  color: rgba(255,255,255,.78);
+}
+.slide .kicker::before{
+  content:"";
+  width: 28px;
+  height: 1px;
+  background: rgba(255,255,255,.55);
 }
 
 .slide h2{
-  margin: 0 0 10px;
-  font-size: clamp(34px, 5vw, 64px);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  color: rgba(255,255,255,.96);
-  text-shadow: 0 10px 30px rgba(0,0,0,.35);
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(40px, 6.5vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: rgba(255,255,255,.97);
+  text-shadow: 0 10px 40px rgba(0,0,0,.4);
 }
 
 .slide p{
@@ -1171,31 +1232,29 @@ body.dark .login-btn:hover{
 .login-drawer{
   position: fixed;
   top: var(--header-h, 70px);
-  left: 0;                     /* ✅ από αριστερά */
+  left: 0;
   right: auto;
 
   width: 420px;
+  max-width: 92vw;
   height: calc(100vh - var(--header-h, 70px));
 
   background: #fff;
-  border-right: 1px solid rgba(0,0,0,.14);  /* ✅ border δεξιά τώρα */
-  border-left: none;
+  border-right: 1px solid rgba(0,0,0,.14);
+  box-shadow: 20px 0 60px rgba(0,0,0,.18);
 
-  box-shadow: 20px 0 60px rgba(0,0,0,.18);  /* ✅ σκιά προς μέσα */
+  /* κρυφό αριστερά, γλιστράει οριζόντια (χωρίς fade) */
+  transform: translateX(-100%);
+  pointer-events: none;
 
-  transform: translateX(-100%);  /* ✅ κρυφό αριστερά */
-  opacity: 0;
-
-  transition:
-    transform .45s cubic-bezier(.22,.61,.36,1),
-    opacity .25s ease;
+  transition: transform .42s cubic-bezier(.22,.61,.36,1);
 
   z-index: 6000;
 }
 
 .login-drawer.open{
   transform: translateX(0);
-  opacity: 1;
+  pointer-events: auto;
 }
 
 .login-drawer-inner{
@@ -1217,8 +1276,8 @@ body.dark .login-btn:hover{
 
 
 .login-wrap{ padding: 16px; }
-.login-head h4{ margin:0 0 4px; font-size:14px; }
-.login-head p{ margin:0 0 12px; font-size:13px; opacity:.7; }
+.login-head h4{ margin:0 0 6px; font-family: var(--font-display); font-weight:600; font-size:24px; letter-spacing:-0.01em; }
+.login-head p{ margin:0 0 18px; font-size:14px; opacity:.55; }
 
 
 .login-actions{
@@ -1371,29 +1430,28 @@ body.dark .login-btn:hover{
   position: fixed;
   top: var(--header-h, 70px);
   left: 0;
+  right: auto;
 
   width: 420px;
   max-width: 92vw;
-
   height: calc(100vh - var(--header-h, 70px));
 
   background: #fff;
   border-right: 1px solid rgba(0,0,0,.12);
   box-shadow: 20px 0 60px rgba(0,0,0,.18);
 
+  /* κρυφό αριστερά, γλιστράει οριζόντια (χωρίς fade) */
   transform: translateX(-100%);
-  opacity: 0;
+  pointer-events: none;
 
-  transition:
-    transform .45s cubic-bezier(.22,.61,.36,1),
-    opacity .25s ease;
+  transition: transform .42s cubic-bezier(.22,.61,.36,1);
 
   z-index: 6000;
 }
 
 #burgerDrawer.open{
   transform: translateX(0);
-  opacity: 1;
+  pointer-events: auto;
 }
 
 
@@ -1484,7 +1542,179 @@ body.dark .login-btn:hover{
 }
 
 
+/* ===== Language switcher ===== */
+.lang-switch{
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(0,0,0,0.10);
+}
 
+.lang-toggle{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 13px 14px;
+  border-radius: 14px;
+  cursor: pointer;
+
+  border: 1px solid rgba(0,0,0,0.14);
+  background: rgba(255,255,255,0.75);
+  color: rgba(20,20,20,0.9);
+
+  font-weight: 700;
+  font-size: 14px;
+
+  transition: transform .16s ease, background .16s ease, color .16s ease, border-color .16s ease;
+}
+.lang-toggle:hover{
+  transform: translateX(3px);
+  background:#000;
+  color:#fff;
+  border-color:#000;
+}
+.lang-toggle-left{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.lang-globe{
+  flex: 0 0 auto;
+  transition: transform .4s cubic-bezier(.22,.61,.36,1);
+}
+.lang-switch.open .lang-globe{
+  transform: rotate(180deg);
+}
+.lang-current{
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .12em;
+  opacity: .65;
+}
+.lang-toggle:hover .lang-current{ opacity: .9; }
+
+/* Accordion list — slides open */
+.lang-list{
+  display: grid;
+  grid-template-rows: 0fr;            /* closed */
+  overflow: hidden;
+  transition: grid-template-rows .4s cubic-bezier(.22,.61,.36,1);
+}
+.lang-switch.open .lang-list{
+  grid-template-rows: 1fr;            /* open */
+}
+.lang-list-inner{ min-height: 0; }    /* required for grid-rows animation */
+
+.lang-option{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin-top: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(255,255,255,0.55);
+  color: rgba(20,20,20,0.82);
+
+  font-weight: 600;
+  font-size: 14px;
+  text-align: left;
+
+  transition: background .16s ease, color .16s ease, border-color .16s ease;
+}
+.lang-option:first-child{ margin-top: 10px; }
+.lang-option:hover{
+  background:#0a0a0a;
+  color:#fff;
+  border-color:#0a0a0a;
+}
+.lang-option.is-active{
+  border-color: rgba(0,0,0,0.55);
+}
+.lang-option.is-active .lang-code{ opacity: .95; }
+.lang-code{
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .12em;
+  opacity: .55;
+}
+
+
+
+
+/* ===== Polish & quality floor ===== */
+:focus-visible{
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* mono gets technical tabular numerals */
+.action-btn, .panel-links a, .hero-kicker, .slide .kicker, .hero-scrollhint{
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================
+   MOBILE (≤768px)
+   - κρύβει τα center dropdown buttons (δεν χωράνε στο header)
+   - όλα τα links είναι ήδη μέσα στο burger menu
+========================================================= */
+@media (max-width: 768px){
+  /* Βγάλε εντελώς τα center dropdowns από το mobile */
+  #centerActions,
+  .center-actions{
+    display: none !important;
+  }
+  /* αν έχει ανοίξει κάποιο dropdown panel, κρύψ' το κι αυτό */
+  #centerActions .drop-panel{ display: none !important; }
+
+  /* Header πιο σφιχτό */
+  .header{
+    --header-pad: 12px 16px;
+  }
+
+  /* Brand logo λίγο μικρότερο για να μη ζορίζει */
+  .brand h1{ font-size: 26px; }
+  .brand img{ width: 38px; }
+
+  /* burger & login drawers: full width σε μικρές οθόνες */
+  #burgerDrawer,
+  .login-drawer{
+    width: 100vw;
+    max-width: 100vw;
+  }
+
+  /* Hero / slide copy: άνετα περιθώρια */
+  .hero-copy{ padding: 0 20px; }
+  .hero-title,
+  .slide h2{ font-size: clamp(34px, 11vw, 56px); }
+  .hero-sub,
+  .slide p{ font-size: 15px; }
+
+  .slide .content{ padding: 0 20px; }
+}
+
+/* πολύ μικρές οθόνες */
+@media (max-width: 380px){
+  .brand h1{ font-size: 23px; }
+  .brand img{ width: 34px; }
+}
 
   </style>
 </head>
@@ -1499,9 +1729,9 @@ body.dark .login-btn:hover{
 
   <div class="hero-copy">
     <div class="hero-kicker">GEARNOX</div>
-    <h1 class="hero-title">Design that feels engineered.</h1>
+    <h1 class="hero-title">Time, precisely made.</h1>
     <p class="hero-sub">
-      Μινιμαλισμός, ακρίβεια και premium λεπτομέρεια — σε κάθε project.
+      Watches engineered down to the last micron — where restraint meets obsession.
     </p>
   </div>
 
@@ -1535,6 +1765,35 @@ body.dark .login-btn:hover{
       <a href="#accessories">Accessories</a>
       <a href="#contact">Contact</a>
     </nav>
+
+    <!-- Language switcher -->
+    <div class="lang-switch" id="langSwitch">
+      <button class="lang-toggle" id="langToggle" type="button" aria-expanded="false" aria-controls="langList">
+        <span class="lang-toggle-left">
+          <svg class="lang-globe" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M3 12h18"/>
+            <path d="M12 3c2.5 2.6 3.9 5.7 3.9 9s-1.4 6.4-3.9 9c-2.5-2.6-3.9-5.7-3.9-9s1.4-6.4 3.9-9z"/>
+          </svg>
+          <span>Language</span>
+        </span>
+        <span class="lang-current" id="langCurrent">EN</span>
+      </button>
+
+      <div class="lang-list" id="langList" role="listbox" aria-label="Choose language">
+        <div class="lang-list-inner">
+          <button class="lang-option is-active" type="button" role="option" data-lang="en" aria-selected="true">
+            <span>English</span><span class="lang-code">EN</span>
+          </button>
+          <button class="lang-option" type="button" role="option" data-lang="el" aria-selected="false">
+            <span>Ελληνικά</span><span class="lang-code">EL</span>
+          </button>
+          <button class="lang-option" type="button" role="option" data-lang="fr" aria-selected="false">
+            <span>Français</span><span class="lang-code">FR</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </aside>
 
@@ -1695,7 +1954,7 @@ body.dark .login-btn:hover{
     <div class="content">
       <div class="kicker">GEARNOX WATCHES</div>
       <h2>Time, engineered.</h2>
-      <p>Καθαρές γραμμές, μηδενικός θόρυβος, απόλυτη ισορροπία.</p>
+      <p>Clean lines, zero noise, perfect balance on the wrist.</p>
       <a class="cta" href="#watch">Discover the Watch</a>
     </div>
   </section>
@@ -1706,7 +1965,7 @@ body.dark .login-btn:hover{
     <div class="content">
       <div class="kicker">MATERIALS</div>
       <h2>Premium, but quiet.</h2>
-      <p>Υλικά που φαίνονται “high-end” χωρίς να φωνάζουν.</p>
+      <p>Surgical-grade steel and sapphire that speak softly.</p>
       <a class="cta" href="#specs">View Specs</a>
     </div>
   </section>
@@ -1717,7 +1976,7 @@ body.dark .login-btn:hover{
     <div class="content">
       <div class="kicker">DETAILS</div>
       <h2>Every edge matters.</h2>
-      <p>Μικρές λεπτομέρειες που κάνουν το design να μοιάζει engineered.</p>
+      <p>The details you feel before you ever notice them.</p>
       <a class="cta" href="#story">Read the Story</a>
     </div>
   </section>
@@ -2052,6 +2311,14 @@ body.dark .login-btn:hover{
     return clip;
   }
 
+  // φτιάξε clips για ΟΛΑ τα panels στο load (ώστε τα κλειστά να είναι κρυμμένα)
+  centerDrops.forEach(d => {
+    const panel = d.querySelector(".drop-panel");
+    if(panel) ensureClip(panel);
+  });
+
+  let dropZ = 4000;  // αυξανόμενο z-index ώστε το τελευταίο που ανοίγει να είναι πάντα πάνω
+
   function openCenterDrop(d){
     const btn = d.querySelector(".hbtn");
     const panel = d.querySelector(".drop-panel");
@@ -2063,6 +2330,10 @@ body.dark .login-btn:hover{
     closeCenterDrops(d);
 
     ensureClip(panel);
+
+    // φέρε ΑΥΤΟ το panel πάνω από όλα τα άλλα (διορθώνει το «φαίνονται οι λέξεις του προηγούμενου»)
+    dropZ += 2;
+    panel.style.zIndex = dropZ;
 
     d.classList.add("open");
     btn.setAttribute("aria-expanded","true");
@@ -2159,6 +2430,114 @@ body.dark .login-btn:hover{
     const openOne = centerDrops.find(d => d.classList.contains("open"));
     if(openOne) openCenterDrop(openOne);
   }, { passive:true });
+
+  // ===== Scroll-driven open/close για το ΕΝΕΡΓΟ drawer =====
+  // Συγχρονισμένο με τα dropdown buttons: το ίδιο σημείο (scrollY ~207)
+  // που εμφανίζονται/εξαφανίζονται τα Watch/Accessories/Contact.
+  // - scroll πάνω + περνάς ΚΑΤΩ από το threshold -> κλείνει το drawer
+  // - scroll κάτω + περνάς ΠΑΝΩ από το threshold -> ανοίγει ξανά το ΤΕΛΕΥΤΑΙΟ drawer
+  const ACTIONS_THRESHOLD = 207;   // ίδιο σημείο με τα dropdown buttons (scrollY>200 + showP)
+  let activeDrawer = null;   // "burger" | "login" | null — το τελευταίο που άνοιξες σκόπιμα
+
+  if (burgerBtn) burgerBtn.addEventListener("click", () => {
+    // αν το burger είναι (ή θα γίνει) ανοιχτό -> γίνεται το ενεργό· αλλιώς καθάρισε
+    activeDrawer = isOpenBurger() ? "burger" : null;
+  });
+  if (loginBtn) loginBtn.addEventListener("click", () => {
+    const open = loginDrawer && loginDrawer.classList.contains("open");
+    activeDrawer = open ? "login" : null;
+  });
+
+  // Αν πατήσεις dropdown button, ΞΕΧΝΑΜΕ το active drawer
+  // (διορθώνει το bug: αλλιώς το scroll ξανάφερνε το burger/login πάνω από το dropdown)
+  centerDrops.forEach(d => {
+    const b = d.querySelector(".hbtn");
+    if(b) b.addEventListener("click", () => { activeDrawer = null; });
+  });
+
+  function openBurgerDrawer(){
+    if(!burgerDrawer) return;
+    closeLogin();
+    closeCenterDrops();
+    burgerDrawer.classList.add("open");
+    burgerDrawer.setAttribute("aria-hidden","false");
+    if (burgerBackdrop) burgerBackdrop.classList.add("show");
+  }
+  function openLoginDrawer(){
+    if(!loginDrawer) return;
+    closeBurger();
+    closeCenterDrops();
+    loginDrawer.classList.add("open");
+    loginDrawer.setAttribute("aria-hidden","false");
+  }
+
+  let lastScrollY = window.scrollY;
+  let scrollTick = false;
+
+  function onDirScroll(){
+    scrollTick = false;
+    const y = window.scrollY;
+    const goingUp = y < lastScrollY - 2;
+    const goingDown = y > lastScrollY + 2;
+    const prevY = lastScrollY;
+    lastScrollY = y;
+
+    if (!activeDrawer) return;
+
+    // πέρασμα του threshold (εκεί που εμφανίζονται/κρύβονται τα dropdowns)
+    const crossedDown = prevY < ACTIONS_THRESHOLD && y >= ACTIONS_THRESHOLD; // κατεβαίνεις, μπαίνεις στη ζώνη
+    const crossedUp   = prevY > ACTIONS_THRESHOLD && y <= ACTIONS_THRESHOLD; // ανεβαίνεις, βγαίνεις απ' τη ζώνη
+
+    if (activeDrawer === "burger"){
+      if (goingUp && crossedUp && isOpenBurger()) closeBurger();
+      else if (goingDown && crossedDown && !isOpenBurger()) openBurgerDrawer();
+    } else if (activeDrawer === "login"){
+      const open = loginDrawer.classList.contains("open");
+      if (goingUp && crossedUp && open) closeLogin();
+      else if (goingDown && crossedDown && !open) openLoginDrawer();
+    }
+  }
+
+  window.addEventListener("scroll", () => {
+    if (scrollTick) return;
+    scrollTick = true;
+    requestAnimationFrame(onDirScroll);
+  }, { passive:true });
+
+})();
+
+// ===== Language switcher (UI only — decorative for now) =====
+(function(){
+  const wrap = document.getElementById("langSwitch");
+  const toggle = document.getElementById("langToggle");
+  const current = document.getElementById("langCurrent");
+  if(!wrap || !toggle || !current) return;
+
+  const options = wrap.querySelectorAll(".lang-option");
+
+  toggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const open = wrap.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+
+  options.forEach(opt => {
+    opt.addEventListener("click", (e) => {
+      e.stopPropagation();
+      options.forEach(o => {
+        o.classList.remove("is-active");
+        o.setAttribute("aria-selected","false");
+      });
+      opt.classList.add("is-active");
+      opt.setAttribute("aria-selected","true");
+
+      const code = opt.querySelector(".lang-code");
+      if(code) current.textContent = code.textContent;
+
+      wrap.classList.remove("open");
+      toggle.setAttribute("aria-expanded","false");
+    });
+  });
 })();
 </script>
 </body>
