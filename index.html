@@ -62,6 +62,16 @@
       --font-display: "Fraunces", "Times New Roman", Georgia, serif;
       --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --font-mono: "Space Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+      /* =========================================================
+         DROPDOWN POSITION — ρύθμισε εδώ τη θέση των dropdown menu
+         --drop-top   : πόσο ψηλά/χαμηλά ξεκινάει το panel.
+                        Μεγαλύτερο = πιο ΚΑΤΩ.  Μικρότερο/αρνητικό = πιο ΠΑΝΩ.
+         --neck-h     : ύψος του "λαιμού" (πόσο ανεβαίνει προς το κουμπί).
+                        Μεγαλύτερο = πιο μακρύς λαιμός.
+      ========================================================= */
+      --drop-top: 0px;
+      --neck-h: 47px;
     }
 
     * {
@@ -894,7 +904,7 @@ body.dark .header-line-fill{
 #centerActions .drop-panel{
   position: fixed !important;
   left: 50% !important;
-  top: calc(var(--header-h, 64px) - 17px) !important;
+  top: calc(var(--header-h, 64px) + var(--drop-top, 0px));
   transform: translateX(-50%) !important;
 
   width: min(1400px, calc(100vw - 0px)) !important;
@@ -1541,6 +1551,17 @@ body.dark .login-btn:hover{
   border-color:#000;
 }
 
+/* Login μέσα στο burger — μόνο σε mobile (κρυφό σε desktop) */
+.burger-login{
+  display: none;
+  background:#0a0a0a !important;
+  color:#fff !important;
+  border-color:#0a0a0a !important;
+}
+.burger-login:hover{
+  background:#000 !important;
+}
+
 
 /* ===== Language switcher ===== */
 .lang-switch{
@@ -1684,6 +1705,11 @@ body.dark .login-btn:hover{
   /* αν έχει ανοίξει κάποιο dropdown panel, κρύψ' το κι αυτό */
   #centerActions .drop-panel{ display: none !important; }
 
+  /* Login φεύγει από το header (πέφτει πάνω του το logo animation) */
+  #loginBtn{ display: none !important; }
+  /* ...και εμφανίζεται μέσα στο burger menu */
+  .burger-login{ display: block; }
+
   /* Header πιο σφιχτό */
   .header{
     --header-pad: 12px 16px;
@@ -1714,6 +1740,203 @@ body.dark .login-btn:hover{
 @media (max-width: 380px){
   .brand h1{ font-size: 23px; }
   .brand img{ width: 34px; }
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+.site-footer{
+  position: relative;
+  background: #0a0a0a;
+  color: #fff;
+  padding: clamp(56px, 8vw, 96px) clamp(20px, 6vw, 80px) 32px;
+  overflow: hidden;
+}
+
+/* λεπτό gear watermark πίσω */
+.footer-watermark{
+  position: absolute;
+  right: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-size: clamp(140px, 26vw, 360px);
+  line-height: 1;
+  color: rgba(255,255,255,.04);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.footer-grid{
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: start;
+}
+
+/* ── Left: brand + newsletter ── */
+.footer-brand h3{
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(30px, 4vw, 46px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+.footer-tagline{
+  margin: 0 0 26px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255,255,255,.6);
+  max-width: 42ch;
+}
+
+.footer-news-label{
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.footer-news-label::before{
+  content:"";
+  width: 24px; height: 1px;
+  background: rgba(255,255,255,.4);
+}
+
+.footer-news{
+  display: flex;
+  align-items: center;
+  gap: 0;
+  max-width: 420px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 999px;
+  padding: 6px 6px 6px 20px;
+  transition: border-color .2s ease;
+}
+.footer-news:focus-within{ border-color: rgba(255,255,255,.6); }
+.footer-news input{
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: #fff;
+  font-size: 15px;
+  font-family: var(--font-body);
+}
+.footer-news input::placeholder{ color: rgba(255,255,255,.4); }
+.footer-news button{
+  flex: 0 0 auto;
+  border: 0;
+  cursor: pointer;
+  background: #fff;
+  color: #0a0a0a;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 11px 20px;
+  border-radius: 999px;
+  transition: transform .16s ease, background .16s ease, color .16s ease;
+}
+.footer-news button:hover{
+  transform: translateX(2px);
+  background: rgba(255,255,255,.85);
+}
+.footer-news-note{
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: rgba(255,255,255,.4);
+  min-height: 16px;
+  transition: color .2s ease;
+}
+.footer-news-note.ok{ color: rgba(255,255,255,.85); }
+
+/* ── Right: nav columns ── */
+.footer-nav{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.footer-col h4{
+  margin: 0 0 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+}
+.footer-col a{
+  display: block;
+  text-decoration: none;
+  color: rgba(255,255,255,.78);
+  font-size: 15px;
+  padding: 7px 0;
+  width: fit-content;
+  transition: color .16s ease, transform .16s ease;
+}
+.footer-col a:hover{
+  color: #fff;
+  transform: translateX(4px);
+}
+
+/* ── Bottom bar ── */
+.footer-bottom{
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: clamp(40px, 6vw, 72px) auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,.12);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.footer-copy{
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,.45);
+}
+.footer-social{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.footer-social a{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+}
+.footer-social a:hover{
+  background: #fff;
+  color: #0a0a0a;
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+.footer-social svg{ width: 17px; height: 17px; }
+
+@media (max-width: 768px){
+  .footer-grid{ grid-template-columns: 1fr; gap: 44px; }
+  .footer-bottom{ flex-direction: column-reverse; align-items: flex-start; gap: 18px; }
+  .footer-watermark{ display: none; }
 }
 
   </style>
@@ -1764,6 +1987,7 @@ body.dark .login-btn:hover{
       <a href="#watch">Watch</a>
       <a href="#accessories">Accessories</a>
       <a href="#contact">Contact</a>
+      <button type="button" id="burgerLoginBtn" class="burger-login">Login</button>
     </nav>
 
     <!-- Language switcher -->
@@ -1981,6 +2205,57 @@ body.dark .login-btn:hover{
     </div>
   </section>
 </section>
+
+
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="footer-watermark" aria-hidden="true">GearNox</div>
+
+  <div class="footer-grid">
+    <!-- Brand + newsletter -->
+    <div class="footer-brand">
+      <h3>Time, precisely made.</h3>
+      <p class="footer-tagline">
+        Precision watches engineered down to the last micron. Join the list for new releases and quiet drops.
+      </p>
+
+      <div class="footer-news-label">Newsletter</div>
+      <div class="footer-news">
+        <input type="email" id="footerEmail" placeholder="you@example.com" aria-label="Email address" />
+        <button type="button" id="footerSubscribe">Subscribe</button>
+      </div>
+      <p class="footer-news-note" id="footerNote">No spam. Unsubscribe anytime.</p>
+    </div>
+
+    <!-- Nav columns -->
+    <nav class="footer-nav" aria-label="Footer">
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="#watch">Watch</a>
+        <a href="#accessories">Accessories</a>
+        <a href="#story">Our Story</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#contact">Contact</a>
+        <a href="#shipping">Shipping</a>
+        <a href="#warranty">Warranty</a>
+      </div>
+    </nav>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-copy">© <span id="footerYear">2026</span> GearNox. All rights reserved.</span>
+    <div class="footer-social">
+      <a href="https://x.com/" target="_blank" rel="noopener" aria-label="GearNox on X">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
 
 
 
@@ -2338,15 +2613,33 @@ body.dark .login-btn:hover{
     d.classList.add("open");
     btn.setAttribute("aria-expanded","true");
 
-    // neck calc (αν το χρησιμοποιείς στο CSS)
+    // neck + θέση panel
     requestAnimationFrame(() => {
+      const headerEl = document.getElementById("topHeader") || document.querySelector(".header");
+
+      // Ο πρόγονος .center-actions έχει transform -> γίνεται containing block,
+      // οπότε το fixed panel ΔΕΝ τοποθετείται σε σχέση με το viewport.
+      // Μετράμε live το πραγματικό top του panel και το διορθώνουμε ώστε
+      // να κουμπώνει ΑΚΡΙΒΩΣ στο κάτω μέρος του header (+ --drop-top).
+      if (headerEl){
+        const hb = headerEl.getBoundingClientRect().bottom;
+        const dropTopStr = getComputedStyle(document.documentElement).getPropertyValue("--drop-top").trim();
+        const dropTop = parseFloat(dropTopStr) || 0;
+
+        // reset σε 0 για να μετρήσουμε το offset του containing block
+        panel.style.top = "0px";
+        const panelTopAtZero = panel.getBoundingClientRect().top;  // = offset του transformed parent
+        const desired = hb + dropTop;                              // πού θέλουμε να είναι (viewport)
+        panel.style.top = (desired - panelTopAtZero) + "px";
+      }
+
       const pr = panel.getBoundingClientRect();
       const br = btn.getBoundingClientRect();
       const neckX = (br.left + br.width / 2) - pr.left;
       const neckW = Math.max(90, Math.round(br.width + 1));
       panel.style.setProperty("--neck-x", neckX + "px");
       panel.style.setProperty("--neck-w", neckW + "px");
-      panel.style.setProperty("--neck-h", "47px");
+      /* --neck-h ορίζεται στο :root ώστε να ρυθμίζεται εύκολα από ένα μέρος */
     });
   }
 
@@ -2457,11 +2750,7 @@ body.dark .login-btn:hover{
 
   function openBurgerDrawer(){
     if(!burgerDrawer) return;
-    closeLogin();
-    closeCenterDrops();
-    burgerDrawer.classList.add("open");
-    burgerDrawer.setAttribute("aria-hidden","false");
-    if (burgerBackdrop) burgerBackdrop.classList.add("show");
+    openBurger();   // χρησιμοποιεί την υπάρχουσα λογική (αλλάζει & το burger icon σε is-open)
   }
   function openLoginDrawer(){
     if(!loginDrawer) return;
@@ -2538,6 +2827,59 @@ body.dark .login-btn:hover{
       toggle.setAttribute("aria-expanded","false");
     });
   });
+})();
+
+// ===== Header height -> --header-h (κλείνει το κενό header/drawer) =====
+(function(){
+  const header = document.getElementById("topHeader") || document.querySelector(".header");
+  if(!header) return;
+  function setH(){
+    const h = Math.round(header.getBoundingClientRect().height);
+    document.documentElement.style.setProperty("--header-h", h + "px");
+  }
+  setH();
+  window.addEventListener("resize", setH, { passive:true });
+  window.addEventListener("load", setH);
+})();
+
+// ===== Burger Login button (mobile) -> ανοίγει το login drawer =====
+(function(){
+  const burgerLogin = document.getElementById("burgerLoginBtn");
+  const loginBtn = document.getElementById("loginBtn");
+  if(!burgerLogin || !loginBtn) return;
+  burgerLogin.addEventListener("click", (e) => {
+    e.stopPropagation();
+    loginBtn.click();   // ίδια λογική με το header Login
+  });
+})();
+
+// ===== Footer: newsletter + year =====
+(function(){
+  const y = document.getElementById("footerYear");
+  if(y) y.textContent = new Date().getFullYear();
+
+  const email = document.getElementById("footerEmail");
+  const btn = document.getElementById("footerSubscribe");
+  const note = document.getElementById("footerNote");
+  if(!email || !btn || !note) return;
+
+  const valid = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+  function submit(){
+    const v = email.value.trim();
+    if(!valid(v)){
+      note.textContent = "Please enter a valid email address.";
+      note.classList.remove("ok");
+      email.focus();
+      return;
+    }
+    note.textContent = "You're on the list — welcome to GearNox.";
+    note.classList.add("ok");
+    email.value = "";
+  }
+
+  btn.addEventListener("click", submit);
+  email.addEventListener("keydown", (e) => { if(e.key === "Enter") submit(); });
 })();
 </script>
 </body>
