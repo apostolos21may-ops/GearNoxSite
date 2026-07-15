@@ -475,100 +475,6 @@ body.dark .header{
 }
 
 
-/* ===== Product Showcase (top of page) ===== */
-.watch-showcase{
-  position: relative;
-  background: #000;
-  color: #fff;
-  padding: clamp(64px, 11vw, 128px) 20px clamp(52px, 9vw, 96px);
-  overflow: hidden;
-  text-align: center;
-  isolation: isolate;
-}
-.watch-showcase::before{
-  content:"";
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  top: 44%;
-  width: min(880px, 92vw);
-  height: min(880px, 92vw);
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(255,255,255,.09), rgba(255,255,255,.025) 45%, transparent 70%);
-  pointer-events: none;
-}
-.showcase-kicker{
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 auto clamp(28px, 5vw, 48px);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: .34em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.65);
-  opacity: 0;
-  animation: showcaseIn 900ms ease forwards;
-}
-.showcase-kicker::before,
-.showcase-kicker::after{
-  content:"";
-  width: 22px;
-  height: 1px;
-  background: rgba(255,255,255,.4);
-}
-.showcase-stage{
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  opacity: 0;
-  animation: showcaseIn 1000ms ease forwards;
-  animation-delay: 140ms;
-}
-.showcase-watch{
-  width: min(520px, 76vw);
-  height: auto;
-  display: block;
-  filter: drop-shadow(0 40px 60px rgba(0,0,0,.55));
-}
-.showcase-caption{
-  position: relative;
-  z-index: 1;
-  margin: clamp(28px, 5vw, 44px) auto 0;
-  max-width: 44ch;
-  font-size: 13px;
-  line-height: 1.7;
-  letter-spacing: .01em;
-  color: rgba(255,255,255,.6);
-  opacity: 0;
-  animation: showcaseIn 1000ms ease forwards;
-  animation-delay: 260ms;
-}
-.showcase-line{
-  position: relative;
-  z-index: 1;
-  width: 1px;
-  height: clamp(36px, 6vw, 64px);
-  margin: clamp(28px, 5vw, 44px) auto 0;
-  background: rgba(255,255,255,.25);
-  opacity: 0;
-  animation: showcaseIn 900ms ease forwards;
-  animation-delay: 380ms;
-}
-@keyframes showcaseIn{
-  from{ opacity: 0; transform: translateY(8px); }
-  to{ opacity: 1; transform: translateY(0); }
-}
-@media (prefers-reduced-motion: reduce){
-  .showcase-kicker, .showcase-stage, .showcase-caption, .showcase-line{
-    animation: none !important;
-    opacity: 1 !important;
-  }
-}
-
 /* ===== Fullscreen Video Hero ===== */
 .video-hero{
   position: relative;
@@ -669,6 +575,46 @@ body.dark .header{
   border: 1px solid rgba(255,255,255,.18);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+}
+
+/* ===== Watch product shot, right side of the hero ===== */
+.hero-watch{
+  position: absolute;
+  z-index: 2;
+  right: clamp(24px, 7vw, 100px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(34vw, 460px);
+  pointer-events: none;
+
+  opacity: 0;
+  animation: heroWatchIn 1100ms ease forwards;
+  animation-delay: 200ms;
+}
+.hero-watch::before{
+  content:"";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  width: 130%;
+  height: 130%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255,255,255,.10), rgba(255,255,255,.02) 55%, transparent 72%);
+  pointer-events: none;
+}
+.hero-watch-img{
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 30px 55px rgba(0,0,0,.5));
+}
+@keyframes heroWatchIn{
+  from{ opacity: 0; transform: translateY(-50%) translateX(10px); }
+  to{ opacity: 1; transform: translateY(-50%) translateX(0); }
+}
+@media (prefers-reduced-motion: reduce){
+  .hero-watch{ animation: none !important; opacity: 1 !important; }
 }
 
 /* HERO: load-in + scroll-out/in */
@@ -1851,6 +1797,9 @@ body.dark ::selection{
   .slide p{ font-size: 13px; }
 
   .slide .content{ padding: 0 20px; }
+
+  /* Το ρολόι στο hero κρύβεται σε μικρές οθόνες για να μη μπλέκεται με το κείμενο */
+  .hero-watch{ display: none; }
 }
 
 /* πολύ μικρές οθόνες */
@@ -2076,8 +2025,8 @@ body.dark ::selection{
     </p>
   </div>
 
-  <div class="hero-watch" aria-hidden="true">
-    <img class="hero-watch-img" src="IMG_2074.PNG" alt="" />
+  <div class="hero-watch">
+    <img class="hero-watch-img" src="IMG_2074.PNG" alt="GearNox skeleton watch, hand-assembled" />
   </div>
 
   <div class="hero-scrollhint">Scroll</div>
@@ -2542,7 +2491,6 @@ body.dark ::selection{
 
     // μετράμε το scroll ΣΧΕΤΙΚΑ με την κορυφή του video-hero,
     // ώστε το fade να ξεκινάει μόνο αφού μπει στην οθόνη
-    // (και όχι από την αρχή της σελίδας, π.χ. πάνω από το showcase)
     const heroTop = heroSection.getBoundingClientRect().top;
     const y = Math.max(0, -heroTop);
     const t = clamp01(y / RANGE);     // 0->1
